@@ -1,0 +1,209 @@
+{
+ "address": "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu",
+ "address_index": 33769021,
+ "background-color": "#F5F5F5",
+ "background-color-dark": "#2e2b32",
+ "clone_root": "",
+ "cloneable": true,
+ "cloned_from": "",
+ "description": "Decentralized forum with xID",
+ "epixnet_version": "0.0.2",
+ "files": {
+  "LICENSE": {
+   "sha512": "e67014a69caa38c58575f333619243c9ebb3c98d462f0b4823ff5ed3d2cfdba3",
+   "size": 1077
+  },
+  "README.md": {
+   "sha512": "298c724e8f256a5671a1f60832c82d155a0ab787ae7701074b5505a266a49302",
+   "size": 1645
+  },
+  "css/all.css": {
+   "sha512": "67f10aea777af6f8423784b04fbb47ef65493bbabd02f293601aa2a8023a56ea",
+   "size": 177625
+  },
+  "data-default/users/content-default.json": {
+   "sha512": "ec1699c097d82013cf95fffe4372c50e53a6c081d800299bfbaa80e9432ff2cd",
+   "size": 305
+  },
+  "dbschema.json": {
+   "sha512": "6ff07c24f3b2d9d566f5c45f145a3d0a158b4025f30c040d1d2fa99c972dcab9",
+   "size": 3599
+  },
+  "img/edit.png": {
+   "sha512": "60ba4297e205b038bf7852ead2b88f9373cd8848408bb258dbcebb086d43f056",
+   "size": 237
+  },
+  "img/loading.gif": {
+   "sha512": "8a42b98962faea74618113166886be488c09dad10ca47fe97005edc5fb40cc00",
+   "size": 723
+  },
+  "img/topic-chat.png": {
+   "sha512": "f41719987d5f5d797591857648c0d4cf33a11d7f1a42428a2456c28e0957c88e",
+   "size": 238
+  },
+  "img/topic-group.png": {
+   "sha512": "1f9305544e3350d62f0c76caf5202e256848206d18485e0451dc050201f86a7b",
+   "size": 310
+  },
+  "index.html": {
+   "sha512": "0bf3f271af7f192d05e994dd8a5f0332f479af33ad2fa75431f3b40195fc1eaf",
+   "size": 14067
+  },
+  "js/Admin.js": {
+   "sha512": "a9f093fa78dd0afec885a93513cfc1cdbd816a94f94aafc4c195f4ed7d5c761b",
+   "size": 27877
+  },
+  "js/EpixTalk.js": {
+   "sha512": "7487d9b4a914c97d25b804ec932a72e36af52fd255db6dbab628c2cd6628327e",
+   "size": 13213
+  },
+  "js/TopicList.js": {
+   "sha512": "c97ed7984d7ac6d4a532a442d98d2c049fab79ddc8918f040565b398abb423e3",
+   "size": 27307
+  },
+  "js/TopicShow.js": {
+   "sha512": "823643ad518cd70fd6153576caf962a9e04c6a024c67b539e46a0ee7c942b543",
+   "size": 17069
+  },
+  "js/User.js": {
+   "sha512": "93c54348608b141a203a37c8ee5e143f8cf0ff0fe8fc1ceaa8e5963dfc7af24d",
+   "size": 10435
+  },
+  "js/UserProfile.js": {
+   "sha512": "3cbd66ad42feb36ba4bf89df76ef14262ff312307fbef261281409a4137735e6",
+   "size": 5362
+  },
+  "js/lib/00-jquery.min.js": {
+   "sha512": "eda31b5c7d371d4b3acced51fa92f27a417515317cf437aae09a47c3acc8a36b",
+   "size": 84320
+  },
+  "js/lib/epixframe.js": {
+   "sha512": "8cb66604615c662afc621127a3ab534d23323ad4bbfe068d9dae7a62fba73ae9",
+   "size": 18957
+  },
+  "js/lib/highlight.pack.js": {
+   "sha512": "e4541d715d54ceeef43c42811a1f8c157498d23439b1cd0f77d27d0b85fea123",
+   "size": 37036
+  },
+  "js/lib/jquery.cssanim.js": {
+   "sha512": "b0008627616f61a09892aae538ad6d370085e13f470395f462bd8d15891c8657",
+   "size": 1661
+  },
+  "js/lib/jquery.csslater.js": {
+   "sha512": "69d6b81fa00d3ac7d17a3a8956330ba826f177f86e1ba20182ab2006de390c20",
+   "size": 1293
+  },
+  "js/lib/jquery.easing.1.3.js": {
+   "sha512": "6ebae34e9f46e8c90a5f94235f0c00424b1c7c5a4a8b7a248f267f337bc6c308",
+   "size": 8097
+  },
+  "js/lib/marked.min.js": {
+   "sha512": "02de304785538b504575f2355fcd5069cb8644fc2eebe5caffb8408b891f1c9d",
+   "size": 19160
+  },
+  "js/utils/Follow.js": {
+   "sha512": "59f7d57a49ac711733bb623aad33ba16a687d7d8993752b2e3eabc5aff1ab8f5",
+   "size": 4064
+  },
+  "js/utils/InlineEditor.js": {
+   "sha512": "b9b060b69ec90dc7c093e7197ce99c49b19af8599b351a1326a2209471f5274c",
+   "size": 6282
+  },
+  "js/utils/LogMixin.js": {
+   "sha512": "5d393d9e466748562c1c4c9750d3d013d6e04b887b81998dd9246c841e3fff42",
+   "size": 607
+  },
+  "js/utils/Menu.js": {
+   "sha512": "c4b97511f08f98331673fb3bc6a6176c0acc0efa1194146c060027de397cf495",
+   "size": 1823
+  },
+  "js/utils/Moderation.js": {
+   "sha512": "1ef4b27a6a60002bb332ce37362ad60262a8a2f51db1e0257a4488fc76eb3537",
+   "size": 8610
+  },
+  "js/utils/RateLimit.js": {
+   "sha512": "56239abb3ba9af3c80231c75bf09bfc6330feef601bbfda3735542cf9486c54f",
+   "size": 510
+  },
+  "js/utils/Text.js": {
+   "sha512": "60e546cf3011ebb3aced601d2d9ff4a4736f8c6e2909db390ee278ae859ca2de",
+   "size": 2135
+  },
+  "js/utils/Time.js": {
+   "sha512": "1d2ac6faedfcfb842942b4e5a3a6a505f0dd27f735b9e5dad9418ea11d76c3de",
+   "size": 1140
+  },
+  "js/utils/Tipping.js": {
+   "sha512": "d1d99304328c0f8426082981e5bf1737bef62a7387b8b375465351cb0d8a9104",
+   "size": 11574
+  },
+  "js/utils/Translate.js": {
+   "sha512": "3621e3f011f5c50d108f9b75acb587a6f29b1fd17ef2adff297b90e89a4e99c6",
+   "size": 1720
+  },
+  "languages/da.json": {
+   "sha512": "6b2bffd85b69ba1dc3e214ccbb7e1727586e9d2f43975b5ddfba2a5b6d5ccf8f",
+   "size": 1157
+  },
+  "languages/fa.json": {
+   "sha512": "105488306c4942217e228ecc5b08427bca4049be5ef03b6b971310d6e6a409f0",
+   "size": 1566
+  },
+  "languages/fr.json": {
+   "sha512": "313be42596019542f639b7c03f367183a17ac5840a403d0f6f95800ed5103bbf",
+   "size": 1852
+  },
+  "languages/hu.json": {
+   "sha512": "5fd0410c866b58210ad06746c2e194f3106969b524b99f146b4db866c86f30ed",
+   "size": 1218
+  },
+  "languages/it.json": {
+   "sha512": "cf881d20b16e530afda8ce5558b27ddd567d2106f6f7a014e731f11b425505fd",
+   "size": 1186
+  },
+  "languages/pl.json": {
+   "sha512": "56fcd15830ba386e83050edd273d4e18b1f6802fa4f03f584bb0c2765e9e25c5",
+   "size": 1598
+  },
+  "languages/sk.json": {
+   "sha512": "2cf773e25374767d640c2e443684f3f86adfa039314410bf374463b8839a0d35",
+   "size": 1306
+  },
+  "languages/uk.json": {
+   "sha512": "fc003928962bff46184f812b6fd4d94bc03dc4c2c040ed86e88a924785373a19",
+   "size": 1529
+  },
+  "languages/zh-tw.json": {
+   "sha512": "f1beab242599ee94b859c8124bea0cd4a6289727a628a5ef1a8d62374fffb45c",
+   "size": 1789
+  },
+  "languages/zh.json": {
+   "sha512": "1ccf5ae8a429849563b418fbf17163c9e3dfd8911b51f3a490693cc9c18b2054",
+   "size": 1791
+  }
+ },
+ "ignore": "(css/(?!all\\.css)|data/users/.*\\.db|data/users/.*/.*|data/admin/.*/.*|data/archived|\\.git|.*\\.py)",
+ "includes": {
+  "data/admin/content.json": {
+   "signers": [],
+   "signers_required": 1
+  },
+  "data/users/content.json": {
+   "signers": [],
+   "signers_required": 1
+  }
+ },
+ "inner_path": "content.json",
+ "modified": 1773879277,
+ "postmessage_nonce_security": true,
+ "settings": {
+  "admins": [],
+  "mods": []
+ },
+ "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HHjENeZ1XtHNDI181UPkrP3myGnVSTytac3MmhtDoQBEaxjE/FtYZKeGGDzbHYQNRIyXkVRmFGnSytK4U4lBMgU="},
+ "signs_required": 1,
+ "title": "Epix Talk",
+ "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],
+ "viewport": "width=device-width, initial-scale=0.8"
+}

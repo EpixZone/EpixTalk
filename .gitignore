@@ -1,0 +1,8 @@
+*.db
+*.db-shm
+*.db-wal
+*.coffee
+data/users/*/
+data/admin/*/
+js/all.js
+js/lib/all.js

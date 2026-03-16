@@ -1,0 +1,12 @@
+{
+ "address": "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu",
+ "files": {
+  "admin-settings.json": {
+   "sha512": "18497176ceb533ed9c71a52222af847156b47a22b96e969f92a43c4b53128764",
+   "size": 32
+  }
+ },
+ "inner_path": "data/admin/content.json",
+ "modified": 1773684112,
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HEAJWgQgzOsFWCYo2UrNU7G0pJyM2iNY1cAjvF8UC+pnJjFZWOwfPe/xlVWucQjqk2Y7RFV3ok95DTMBBj7qbeQ="}
+}

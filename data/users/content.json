@@ -1,0 +1,37 @@
+{
+ "address": "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu",
+ "files": {
+  "epix_talk.db": {
+   "sha512": "03fec454a08c6953244d181fb9a5ec5920f028b85025ed6fbe65ed5ef6299795",
+   "size": 90112
+  },
+  "epix_talk.db-shm": {
+   "sha512": "d8d75760f29b1e27ac9430bc4f4ffcec39f1590be5aef2bfb5a535850302e067",
+   "size": 32768
+  },
+  "epix_talk.db-wal": {
+   "sha512": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce",
+   "size": 0
+  }
+ },
+ "inner_path": "data/users/content.json",
+ "modified": 1773684112,
+ "signs": {
+  "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "G58nLHWTMUR7+juCDXc+I1cIvxlcqr/0YTWnufB11RzCJN4N7PP2tNtZaePXGD0UK2/y9uxAiZtdjja5F5m+AHY="
+ },
+ "user_contents": {
+  "cert_signers": {
+   "xid.epix": [
+    "chain"
+   ]
+  },
+  "permission_rules": {
+   ".*": {
+    "files_allowed": "data.json",
+    "max_size": 50000
+   }
+  },
+  "permissions": {}
+ },
+ "ignore": ".*"
+}
