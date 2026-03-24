@@ -16,7 +16,7 @@ var SITE_ADDRESS = "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu";
 var wallet = { provider: null, signer: null, address: null, contract: null, name: null };
 var readProvider = null;
 var readContract = null;
-var explorerUrl = "https://testscan.epix.zone";
+var explorerUrl = "https://scan.epix.zone";
 var epixkitReady = false;
 var currentTipTarget = null; // { contentHash, xidName, xidTld, topicUri }
 
@@ -26,19 +26,19 @@ function initTipping() {
   Page.chainEvmRpcUrl().then(function(evmRpc) {
     Page.chainBlockExplorerUrl().then(function(explorer) {
       // Read-only provider for loading tip counts
-      var rpcUrl = evmRpc || "https://evmrpc.testnet.epix.zone";
-      explorerUrl = (explorer || "https://testscan.epix.zone").replace(/\/+$/, "");
+      var rpcUrl = evmRpc || "https://evmrpc.epix.zone";
+      explorerUrl = (explorer || "https://scan.epix.zone").replace(/\/+$/, "");
       readProvider = new ethers.JsonRpcProvider(rpcUrl);
       readContract = new ethers.Contract(TIPPING_CONTRACT, TIPPING_ABI, readProvider);
 
       // Init EpixKit for wallet connection (on-demand)
       if (typeof EpixKit !== "undefined") {
         EpixKit.init({
-          chainId: "0x77D",
-          chainName: "Epix Testnet",
+          chainId: "0x77C",
+          chainName: "Epix",
           nativeCurrency: { name: "EPIX", symbol: "EPIX", decimals: 18 },
           rpcUrls: [rpcUrl],
-          blockExplorerUrls: [explorer || "https://testscan.epix.zone"],
+          blockExplorerUrls: [explorer || "https://scan.epix.zone"],
           onReconnect: setupWallet
         });
         epixkitReady = true;
