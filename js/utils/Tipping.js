@@ -1,6 +1,6 @@
 (function() {
 
-var TIPPING_CONTRACT = "0x22c5622378fb8E9AB52EA0b00cAce94474829df3";
+var TIPPING_CONTRACT = "0xD0793a2a11Fa3600Ec941115937FB8E259cfdbf1";
 var TIPPING_ABI = [
   "function tip(bytes32 contentHash, address recipient) external payable",
   "function tipByXid(bytes32 contentHash, string name, string tld) external payable",

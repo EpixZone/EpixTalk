@@ -510,7 +510,13 @@ class TopicList {
     var display_name = Text.formatUsername(topic.topic_creator_user_name);
     $(".user_name", elem)
       .text(display_name)
-      .attr("title", topic.topic_creator_address);
+      .attr("title", topic.topic_creator_address)
+      .attr("href", "?User:" + topic.topic_creator_address)
+      .css("cursor", "pointer")
+      .off("click").on("click", function() {
+        window.top.location = "?User:" + topic.topic_creator_address;
+        return false;
+      });
     // Asynchronously resolve xID name for display
     if (topic.topic_creator_address) {
       User.resolveXidName(topic.topic_creator_address, function(name, tld) {
