@@ -104,7 +104,7 @@
     <a href="#Tip" class="tip-btn" title="Tip"><span class="tip-icon">&#9749;</span><span class="tip-count">0</span></a>
     <a href="#" class="comment-num"></a>
     <span class="added">added</span>
-    <span class="started">&#9473; started by <a class="user_name" href="#User">user_name</a><a class="user_menu" href="#menu"><span class="menu_3dot">⋮</span></a>
+    <span class="started">&#9473; started by <img class="user-avatar" style="display:none"><a class="user_name" href="#User">user_name</a><a class="user_menu" href="#menu"><span class="menu_3dot">⋮</span></a>
    </div>
   </div>
   <!-- EOF Template: Topic main -->
@@ -143,6 +143,7 @@
  <div class="profile-comments">
   <div class="profile-comment template">
    <div class="profile-comment-topic"><a href="#" class="profile-comment-topic-link">In: Topic</a></div>
+   <div class="profile-comment-reply" style="display:none"></div>
    <div class="profile-comment-body">Body</div>
    <span class="profile-comment-added">added</span>
   </div>
@@ -167,7 +168,7 @@
      <span class="score-active"> <span class="icon-up">^</span><span class="score-num">0</span> </span>
     </a>
    <a href="#Tip" class="tip-btn" title="Tip"><span class="tip-icon">&#9749;</span><span class="tip-count">0</span></a>
-   <span class="user_name">username</span> posted <span class="added">added</span>
+   <img class="user-avatar" style="display:none"><span class="user_name">username</span> posted <span class="added">added</span>
   </div>
  </div>
 
@@ -192,7 +193,7 @@
   <!-- Template: Comment -->
   <div class="comment template">
    <div class="info">
-    <span class="user_name">user_name</span>
+    <img class="user-avatar" style="display:none"><span class="user_name">user_name</span>
     &#9473;
     <span class="added">added</span>
     <a class="score" href="#Upvote">
@@ -307,6 +308,17 @@
 </div>
 <!-- EOF Tip Modal -->
 
+<!-- User mention popup -->
+<div class="mention-popup" style="display: none">
+ <div class="mention-popup-avatar"></div>
+ <div class="mention-popup-info">
+  <div class="mention-popup-name"></div>
+  <div class="mention-popup-bio"></div>
+ </div>
+ <a class="mention-popup-profile" href="#">View Profile</a>
+</div>
+<!-- EOF User mention popup -->
+
 <!-- Third-party libraries -->
 <script src="js/lib/00-jquery.min.js"></script>
 <script src="js/lib/highlight.pack.js"></script>
@@ -329,6 +341,7 @@
 <script src="js/utils/InlineEditor.js"></script>
 <script src="js/utils/Moderation.js"></script>
 <script src="js/utils/Tipping.js"></script>
+<script src="js/utils/MentionPopup.js"></script>
 
 <!-- App -->
 <script src="js/TopicList.js"></script>

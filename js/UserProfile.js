@@ -86,13 +86,16 @@ class UserProfile {
     // Recent 20 with topic title
     var query = `
       SELECT comment.*, json.directory AS user_address,
-        topic.title AS topic_title, comment.topic_uri AS topic_uri
+        topic_match.title AS topic_title, comment.topic_uri AS topic_uri
       FROM comment
       LEFT JOIN json ON (json.json_id = comment.json_id)
-      LEFT JOIN json AS topic_json ON (topic_json.file_name = 'data.json')
-      LEFT JOIN topic ON (topic.json_id = topic_json.json_id AND comment.topic_uri = topic.topic_id || '_' || topic_json.directory)
+      LEFT JOIN (
+        SELECT topic.topic_id, topic.title, topic.json_id,
+          topic.topic_id || '_' || tj.directory AS full_uri
+        FROM topic
+        LEFT JOIN json AS tj ON (tj.json_id = topic.json_id)
+      ) AS topic_match ON (topic_match.full_uri = comment.topic_uri)
       WHERE json.directory = '${this.user_address}'
-      GROUP BY json.json_id, comment.comment_id
       ORDER BY comment.added DESC LIMIT 20
     `;
     Page.cmd("dbQuery", [query], (comments) => {
@@ -110,8 +113,21 @@ class UserProfile {
           $(".profile-comment-topic-link", elem).text("In: (unknown topic)");
         }
         var body = comment.body;
+        // Strip username prefix (e.g. "jibz.epix:" or "@mud:")
+        body = body.replace(/^(([a-zA-Z0-9.]+)@[a-zA-Z0-9.]+|@(.*?)):/, "");
+        // Extract reply quote before stripping: > [user](#anchor): text
+        var quoteMatch = body.match(/^[ ]*> \[([^\]]*)\](?:\([^)]*\))?[: ]*(.*)/m);
+        if (quoteMatch && quoteMatch[2]) {
+          var quoteUser = quoteMatch[1];
+          var quoteText = quoteMatch[2].replace(/^\s+/, "").slice(0, 100);
+          $(".profile-comment-reply", elem)
+            .text(quoteUser + ": " + quoteText)
+            .css("display", "");
+        }
+        // Strip reply quote lines
+        body = body.replace(/^[ ]*>.*$/gm, "").trim();
         if (body.length > 200) body = body.substring(0, 200) + "...";
-        $(".profile-comment-body", elem).text(body);
+        $(".profile-comment-body", elem).html(Text.toMarked(body, {"sanitize": true}));
         $(".profile-comment-added", elem).text(Time.since(comment.added));
         elem.appendTo(".profile-comments");
       }

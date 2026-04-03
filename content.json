@@ -7,7 +7,7 @@
  "cloneable": true,
  "cloned_from": "",
  "description": "Decentralized forum with xID",
- "epixnet_version": "0.0.2",
+ "epixnet_version": "0.0.7",
  "files": {
   "LICENSE": {
    "sha512": "e67014a69caa38c58575f333619243c9ebb3c98d462f0b4823ff5ed3d2cfdba3",
@@ -18,8 +18,8 @@
    "size": 1645
   },
   "css/all.css": {
-   "sha512": "67f10aea777af6f8423784b04fbb47ef65493bbabd02f293601aa2a8023a56ea",
-   "size": 177625
+   "sha512": "a1754b8c27009fa6ff21429229d415a1ee30b74bc2427760527002accedc16b5",
+   "size": 179602
   },
   "data-default/users/content-default.json": {
    "sha512": "ec1699c097d82013cf95fffe4372c50e53a6c081d800299bfbaa80e9432ff2cd",
@@ -46,8 +46,8 @@
    "size": 310
   },
   "index.html": {
-   "sha512": "0bf3f271af7f192d05e994dd8a5f0332f479af33ad2fa75431f3b40195fc1eaf",
-   "size": 14067
+   "sha512": "0737139cfba5116cab243f2806275988a8dffa54d4d645340794e34e056b1aed",
+   "size": 14784
   },
   "js/Admin.js": {
    "sha512": "a9f093fa78dd0afec885a93513cfc1cdbd816a94f94aafc4c195f4ed7d5c761b",
@@ -58,20 +58,20 @@
    "size": 13213
   },
   "js/TopicList.js": {
-   "sha512": "c97ed7984d7ac6d4a532a442d98d2c049fab79ddc8918f040565b398abb423e3",
-   "size": 27307
+   "sha512": "80f741cc7aa1e94629bf1a3911104a2963c77583ba75a38d7978ab80340a60c5",
+   "size": 27748
   },
   "js/TopicShow.js": {
-   "sha512": "823643ad518cd70fd6153576caf962a9e04c6a024c67b539e46a0ee7c942b543",
-   "size": 17069
+   "sha512": "cb3885e3893677b9bf636243a2451527a26289e3821d4ec4ba50fb4a7e8dcff6",
+   "size": 17976
   },
   "js/User.js": {
    "sha512": "93c54348608b141a203a37c8ee5e143f8cf0ff0fe8fc1ceaa8e5963dfc7af24d",
    "size": 10435
   },
   "js/UserProfile.js": {
-   "sha512": "3cbd66ad42feb36ba4bf89df76ef14262ff312307fbef261281409a4137735e6",
-   "size": 5362
+   "sha512": "fd4460708fc7d4a7422f8d3e182a44700b37f5b0b1c6a7e6de3720e28dd9edbe",
+   "size": 6284
   },
   "js/lib/00-jquery.min.js": {
    "sha512": "eda31b5c7d371d4b3acced51fa92f27a417515317cf437aae09a47c3acc8a36b",
@@ -113,6 +113,10 @@
    "sha512": "5d393d9e466748562c1c4c9750d3d013d6e04b887b81998dd9246c841e3fff42",
    "size": 607
   },
+  "js/utils/MentionPopup.js": {
+   "sha512": "9af21a95808314e3e39daaa5684bd4572fa954bc9a99066a6fc491c1185e7d7d",
+   "size": 3257
+  },
   "js/utils/Menu.js": {
    "sha512": "c4b97511f08f98331673fb3bc6a6176c0acc0efa1194146c060027de397cf495",
    "size": 1823
@@ -126,16 +130,16 @@
    "size": 510
   },
   "js/utils/Text.js": {
-   "sha512": "60e546cf3011ebb3aced601d2d9ff4a4736f8c6e2909db390ee278ae859ca2de",
-   "size": 2135
+   "sha512": "be924db9a122a940ecfbb5496a8f0830e9e0d76b5a20d2d9d56ec4e6548bd5d0",
+   "size": 2922
   },
   "js/utils/Time.js": {
    "sha512": "1d2ac6faedfcfb842942b4e5a3a6a505f0dd27f735b9e5dad9418ea11d76c3de",
    "size": 1140
   },
   "js/utils/Tipping.js": {
-   "sha512": "d1d99304328c0f8426082981e5bf1737bef62a7387b8b375465351cb0d8a9104",
-   "size": 11574
+   "sha512": "409695ebbab829f62ba6cf1762323ad67c53a4ebc0ffbb4a17f3a88c919cff11",
+   "size": 11894
   },
   "js/utils/Translate.js": {
    "sha512": "3621e3f011f5c50d108f9b75acb587a6f29b1fd17ef2adff297b90e89a4e99c6",
@@ -185,23 +189,23 @@
  "ignore": "(css/(?!all\\.css)|data/users/.*\\.db|data/users/.*/.*|data/admin/.*/.*|data/archived|\\.git|.*\\.py)",
  "includes": {
   "data/admin/content.json": {
-   "signers": [],
+   "signers": ["mud.epix"],
    "signers_required": 1
   },
   "data/users/content.json": {
-   "signers": [],
+   "signers": ["mud.epix"],
    "signers_required": 1
   }
  },
  "inner_path": "content.json",
- "modified": 1773879277,
+ "modified": 1775255067,
  "postmessage_nonce_security": true,
  "settings": {
-  "admins": [],
+  "admins": ["mud.epix"],
   "mods": []
  },
  "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HHjENeZ1XtHNDI181UPkrP3myGnVSTytac3MmhtDoQBEaxjE/FtYZKeGGDzbHYQNRIyXkVRmFGnSytK4U4lBMgU="},
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HLizKv4E7bOY4m5n1mWNf7s+S2Lrd4FDcomPauLz/qOJAH8741SeCB0h5c2WVfv6Wonk/EFMPvbZYIfyTBODYzk="},
  "signs_required": 1,
  "title": "Epix Talk",
  "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],

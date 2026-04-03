@@ -472,10 +472,11 @@ class TopicList {
       $(".link", elem).css("display", "none");
     }
 
-    if (type === "show") { // Markdown syntax at topic show
+    if (type === "show") {
       $(".body", elem).html(Text.toMarked(body, {"sanitize": true}));
-    } else { // No format on listing
-      $(".body", elem).text(body);
+    } else {
+      var preview = body.replace(/[\n\r]+/g, " ").trim();
+      $(".body", elem).html(Text.toMarkedInline(preview, {"sanitize": true}));
     }
 
     if (window.TopicList.topic_sticky_uris[topic_uri]) {
@@ -519,9 +520,12 @@ class TopicList {
       });
     // Asynchronously resolve xID name for display
     if (topic.topic_creator_address) {
-      User.resolveXidName(topic.topic_creator_address, function(name, tld) {
+      User.resolveXidName(topic.topic_creator_address, function(name, tld, avatar) {
         if (name) {
           $(".user_name", elem).text(name + "." + tld);
+        }
+        if (avatar) {
+          $(".user-avatar", elem).attr("src", avatar).on("error", function() { $(this).hide(); }).css("display", "");
         }
       });
     }

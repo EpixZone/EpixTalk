@@ -350,9 +350,12 @@ class TopicShow {
     $(".added", elem).text(Time.since(comment.added)).attr("title", Time.date(comment.added, "long"));
     // Asynchronously resolve xID name for display
     if (comment.user_address) {
-      User.resolveXidName(comment.user_address, function(name, tld) {
+      User.resolveXidName(comment.user_address, function(name, tld, avatar) {
         if (name) {
           $(".user_name", elem).text(name + "." + tld);
+        }
+        if (avatar) {
+          $(".user-avatar", elem).attr("src", avatar).on("error", function() { $(this).hide(); }).css("display", "");
         }
       });
     }

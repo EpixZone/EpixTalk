@@ -25,7 +25,26 @@ class Text {
     options["renderer"] = window.renderer;
     text = this.fixReply(text);
     text = marked(text, options);
-    return this.fixHtmlLinks(text);
+    text = this.fixHtmlLinks(text);
+    text = this.fixMentions(text);
+    return text;
+  }
+
+  toMarkedInline(text, options) {
+    if (!options) options = {};
+    var sanitize = options["sanitize"];
+    if (sanitize) text = text.replace(/[<>&"]/g, function(c) { return {"<":"&lt;",">":"&gt;","&":"&amp;","\"":"&quot;"}[c]; });
+    var html = marked.inlineLexer(text, [], {gfm: true, breaks: true});
+    html = this.fixHtmlLinks(html);
+    html = this.fixMentions(html);
+    return html;
+  }
+
+  // Convert @username mentions to clickable links (runs after markdown so sanitize won't strip them)
+  fixMentions(text) {
+    return text.replace(/(?<![\/\w"=])@([a-zA-Z][a-zA-Z0-9_.]{0,30})(?![a-zA-Z0-9_.])/g, function(match, name) {
+      return '<a class="mention-link" data-mention="' + name + '">@' + name + '</a>';
+    });
   }
 
   // Convert epixnet html links to relative

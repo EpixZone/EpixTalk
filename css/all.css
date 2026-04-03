@@ -204,6 +204,7 @@ a.nolink:active { border-bottom: none }
 .link:active .link-url { border-bottom: 0.1em solid #333 }
 
 .user_name { font-weight: bold; color: #666 }
+.user-avatar { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; vertical-align: middle; margin-right: 4px; }
 .userbullet { color: #AAA; }
 
 .user_menu { color: black }
@@ -480,6 +481,7 @@ input.text:focus, textarea:focus { border-color: #5FC0EA; outline: none; backgro
 .profile-topic-added { font-size: 12px; color: #AAA; margin-left: 10px; }
 .profile-comment { background-color: white; padding: 12px 25px; margin: 1px; }
 .profile-comment-topic { font-size: 12px; color: #AAA; margin-bottom: 4px; }
+.profile-comment-reply { font-size: 12px; color: #999; border-left: 2px solid #ddd; padding-left: 8px; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .profile-comment-body { line-height: 1.5em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .profile-comment-added { font-size: 12px; color: #AAA; }
 .profile-empty { padding: 20px; color: #999; text-align: center; }
@@ -667,6 +669,7 @@ input.text:focus, textarea:focus { border-color: #5FC0EA; outline: none; backgro
 .theme-dark .profile-comment { background-color: #373844 }
 .theme-dark .profile-section-title { color: #686972 }
 .theme-dark .profile-empty { color: #686972 }
+.theme-dark .profile-comment-reply { color: #777; border-left-color: #555; }
 
 /* Admin Panel */
 .theme-dark .admin-title { color: #e1e1e1 }
@@ -826,3 +829,34 @@ input.text:focus, textarea:focus { border-color: #5FC0EA; outline: none; backgro
 .theme-dark .tip-stat-time { color: #5a5b66; }
 .theme-dark .tip-stat-link { color: #8a8b96; }
 .theme-dark .tip-stat-link:hover { color: #f0a830; }
+
+/* Mention links */
+.mention-link { color: #4a9eff; text-decoration: none; cursor: pointer; font-weight: 500; }
+.mention-link:hover { text-decoration: underline; }
+.theme-dark .mention-link { color: #6cb6ff; }
+
+/* Mention popup */
+.mention-popup {
+  position: absolute; z-index: 1000;
+  width: 260px; padding: 12px;
+  background: #fff; border: 1px solid #ddd; border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start;
+}
+.mention-popup-avatar { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+.mention-popup-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.mention-popup-info { flex: 1; min-width: 0; }
+.mention-popup-name { font-weight: bold; font-size: 14px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mention-popup-bio { font-size: 12px; color: #666; margin-top: 2px; max-height: 36px; overflow: hidden; word-break: break-word; }
+.mention-popup-profile {
+  display: block; width: 100%; text-align: center; margin-top: 4px;
+  padding: 5px 0; font-size: 12px; color: #4a9eff; text-decoration: none;
+  border-top: 1px solid #eee;
+}
+.mention-popup-profile:hover { text-decoration: underline; }
+
+/* Mention popup dark theme */
+.theme-dark .mention-popup { background: #252329; border-color: #3e3c44; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+.theme-dark .mention-popup-name { color: #e8e8ee; }
+.theme-dark .mention-popup-bio { color: #a7a8b8; }
+.theme-dark .mention-popup-profile { color: #6cb6ff; border-top-color: #3e3c44; }
