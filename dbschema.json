@@ -26,10 +26,11 @@
 				["type", "TEXT"],
 				["parent_topic_uri", "TEXT"],
 				["added", "DATETIME"],
+				["modified", "DATETIME"],
 				["json_id", "INTEGER REFERENCES json (json_id)"]
 			],
 			"indexes": ["CREATE UNIQUE INDEX topic_key ON topic(topic_id, json_id)"],
-			"schema_changed": 1
+			"schema_changed": 2
 		},
 		"comment": {
 			"cols": [
@@ -37,10 +38,11 @@
 				["body", "TEXT"],
 				["topic_uri", "TEXT"],
 				["added", "DATETIME"],
+				["modified", "DATETIME"],
 				["json_id", "INTEGER REFERENCES json (json_id)"]
 			],
 			"indexes": ["CREATE INDEX topic_uri ON comment(topic_uri)", "CREATE INDEX comment_added ON comment(added)", "CREATE UNIQUE INDEX comment_key ON comment(json_id, comment_id)"],
-			"schema_changed": 1
+			"schema_changed": 2
 		},
 		"comment_vote": {
 			"cols": [

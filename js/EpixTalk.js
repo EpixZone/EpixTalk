@@ -107,8 +107,10 @@ class EpixTalk extends EpixFrame {
               Moderation.loadReports(() => {
                 this.setLoadingProgress(100, "Ready!");
                 this.updateAdminLink();
-                this.routeUrl(window.location.search.substring(1));
-                this.hideLoading();
+                UserPrefs.load(() => {
+                  this.routeUrl(window.location.search.substring(1));
+                  this.hideLoading();
+                });
               });
             });
           });
@@ -210,6 +212,7 @@ class EpixTalk extends EpixFrame {
           data.topic.splice(data.topic.indexOf(topic), 1);
         } else { // Update
           topic[elem.data("editable")] = content;
+          topic.modified = Math.floor(Date.now() / 1000);
         }
       }
 
@@ -234,6 +237,7 @@ class EpixTalk extends EpixFrame {
           data.comment[topic_uri].splice(data.comment[topic_uri].indexOf(comment), 1);
         } else { // Update
           comment[elem.data("editable")] = content;
+          comment.modified = Math.floor(Date.now() / 1000);
         }
       }
 

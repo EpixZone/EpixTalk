@@ -16,6 +16,8 @@ class TopicShow {
       return false;
     });
 
+    MarkdownEditor.initCommentEditor();
+
     var textarea = $(".comment-new #comment_body");
     $(".comment-new #comment_body").on("input", () => {
       // Update used space
@@ -260,12 +262,8 @@ class TopicShow {
       }
 
       // Update last visited
-      if (comments.length > 0) {
-        Page.local_storage["topic." + this.topic_id + "_" + this.topic_user_address + ".visited"] = comments[0].added;
-      } else {
-        Page.local_storage["topic." + this.topic_id + "_" + this.topic_user_address + ".visited"] = this.topic.added;
-      }
-      Page.cmd("wrapperSetLocalStorage", Page.local_storage);
+      var visited_ts = comments.length > 0 ? comments[0].added : this.topic.added;
+      UserPrefs.set("topic." + this.topic_id + "_" + this.topic_user_address + ".visited", visited_ts);
       focused.focus();
 
       if (cb) cb();
@@ -341,13 +339,22 @@ class TopicShow {
   applyCommentData(elem, comment) {
     var user_name = comment.user_name;
     var display_name = Text.formatUsername(user_name);
-    $(".body", elem).html(Text.toMarked(comment.body, {"sanitize": true}));
+    $(".body", elem).html(Text.toMarked(comment.body, {}));
     $(".user_name", elem).text(display_name).css({"color": Text.toColor(user_name || "anonymous")}).attr("title", comment.user_address);
     $(".user_name", elem).css("cursor", "pointer").on("click", function() {
       window.top.location = "?User:" + comment.user_address;
       return false;
     });
     $(".added", elem).text(Time.since(comment.added)).attr("title", Time.date(comment.added, "long"));
+
+    // Modified timestamp
+    if (comment.modified && comment.modified > comment.added) {
+      $(".modified .date", elem).text(Time.since(comment.modified)).attr("title", Time.date(comment.modified));
+      $(".modified", elem).css("display", "");
+    } else {
+      $(".modified", elem).css("display", "none");
+    }
+
     // Asynchronously resolve xID name for display
     if (comment.user_address) {
       User.resolveXidName(comment.user_address, function(name, tld, avatar) {
@@ -404,8 +411,7 @@ class TopicShow {
     }
     body_add += "\n\n";
 
-    $(".comment-new #comment_body").val($(".comment-new #comment_body").val() + body_add);
-    $(".comment-new #comment_body").trigger("input").focus(); // Autosize
+    MarkdownEditor.appendToComment(body_add);
 
     return false;
   }

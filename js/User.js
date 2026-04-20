@@ -228,13 +228,20 @@ class User {
   setCurrentSize(current_size) {
     if (current_size) {
       var current_size_kb = current_size / 1000;
-      $(".user-size").text("used: " + current_size_kb.toFixed(1) + "k/" + Math.round(this.rules.max_size / 1000) + "k").attr("title",
+      var label = "used: " + current_size_kb.toFixed(1) + "k/" + Math.round(this.rules.max_size / 1000) + "k";
+      $(".user-size").not(".user-size-used").text(label).attr("title",
         "Every new user has limited space to store comments, topics and votes.\n" +
         "This indicator shows your used/total allowed KBytes.\n" +
         "The site admin can increase it if you about to run out of it."
       );
-      var percent = Math.round(100 * current_size / this.rules.max_size);
-      $(".user-size-used").css("width", percent + "%");
+      // Overlay is a pure visual bar — keep it empty so copy/paste only picks
+      // up the track's label once.
+      $(".user-size.user-size-used").text("");
+      var percent = 100 * current_size / this.rules.max_size;
+      var $track = $(".user-size").not(".user-size-used").first();
+      var trackWidth = $track.outerWidth() || 120;
+      var fillPx = Math.max(0, trackWidth * percent / 100);
+      $(".user-size-used").css("width", fillPx + "px");
       if (percent > 80 && Page.site_info.content?.settings?.admin) {
         $(".user-size-warning")
           .css("display", "block")

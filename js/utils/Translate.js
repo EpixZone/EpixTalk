@@ -32,7 +32,7 @@ window.translateDOM = function() {
     ".topics-title": "Newest topics",
     ".topics-loading": "Loading...",
     ".topics-more": "More topics",
-    ".topic-new-link": " + Create",
+    ".topic-new-link": " + Start new topic",
     ".topic-new #topic_title": {"attr": "placeholder", "text": "Topic title"},
     ".topic-new #topic_body": {"attr": "placeholder", "text": "Topic description"},
     ".topic-new .button-submit": "Create topic",

@@ -7,7 +7,8 @@
  "cloneable": true,
  "cloned_from": "",
  "description": "Decentralized forum with xID",
- "epixnet_version": "0.0.7",
+ "domain": "talk.epix",
+ "epixnet_version": "0.2.4",
  "files": {
   "LICENSE": {
    "sha512": "e67014a69caa38c58575f333619243c9ebb3c98d462f0b4823ff5ed3d2cfdba3",
@@ -18,16 +19,24 @@
    "size": 1645
   },
   "css/all.css": {
-   "sha512": "a1754b8c27009fa6ff21429229d415a1ee30b74bc2427760527002accedc16b5",
-   "size": 179602
+   "sha512": "0887abe0bc3c4ee6ffe1f6c956abdb115fa19539377fa2a0419f02b00564950f",
+   "size": 187635
+  },
+  "css/easymde.min.css": {
+   "sha512": "b7832b1a74c5b096aed0555b3aa83890bbf214ba49a9c12e9575129f91653d7d",
+   "size": 12923
+  },
+  "css/font-awesome.css": {
+   "sha512": "1e6eb5a7ceda5768402995816ae1f70daf162fb0bf96fda71eb9adb527965247",
+   "size": 133512
   },
   "data-default/users/content-default.json": {
-   "sha512": "ec1699c097d82013cf95fffe4372c50e53a6c081d800299bfbaa80e9432ff2cd",
-   "size": 305
+   "sha512": "8cb251bbd5a19e295ccd9caa8e1846bea3b55c8dd20d7a5095d645366c6ba33f",
+   "size": 306
   },
   "dbschema.json": {
-   "sha512": "6ff07c24f3b2d9d566f5c45f145a3d0a158b4025f30c040d1d2fa99c972dcab9",
-   "size": 3599
+   "sha512": "eea19a8780e098bdb1a4a556dd119a20cbb4020530ad0fbd90461f9135a10927",
+   "size": 3659
   },
   "img/edit.png": {
    "sha512": "60ba4297e205b038bf7852ead2b88f9373cd8848408bb258dbcebb086d43f056",
@@ -46,28 +55,28 @@
    "size": 310
   },
   "index.html": {
-   "sha512": "0737139cfba5116cab243f2806275988a8dffa54d4d645340794e34e056b1aed",
-   "size": 14784
+   "sha512": "6676daf57bb4fb27fd1f49cc8818391158991b7c2d5879dc2c1bfd3e8e5aac23",
+   "size": 17508
   },
   "js/Admin.js": {
    "sha512": "a9f093fa78dd0afec885a93513cfc1cdbd816a94f94aafc4c195f4ed7d5c761b",
    "size": 27877
   },
   "js/EpixTalk.js": {
-   "sha512": "7487d9b4a914c97d25b804ec932a72e36af52fd255db6dbab628c2cd6628327e",
-   "size": 13213
+   "sha512": "cd441e3efb46fa2ebeb8b243d344280d7996ead3f86cb23f42f53c10281d1837",
+   "size": 13394
   },
   "js/TopicList.js": {
-   "sha512": "80f741cc7aa1e94629bf1a3911104a2963c77583ba75a38d7978ab80340a60c5",
-   "size": 27748
+   "sha512": "c781dab07d48faef8ef8ef58928862b86ae22a4b1e77a3384922d86d39719ce4",
+   "size": 35269
   },
   "js/TopicShow.js": {
-   "sha512": "cb3885e3893677b9bf636243a2451527a26289e3821d4ec4ba50fb4a7e8dcff6",
-   "size": 17976
+   "sha512": "645930ebc354a4d49ec3c5362c0d70eb32b89ff58f58371c2ea21192b0e06798",
+   "size": 18035
   },
   "js/User.js": {
-   "sha512": "93c54348608b141a203a37c8ee5e143f8cf0ff0fe8fc1ceaa8e5963dfc7af24d",
-   "size": 10435
+   "sha512": "f5ad32332a0217d938af05a1baf626c2787f178fb4d91c405c0adc3901a89864",
+   "size": 10813
   },
   "js/UserProfile.js": {
    "sha512": "fd4460708fc7d4a7422f8d3e182a44700b37f5b0b1c6a7e6de3720e28dd9edbe",
@@ -76,6 +85,10 @@
   "js/lib/00-jquery.min.js": {
    "sha512": "eda31b5c7d371d4b3acced51fa92f27a417515317cf437aae09a47c3acc8a36b",
    "size": 84320
+  },
+  "js/lib/easymde.min.js": {
+   "sha512": "4ac739e121a141cfcd4b41d6fa37defa1f1d6c2217eb907d91012403a67e1293",
+   "size": 326778
   },
   "js/lib/epixframe.js": {
    "sha512": "8cb66604615c662afc621127a3ab534d23323ad4bbfe068d9dae7a62fba73ae9",
@@ -113,6 +126,10 @@
    "sha512": "5d393d9e466748562c1c4c9750d3d013d6e04b887b81998dd9246c841e3fff42",
    "size": 607
   },
+  "js/utils/MarkdownEditor.js": {
+   "sha512": "efecba7f3fa0ea56bb1634d299c5a4969dc80ee950a9e4bedb9d8dc48718b64c",
+   "size": 4048
+  },
   "js/utils/MentionPopup.js": {
    "sha512": "9af21a95808314e3e39daaa5684bd4572fa954bc9a99066a6fc491c1185e7d7d",
    "size": 3257
@@ -130,8 +147,8 @@
    "size": 510
   },
   "js/utils/Text.js": {
-   "sha512": "be924db9a122a940ecfbb5496a8f0830e9e0d76b5a20d2d9d56ec4e6548bd5d0",
-   "size": 2922
+   "sha512": "255b604cd8ad4a52635b004c784fbd3c3832d9098a094cf622a5bb359806fbe2",
+   "size": 3387
   },
   "js/utils/Time.js": {
    "sha512": "1d2ac6faedfcfb842942b4e5a3a6a505f0dd27f735b9e5dad9418ea11d76c3de",
@@ -142,51 +159,95 @@
    "size": 11894
   },
   "js/utils/Translate.js": {
-   "sha512": "3621e3f011f5c50d108f9b75acb587a6f29b1fd17ef2adff297b90e89a4e99c6",
-   "size": 1720
+   "sha512": "3c03d4e04c9e7435a6e50203206f70d93262c21768459e27813e4fdfe7981fa7",
+   "size": 1729
+  },
+  "js/utils/UserPrefs.js": {
+   "sha512": "eea3c31275820de014f4febdb257bb4d94d6201d330998a110f11c69eec1c1fd",
+   "size": 1802
   },
   "languages/da.json": {
-   "sha512": "6b2bffd85b69ba1dc3e214ccbb7e1727586e9d2f43975b5ddfba2a5b6d5ccf8f",
-   "size": 1157
+   "sha512": "17f81a48c4c1dc012f02f1b7775ca788283031de4983bfb7adfc88e8b69bd6a2",
+   "size": 1911
+  },
+  "languages/de.json": {
+   "sha512": "476a9cb26de57520b62881c7b99596aa6de5c14c21b90da05aba8b61eec5fc5d",
+   "size": 1988
+  },
+  "languages/es.json": {
+   "sha512": "4de04a68439da44b520793b67abf0295ae6c80e73d378380c1c450cce0334ee4",
+   "size": 2011
   },
   "languages/fa.json": {
-   "sha512": "105488306c4942217e228ecc5b08427bca4049be5ef03b6b971310d6e6a409f0",
-   "size": 1566
+   "sha512": "651deaff24903dc677c345cddc7333f49aab1048db82118ac8a9e9a01324551d",
+   "size": 2393
   },
   "languages/fr.json": {
-   "sha512": "313be42596019542f639b7c03f367183a17ac5840a403d0f6f95800ed5103bbf",
-   "size": 1852
+   "sha512": "ef15fe4f783af4595af6444034352ec3353285690f20fd3d91aaaad0c0960606",
+   "size": 2083
   },
   "languages/hu.json": {
-   "sha512": "5fd0410c866b58210ad06746c2e194f3106969b524b99f146b4db866c86f30ed",
-   "size": 1218
+   "sha512": "99cbd125d227c864f2ab804247d0f941207a019e4997dc69133ed0a02740e7e6",
+   "size": 2130
   },
   "languages/it.json": {
-   "sha512": "cf881d20b16e530afda8ce5558b27ddd567d2106f6f7a014e731f11b425505fd",
-   "size": 1186
+   "sha512": "3edd898b1b422a75835f8cfdada4fd4454e99b02226c91a2874ff4ba3884bb87",
+   "size": 2065
+  },
+  "languages/jp.json": {
+   "sha512": "40c227238c273874aaa1dba14a4b7a26e29a7d0b3e8768368224ffb5cfa4f2a4",
+   "size": 2304
+  },
+  "languages/kr.json": {
+   "sha512": "b17e52225a1ece4623db3de7b3ab19aed0a756bdc1beb37e0463c051a13792a6",
+   "size": 1929
+  },
+  "languages/nl.json": {
+   "sha512": "19d12128f3896db605be2cca178829c6d4ef0eeeb3a19cd4c2d20e18b7a62def",
+   "size": 2048
   },
   "languages/pl.json": {
-   "sha512": "56fcd15830ba386e83050edd273d4e18b1f6802fa4f03f584bb0c2765e9e25c5",
-   "size": 1598
+   "sha512": "69066097ec364b063049ef898f5078e7c5da8a2e7a08e7103b509cc2cc014995",
+   "size": 2285
+  },
+  "languages/pt-br.json": {
+   "sha512": "dfef4ca75e67ba607b4757cd48228f1a2b7bffcbecc072a383b95d555b6b8e45",
+   "size": 2042
+  },
+  "languages/pt.json": {
+   "sha512": "a172e681ae2e3a987cdf15189f5127764e118b35f42921dd275b4fdc39c64beb",
+   "size": 2070
+  },
+  "languages/ru.json": {
+   "sha512": "3a33973c5ec47c8b1c0c1a10c69850ad81cd430efd8d79229e4613b7031bf9e7",
+   "size": 2774
   },
   "languages/sk.json": {
-   "sha512": "2cf773e25374767d640c2e443684f3f86adfa039314410bf374463b8839a0d35",
-   "size": 1306
+   "sha512": "9eae25256de70a2e970e95fdb07ad541cf0c3d5a5dc0ccf2d9b46e62b911b8e8",
+   "size": 2172
+  },
+  "languages/sl.json": {
+   "sha512": "d17a30f0ea9024a27e12c2b2da32557c1b9309978ab95221e0214acb7acc1568",
+   "size": 1891
+  },
+  "languages/tr.json": {
+   "sha512": "44fa9a595934c2d2f68db0b6e2f77bc4fed70642f5013c7b1d4c87470a4c8fd7",
+   "size": 1998
   },
   "languages/uk.json": {
-   "sha512": "fc003928962bff46184f812b6fd4d94bc03dc4c2c040ed86e88a924785373a19",
-   "size": 1529
+   "sha512": "4d55dbec57189f3e21befe22dd4e4b516d47c77c900a700db350c9e773842d5a",
+   "size": 2639
   },
   "languages/zh-tw.json": {
-   "sha512": "f1beab242599ee94b859c8124bea0cd4a6289727a628a5ef1a8d62374fffb45c",
-   "size": 1789
+   "sha512": "a06217ca7a0a1800964b61e18fddf890935035938423d7c53318761ed1af4940",
+   "size": 2519
   },
   "languages/zh.json": {
-   "sha512": "1ccf5ae8a429849563b418fbf17163c9e3dfd8911b51f3a490693cc9c18b2054",
-   "size": 1791
+   "sha512": "3d8f573bd9c614c5b13ccbcdf706aefb79b9ab8f3c8c2ab6c889386a99e17632",
+   "size": 2522
   }
  },
- "ignore": "(css/(?!all\\.css)|data/users/.*\\.db|data/users/.*/.*|data/admin/.*/.*|data/archived|\\.git|.*\\.py)",
+ "ignore": "(css/(?!all\\.css|easymde\\.min\\.css|font-awesome\\.css)|data/users/.*\\.db|data/users/.*/.*|data/admin/.*/.*|data/archived|\\.git|.*\\.py)",
  "includes": {
   "data/admin/content.json": {
    "signers": ["mud.epix"],
@@ -198,14 +259,14 @@
   }
  },
  "inner_path": "content.json",
- "modified": 1775255067,
+ "modified": 1776725843,
  "postmessage_nonce_security": true,
  "settings": {
   "admins": ["mud.epix"],
   "mods": []
  },
  "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HLizKv4E7bOY4m5n1mWNf7s+S2Lrd4FDcomPauLz/qOJAH8741SeCB0h5c2WVfv6Wonk/EFMPvbZYIfyTBODYzk="},
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HFPjrwk8mUUGKnFG7PhYiaDZSg7cbs+A4XcInYk+W7LhXcu2FU4g39lx59opWI74AAHLRFq8nNn0ipaxjUAfFkQ="},
  "signs_required": 1,
  "title": "Epix Talk",
  "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],

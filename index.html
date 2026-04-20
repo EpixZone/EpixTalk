@@ -6,6 +6,8 @@
  <meta charset="utf-8">
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <link rel="stylesheet" href="css/all.css" />
+ <link rel="stylesheet" href="css/font-awesome.css" />
+<link rel="stylesheet" href="css/easymde.min.css" />
  <base href="" target="_top" id="base">
  <script>
  setTimeout(function() {
@@ -64,8 +66,53 @@
  <h1 class="topics-title">Newest topics</h1>
  <a href="#Follow" class="feed-follow feed-follow-list"><span class='text-follow'>Follow in Newsfeed</span><span class='text-following'>Following</span><div class="icon-feed"></div></a>
 
- <!-- New Topic -->
- <a href="#New+topic" class="topic-new-link nolink"> + Create</a>
+ <!-- Sort order + Display mode toolbars -->
+ <div class="topic-toolbar">
+  <div class="radio-group">
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_order_by-last_activity" name="toolbar-topic_list_order_by" type="radio" value="last_activity">
+    <label for="toolbar-topic_list_order_by-last_activity">Last Comment</label>
+   </div>
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_order_by-topic_creation" name="toolbar-topic_list_order_by" type="radio" value="topic_creation">
+    <label for="toolbar-topic_list_order_by-topic_creation">Creation</label>
+   </div>
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_order_by-comments_num" name="toolbar-topic_list_order_by" type="radio" value="comments_num">
+    <label for="toolbar-topic_list_order_by-comments_num">Most Comments</label>
+   </div>
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_order_by-votes_num" name="toolbar-topic_list_order_by" type="radio" value="votes_num">
+    <label for="toolbar-topic_list_order_by-votes_num">Most Votes</label>
+   </div>
+  </div>
+  <div class="radio-group">
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_mode-tiny" name="toolbar-topic_list_mode" type="radio" value="tiny">
+    <label for="toolbar-topic_list_mode-tiny">Tiny</label>
+   </div>
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_mode-brief" name="toolbar-topic_list_mode" type="radio" value="brief">
+    <label for="toolbar-topic_list_mode-brief">Brief</label>
+   </div>
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_mode-normal" name="toolbar-topic_list_mode" type="radio" value="normal">
+    <label for="toolbar-topic_list_mode-normal">Normal</label>
+   </div>
+   <div class="radio-group-item">
+    <input id="toolbar-topic_list_mode-full" name="toolbar-topic_list_mode" type="radio" value="full">
+    <label for="toolbar-topic_list_mode-full">Full</label>
+   </div>
+  </div>
+ </div>
+
+ <!-- Search + Create row -->
+ <div class="topic-search-bar">
+  <input type="text" class="topic-search" placeholder="Search topics...">
+  <a href="#Search" class="topic-search-button nolink">Search</a>
+  <a href="#Clear" class="topic-search-clear nolink" style="display:none">&times;</a>
+  <a href="#New+topic" class="topic-new-link nolink"> + Start new topic</a>
+ </div>
  <div class="topic topic-new" style="display: none">
   <a href="#" class="image nolink"><div class="icon icon-topic-chat"></div></a>
   <h2 class="title"><input type="text" id="topic_title" class="text" placeholder="Topic title"></h2>
@@ -93,7 +140,10 @@
    <div class="dot">&bullet;</div>
    <a href="#" class="image nolink"><div class="icon icon-topic-chat"></div></a>
    <h2 class="title"><a href="#" class="title-link">Title</a></h2>
-   <div class="body">Body</div>
+   <div class="body-wrapper">
+    <div class="body">Body</div>
+    <div class="read-more"></div>
+   </div>
    <a href="#" class="link"><div class="icon icon-link"></div> <span class="link-url"></span></a>
    <div class="subtopic"><div class="icon icon-topic-chat"></div><a href="#" class="subtopic-link">Lastsub</a></div>
    <div class="info">
@@ -104,7 +154,8 @@
     <a href="#Tip" class="tip-btn" title="Tip"><span class="tip-icon">&#9749;</span><span class="tip-count">0</span></a>
     <a href="#" class="comment-num"></a>
     <span class="added">added</span>
-    <span class="started">&#9473; started by <img class="user-avatar" style="display:none"><a class="user_name" href="#User">user_name</a><a class="user_menu" href="#menu"><span class="menu_3dot">⋮</span></a>
+    <span class="started">&#9473; started by <img class="user-avatar" style="display:none"><a class="user_name" href="#User">user_name</a><a class="user_menu" href="#menu"><span class="menu_3dot">⋮</span></a></span>
+    <span class="modified" style="display:none"> (modified <span class="date"></span>)</span>
    </div>
   </div>
   <!-- EOF Template: Topic main -->
@@ -179,9 +230,9 @@
    <a class="button button-submit button-certselect certselect" href="#Change+user"><div class='icon-profile'></div>Connect xID</a>
    <textarea id="comment_body"></textarea>
    <a href="#Submit+comment" class="button button-submit button-submit-form">Submit comment</a>
-   <div style='float: right; margin-top: -6px; position: relative; text-align: right'>
-    <div class="user-size user-size-used">Used space: 22k/100k</div>
+   <div class="user-size-wrap" style='float: right; margin-top: -6px; position: relative; text-align: right'>
     <div class="user-size">Used space: 22k/100k</div>
+    <div class="user-size user-size-used">Used space: 22k/100k</div>
     <div class="user-size-warning">You are running out of your allowed space, please contact the site's admin at <a href="#">unknown</a> to raise your limit.</div>
    </div>
    <div style="clear: both"></div>
@@ -326,12 +377,14 @@
 <script src="js/lib/jquery.csslater.js"></script>
 <script src="js/lib/jquery.easing.1.3.js"></script>
 <script src="js/lib/marked.min.js"></script>
+<script src="js/lib/easymde.min.js"></script>
 <script src="js/lib/epixframe.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/EpixZone/epixkit@3b0fb50/epixkit.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
 
 <!-- Utilities -->
 <script src="js/utils/LogMixin.js"></script>
+<script src="js/utils/UserPrefs.js"></script>
 <script src="js/utils/RateLimit.js"></script>
 <script src="js/utils/Text.js"></script>
 <script src="js/utils/Time.js"></script>
@@ -350,5 +403,6 @@
 <script src="js/User.js"></script>
 <script src="js/Admin.js"></script>
 <script src="js/EpixTalk.js"></script>
+<script src="js/utils/MarkdownEditor.js"></script>
 </body>
 </html>

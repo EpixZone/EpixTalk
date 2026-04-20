@@ -3,8 +3,8 @@
  "files": {},
  "ignore": ".*",
  "inner_path": "data/users/content.json",
- "modified": 1775255067,
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "G1y9j8xD30+2PvG5NLyU5Z3tSO8KBdNfrbg+HWHZgH97Q1YBSOan6WeCc10X+qgb5eLYWiWw080zYCYhCqjaS98="},
+ "modified": 1776725843,
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HBx8O5MdSu2SKGdKN7pjzzvfDdGAQ8AfiLsHA/eaEjxBKwkwByYGjpfEwY53LDMTr6F6ssX0dMkCPmAIoZsRIzI="},
  "user_contents": {
   "cert_signers": {
    "xid.epix": ["chain"]
@@ -12,7 +12,7 @@
   "permission_rules": {
    ".*": {
     "files_allowed": "data.json",
-    "max_size": 50000,
+    "max_size": 200000,
     "signers": ["mud.epix"]
    }
   },

@@ -1,7 +1,14 @@
 (function() {
 class Renderer extends marked.Renderer {
   image(href, title, text) {
-    return `<code>![${text}](${href})</code>`;
+    // Sanitize: only allow http/https/data URIs, block javascript: etc.
+    if (!/^https?:\/\/|^data:image\//i.test(href)) {
+      return `<code>![${text}](${href})</code>`;
+    }
+    var safe_href = href.replace(/"/g, "%22");
+    var safe_text = text ? text.replace(/"/g, "&quot;") : "";
+    var safe_title = title ? ` title="${title.replace(/"/g, "&quot;")}"` : "";
+    return `<img src="${safe_href}" alt="${safe_text}"${safe_title} style="max-width:100%">`;
   }
 }
 
@@ -32,9 +39,12 @@ class Text {
 
   toMarkedInline(text, options) {
     if (!options) options = {};
-    var sanitize = options["sanitize"];
-    if (sanitize) text = text.replace(/[<>&"]/g, function(c) { return {"<":"&lt;",">":"&gt;","&":"&amp;","\"":"&quot;"}[c]; });
-    var html = marked.inlineLexer(text, [], {gfm: true, breaks: true});
+    options["gfm"] = true;
+    options["breaks"] = true;
+    options["renderer"] = window.renderer;
+    var html = marked(text, options);
+    // Strip block-level tags so CSS text truncation works
+    html = html.replace(/<\/?(p|blockquote|ul|ol|li|h[1-6]|pre|div|hr)[^>]*>/g, "").trim();
     html = this.fixHtmlLinks(html);
     html = this.fixMentions(html);
     return html;
