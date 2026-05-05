@@ -136,7 +136,8 @@ class TopicShow {
         // Admin: Pin/Unpin topic
         if (Moderation.isAdmin()) {
           var topic_uri = topic.row_topic_uri;
-          if (window.TopicList.topic_pinned_uris[topic_uri]) {
+          var pinned_uris = (Moderation.admin_settings && Moderation.admin_settings.pinned_topic_uris) || [];
+          if (pinned_uris.indexOf(topic_uri) !== -1) {
             menu.addItem(_("Unpin topic"), () => {
               Admin.unpinTopic(topic_uri, () => {
                 this.loadTopic();

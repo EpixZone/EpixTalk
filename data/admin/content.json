@@ -2,11 +2,11 @@
  "address": "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu",
  "files": {
   "admin-settings.json": {
-   "sha512": "18497176ceb533ed9c71a52222af847156b47a22b96e969f92a43c4b53128764",
-   "size": 32
+   "sha512": "33616b586129304956942c1e42d3093384e1989a2e57cfdc8f06c1a216e8fb3a",
+   "size": 66
   }
  },
  "inner_path": "data/admin/content.json",
- "modified": 1776725843,
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "G3VedvcdAVyrJsd8mzjImYWTcilttwCGeqgNexWWn6UqcGiJqoRg01td/yhd/9Q4Wf74XMWHBiNBwI3xHcpqy0s="}
+ "modified": 1778006274,
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HJuWWo16pqZfntLuCbQnO9ZIKZKqu5r2UYdFGvPJ5TpZFUIicu33z++BSwrUio0NGylzyHZoBGUSsQ03khe8P8A="}
 }

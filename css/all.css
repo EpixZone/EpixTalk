@@ -991,12 +991,12 @@ body.theme-dark .topic-new .user-size.user-size-used { color: #fff !important; }
 .topics .brief-mode .image .icon { width: 20px; height: 20px; background-size: 20px 20px; }
 .topics .brief-mode .dot { display: none; }
 /* Never visited = green; new comments = Telegram blue; read = grey */
-.topics .brief-mode.visit-none .image { background-color: #4DCD5E; opacity: 1; }
-.topics .brief-mode.visit-newcomment .image { background-color: #2AABEE; opacity: 1; }
+.topics .brief-mode.visit-none .image { background-color: #2AABEE; opacity: 1; }
+.topics .brief-mode.visit-newcomment .image { background-color: #F5C518; opacity: 1; }
 /* Dark mode */
 body.theme-dark .topics .brief-mode .image { background-color: #555; opacity: 0.6; }
-body.theme-dark .topics .brief-mode.visit-none .image { background-color: #4DCD5E; opacity: 1; }
-body.theme-dark .topics .brief-mode.visit-newcomment .image { background-color: #2AABEE; opacity: 1; }
+body.theme-dark .topics .brief-mode.visit-none .image { background-color: #2AABEE; opacity: 1; }
+body.theme-dark .topics .brief-mode.visit-newcomment .image { background-color: #F5C518; opacity: 1; }
 .topics .brief-mode .info { margin-top: 0; }
 .topics .normal-mode .body { max-height: 1.5em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .topics .full-mode .body-wrapper { overflow: visible; }

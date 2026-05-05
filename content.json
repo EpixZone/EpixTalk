@@ -19,7 +19,7 @@
    "size": 1645
   },
   "css/all.css": {
-   "sha512": "0887abe0bc3c4ee6ffe1f6c956abdb115fa19539377fa2a0419f02b00564950f",
+   "sha512": "35d325b1c0c25532ccc249255b15c29afde8fd7b4681b6bf78329a7c78d54315",
    "size": 187635
   },
   "css/easymde.min.css": {
@@ -55,8 +55,8 @@
    "size": 310
   },
   "index.html": {
-   "sha512": "6676daf57bb4fb27fd1f49cc8818391158991b7c2d5879dc2c1bfd3e8e5aac23",
-   "size": 17508
+   "sha512": "9b63840da16c0fb54ec797d44ea1ba199308f0d291290f93c728faf68a487ce3",
+   "size": 17601
   },
   "js/Admin.js": {
    "sha512": "a9f093fa78dd0afec885a93513cfc1cdbd816a94f94aafc4c195f4ed7d5c761b",
@@ -67,12 +67,12 @@
    "size": 13394
   },
   "js/TopicList.js": {
-   "sha512": "c781dab07d48faef8ef8ef58928862b86ae22a4b1e77a3384922d86d39719ce4",
-   "size": 35269
+   "sha512": "83ff72dc5d0aff4ee0e83b06b152307f5e5d912fd2dff402c1748e116476cced",
+   "size": 35335
   },
   "js/TopicShow.js": {
-   "sha512": "645930ebc354a4d49ec3c5362c0d70eb32b89ff58f58371c2ea21192b0e06798",
-   "size": 18035
+   "sha512": "9566bf719a5c61f9dd9dbeca93aec8967f62cfc42fd9605c1078982dffcd91a9",
+   "size": 18137
   },
   "js/User.js": {
    "sha512": "f5ad32332a0217d938af05a1baf626c2787f178fb4d91c405c0adc3901a89864",
@@ -259,14 +259,14 @@
   }
  },
  "inner_path": "content.json",
- "modified": 1776725843,
+ "modified": 1778006274,
  "postmessage_nonce_security": true,
  "settings": {
   "admins": ["mud.epix"],
   "mods": []
  },
  "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HFPjrwk8mUUGKnFG7PhYiaDZSg7cbs+A4XcInYk+W7LhXcu2FU4g39lx59opWI74AAHLRFq8nNn0ipaxjUAfFkQ="},
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HOlWzh1ue3vfPHLU/YpFJJ1qL4KyEluBvbpNEo/o5rikNPyLmoUledvVGVv2IZ6Zhavi82IsnecQuaCWnHRf/Vo="},
  "signs_required": 1,
  "title": "Epix Talk",
  "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],

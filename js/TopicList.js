@@ -721,8 +721,8 @@ class TopicList {
 
     if (type === "show") $(".added", elem).text(Time.since(topic.added));
 
-    // Modified timestamp
-    if (topic.modified && topic.modified > topic.added) {
+    // Modified timestamp — only on topic-full view (not on list rows)
+    if (type === "show" && topic.modified && topic.modified > topic.added) {
       $(".modified .date", elem).text(Time.since(topic.modified)).attr("title", Time.date(topic.modified));
       $(".modified", elem).css("display", "");
     } else {
