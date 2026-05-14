@@ -42,7 +42,6 @@
 	"Create group": "Ustvari skupino",
 	"Connect xID": "Connect xID",
 	"View profile": "Oglej si profil",
-	"Mute this user": "Utišaj tega uporabnika",
 	"Permalink": "Trajna povezava",
 	"Report topic": "Prijavi temo",
 	"Unreport topic": "Prekliči prijavo",
@@ -55,5 +54,15 @@
 	"Delete comment": "Izbriši komentar",
 	"Search results": "Rezultati iskanja",
 	"No results found.": "Ni rezultatov.",
-	" + Start new topic": " + Začni novo temo"
+	" + Start new topic": " + Začni novo temo",
+	"Last Comment": "Zadnji komentar",
+    "Creation": "Ustvarjanje",
+    "Most Comments": "Največ komentarjev",
+    "Nost Votes": "Največ glasov",
+    "Tiny": "Majhno",
+    "Brief": "Kratko",
+    "Normal": "Običajno",
+    "Full": "Polno",
+    "Search": "Išči",
+	"Search topics...": "Išči teme..."
 }

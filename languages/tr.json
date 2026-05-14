@@ -42,7 +42,6 @@
 	"Create group": "Grup oluştur",
 	"Connect xID": "Connect xID",
 	"View profile": "Profili görüntüle",
-	"Mute this user": "Bu kullanıcıyı sustur",
 	"Permalink": "Kalıcı bağlantı",
 	"Report topic": "Konuyu şikayet et",
 	"Unreport topic": "Şikayeti geri al",
@@ -55,5 +54,16 @@
 	"Delete comment": "Yorumu sil",
 	"Search results": "Arama sonuçları",
 	"No results found.": "Sonuç bulunamadı.",
-	" + Start new topic": " + Yeni konu başlat"
+	" + Start new topic": " + Yeni konu başlat",
+	"Last Comment": "Son yorum",
+    "Creation": "Oluşturma",
+    "Most Comments": "En çok yorum",
+    "Nost Votes": "En çok oy",
+    "Tiny": "Çok küçük",
+    "Brief": "Kısa",
+    "Normal": "Normal",
+    "Full": "Tam",
+    "Search": "Ara",
+	"Search topics...": "Konu ara..."
+	
 }

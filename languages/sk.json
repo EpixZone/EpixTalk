@@ -48,7 +48,6 @@
 	"Create group": "Vytvoriť skupinu",
 	"Connect xID": "Connect xID",
 	"View profile": "Zobraziť profil",
-	"Mute this user": "Stíšiť používateľa",
 	"Permalink": "Permalink",
 	"Report topic": "Nahlásiť tému",
 	"Unreport topic": "Zrušiť nahlásenie",
@@ -62,5 +61,16 @@
 	"Search results": "Výsledky vyhľadávania",
 	"No results found.": "Žiadne výsledky.",
 	"More comments": "Ďalšie komentáre",
-	" + Start new topic": " + Začať novú tému"
+	" + Start new topic": " + Začať novú tému",
+	"Last Comment": "Posledný komentár",
+    "Creation": "Vytvorenie",
+    "Most Comments": "Najviac komentárov",
+    "Nost Votes": "Najviac hlasov",
+    "Tiny": "Malé",
+    "Brief": "Stručné",
+    "Normal": "Normálne",
+    "Full": "Úplné",
+    "Search": "Hľadať",
+	"Search topics...": "Hľadať témy..."
+	
 }

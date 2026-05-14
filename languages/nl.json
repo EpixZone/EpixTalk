@@ -42,7 +42,6 @@
 	"Create group": "Groep aanmaken",
 	"Connect xID": "Connect xID",
 	"View profile": "Profiel bekijken",
-	"Mute this user": "Gebruiker negeren",
 	"Permalink": "Permalink",
 	"Report topic": "Onderwerp melden",
 	"Unreport topic": "Melding intrekken",
@@ -55,5 +54,15 @@
 	"Delete comment": "Reactie verwijderen",
 	"Search results": "Zoekresultaten",
 	"No results found.": "Geen resultaten gevonden.",
-	" + Start new topic": " + Nieuw onderwerp starten"
+	" + Start new topic": " + Nieuw onderwerp starten",
+	"Last Comment": "Laatste reactie",
+    "Creation": "Aanmaken",
+    "Most Comments": "Meeste reacties",
+    "Nost Votes": "Meeste stemmen",
+    "Tiny": "Klein",
+    "Brief": "Kort",
+    "Normal": "Normaal",
+    "Full": "Volledig",
+    "Search": "Zoeken",
+	"Search topics...": "Zoek onderwerpen..."
 }

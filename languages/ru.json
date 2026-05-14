@@ -42,7 +42,6 @@
 	"Create group": "Создать группу",
 	"Connect xID": "Connect xID",
 	"View profile": "Просмотреть профиль",
-	"Mute this user": "Заглушить пользователя",
 	"Permalink": "Постоянная ссылка",
 	"Report topic": "Пожаловаться на тему",
 	"Unreport topic": "Отозвать жалобу",
@@ -55,5 +54,16 @@
 	"Delete comment": "Удалить комментарий",
 	"Search results": "Результаты поиска",
 	"No results found.": "Результатов не найдено.",
-	" + Start new topic": " + Начать новую тему"
+	" + Start new topic": " + Начать новую тему",
+	"Last Comment": "Последний комментарий",
+    "Creation": "Создание",
+    "Most Comments": "Больше всего комментариев",
+    "Nost Votes": "Больше всего голосов",
+    "Tiny": "Очень маленький",
+    "Brief": "Краткий",
+    "Normal": "Обычный",
+    "Full": "Полный",
+    "Search": "Поиск",
+	"Search topics...": "Поиск тем..."
+	
 }

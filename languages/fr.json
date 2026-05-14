@@ -42,7 +42,6 @@
 	"More comments": "Plus de commentaires",
 	"Connect xID": "Connecter xID",
 	"View profile": "Voir le profil",
-	"Mute this user": "Masquer cet utilisateur",
 	"Permalink": "Lien permanent",
 	"Report topic": "Signaler le sujet",
 	"Unreport topic": "Annuler le signalement",
@@ -55,5 +54,15 @@
 	"Delete comment": "Supprimer le commentaire",
 	"Search results": "Résultats de recherche",
 	"No results found.": "Aucun résultat trouvé.",
-	" + Start new topic": " + Démarrer un nouveau sujet"
+	" + Start new topic": " + Démarrer un nouveau sujet",
+	"Last Comment": "Dernier commentaire",
+    "Creation": "Création",
+    "Most Comments": "Le plus de commentaires",
+    "Nost Votes": "Le plus de votes",
+    "Tiny": "Petit",
+    "Brief": "Bref",
+    "Normal": "Normal",
+    "Full": "Complet",
+    "Search": "Rechercher",
+	"Search topics...": "Rechercher des sujets..."
 }

@@ -33,7 +33,6 @@
 	" days ago": " dni(dzień) temu",
 	"on ": "",
 	"Just now": "Właśnie teraz",
-	"Mute this user": "Ukryj użytkownika",
 	"Save": "Zapisz",
 	"Cancel": "Anuluj",
 	"Delete ": "Usuń ",
@@ -59,5 +58,15 @@
 	"Delete comment": "Usuń komentarz",
 	"Search results": "Wyniki wyszukiwania",
 	"No results found.": "Nie znaleziono wyników.",
-	" + Start new topic": " + Rozpocznij nowy temat"
+	" + Start new topic": " + Rozpocznij nowy temat",
+	"Last Comment": "Ostatni komentarz",
+    "Creation": "Utworzenie",
+    "Most Comments": "Najwięcej komentarzy",
+    "Nost Votes": "Najwięcej głosów",
+    "Tiny": "Mały",
+    "Brief": "Krótki",
+    "Normal": "Normalny",
+    "Full": "Pełny",
+    "Search": "Szukaj",
+	"Search topics...": "Szukaj tematów..."
 }

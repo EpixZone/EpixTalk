@@ -41,7 +41,6 @@
 	"Create group": "Csoport létrehozása",
 	"Connect xID": "Connect xID",
 	"View profile": "Profil megtekintése",
-	"Mute this user": "Felhasználó némítása",
 	"Permalink": "Permalink",
 	"Report topic": "Téma jelentése",
 	"Unreport topic": "Jelentés visszavonása",
@@ -55,5 +54,15 @@
 	"Search results": "Keresési eredmények",
 	"No results found.": "Nincs találat.",
 	"More comments": "Több hozzászólás",
-	" + Start new topic": " + Új téma indítása"
+	" + Start new topic": " + Új téma indítása",
+	"Last Comment": "Utolsó hozzászólás",
+    "Creation": "Létrehozás",
+    "Most Comments": "Legtöbb hozzászólás",
+    "Nost Votes": "Legtöbb szavazat",
+    "Tiny": "Apró",
+    "Brief": "Rövid",
+    "Normal": "Normál",
+    "Full": "Teljes",
+    "Search": "Keresés",
+	"Search topics...": "Témák keresése..."
 }

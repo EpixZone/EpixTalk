@@ -42,7 +42,6 @@
 	"Create group": "그룹 만들기",
 	"Connect xID": "Connect xID",
 	"View profile": "프로필 보기",
-	"Mute this user": "이 사용자 음소거",
 	"Permalink": "고유 링크",
 	"Report topic": "주제 신고",
 	"Unreport topic": "신고 취소",
@@ -55,5 +54,15 @@
 	"Delete comment": "댓글 삭제",
 	"Search results": "검색 결과",
 	"No results found.": "결과를 찾을 수 없습니다.",
-	" + Start new topic": " + 새 주제 시작"
+	" + Start new topic": " + 새 주제 시작",
+	"Last Comment": "마지막 댓글",
+    "Creation": "생성",
+    "Most Comments": "댓글 많은 순",
+    "Nost Votes": "투표 많은 순",
+    "Tiny": "아주 작게",
+    "Brief": "간단",
+    "Normal": "보통",
+    "Full": "전체",
+    "Search": "검색",
+	"Search topics...": "주제 검색..."
 }
