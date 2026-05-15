@@ -112,9 +112,6 @@ class TopicShow {
         menu.addItem(_("View profile"), () => {
           window.top.location = "?User:" + topic.topic_creator_address;
         });
-        menu.addItem(_("Mute this user"), () => {
-          Page.cmd("muteAdd", [topic.topic_creator_address, topic.topic_creator_user_name, "Topic: " + topic.title]);
-        });
         // Mod: Report topic
         if (Moderation.isMod()) {
           var topic_uri = topic.row_topic_uri;
