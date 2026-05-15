@@ -41,7 +41,6 @@
 	"Create group": "Crea gruppo",
 	"Connect xID": "Connect xID",
 	"View profile": "Visualizza profilo",
-	"Mute this user": "Silenzia utente",
 	"Permalink": "Permalink",
 	"Report topic": "Segnala argomento",
 	"Unreport topic": "Annulla segnalazione",
@@ -55,5 +54,15 @@
 	"Search results": "Risultati della ricerca",
 	"No results found.": "Nessun risultato trovato.",
 	"More comments": "Altri commenti",
-	" + Start new topic": " + Inizia nuovo argomento"
+	" + Start new topic": " + Inizia nuovo argomento",
+	"Last Comment": "Ultimo commento",
+    "Creation": "Creazione",
+    "Most Comments": "Più commenti",
+    "Most Votes": "Più voti",
+    "Tiny": "Piccolo",
+    "Brief": "Breve",
+    "Normal": "Normale",
+    "Full": "Completo",
+    "Search": "Cerca",
+	"Search topics...": "Cerca argomenti..."
 }

@@ -42,7 +42,6 @@
 	"Create group": "グループを作成",
 	"Connect xID": "Connect xID",
 	"View profile": "プロフィールを見る",
-	"Mute this user": "このユーザーをミュート",
 	"Permalink": "パーマリンク",
 	"Report topic": "トピックを報告",
 	"Unreport topic": "報告を取り消す",
@@ -55,5 +54,15 @@
 	"Delete comment": "コメントを削除",
 	"Search results": "検索結果",
 	"No results found.": "結果が見つかりませんでした。",
-	" + Start new topic": " + 新しいトピックを開始"
+	" + Start new topic": " + 新しいトピックを開始",
+	"Last Comment": "最後のコメント",
+    "Creation": "作成",
+    "Most Comments": "コメント数順",
+    "Most Votes": "投票数順",
+    "Tiny": "最小",
+    "Brief": "簡潔",
+    "Normal": "標準",
+    "Full": "完全",
+    "Search": "検索",
+	"Search topics...": "トピックを検索..."
 }

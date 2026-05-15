@@ -33,7 +33,6 @@
 	"on ": "",
 	"Just now": "刚才",
 	"Please use English, you can reach other language forums at the top of this page": "请使用英语，或者你可以在页面顶部到达其他语言的论坛",
-	"Mute this user": "屏蔽此用户",
 	"Please, choose your account before upvoting.": "请在点赞前选择你的帐户",
 	"Every new user has limited space to store comments, topics and votes.\\n": "每个用户有受限的空间来存储评论、话题与投票。\\n",
 	"This indicator shows your used/total allowed KBytes.\\n": "该指示器显示你已经使用/总共允许的千字节。\\n",
@@ -60,5 +59,15 @@
 	"Search results": "搜索结果",
 	"No results found.": "未找到结果。",
 	"More comments": "更多评论",
-	" + Start new topic": " + 发起新主题"
+	" + Start new topic": " + 发起新主题",
+	"Last Comment": "最后评论",
+    "Creation": "创建",
+    "Most Comments": "最多评论",
+    "Most Votes": "最多投票",
+    "Tiny": "极小",
+    "Brief": "简短",
+    "Normal": "普通",
+    "Full": "完整",
+    "Search": "搜索",
+	"Search topics...": "搜索主题..."
 }

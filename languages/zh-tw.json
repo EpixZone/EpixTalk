@@ -33,7 +33,6 @@
 	"on ": "",
 	"Just now": "剛才",
 	"Please use English, you can reach other language forums at the top of this page": "請使用英語，你可以在頁面頂部到達其他語言的論壇",
-	"Mute this user": "屏蔽此用戶",
 	"Please, choose your account before upvoting.": "請在點贊前選擇你的帳戶",
 	"Every new user has limited space to store comments, topics and votes.\\n": "每個用戶有受限的空間來存儲評論、話題與投票。\\n",
 	"This indicator shows your used/total allowed KBytes.\\n": "該指示器顯示你已經使用/總共允許的千位元組。\\n",
@@ -60,5 +59,15 @@
 	"Search results": "搜尋結果",
 	"No results found.": "找不到結果。",
 	"More comments": "更多評論",
-	" + Start new topic": " + 開始新主題"
+	" + Start new topic": " + 開始新主題",
+	"Last Comment": "最後評論",
+    "Creation": "建立時間",
+    "Most Comments": "最多評論",
+    "Most Votes": "最多投票",
+    "Tiny": "極小",
+    "Brief": "簡短",
+    "Normal": "一般",
+    "Full": "完整",
+    "Search": "搜尋",
+	"Search topics...": "搜尋主題..."
 }

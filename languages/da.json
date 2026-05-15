@@ -42,7 +42,6 @@
 	"Create group": "Opret gruppe",
 	"Connect xID": "Connect xID",
 	"View profile": "Se profil",
-	"Mute this user": "Slå bruger fra",
 	"Permalink": "Permalink",
 	"Report topic": "Anmeld emne",
 	"Unreport topic": "Fortryd anmeldelse",
@@ -55,5 +54,15 @@
 	"Delete comment": "Slet kommentar",
 	"Search results": "Søgeresultater",
 	"No results found.": "Ingen resultater fundet.",
-	" + Start new topic": " + Start nyt emne"
+	" + Start new topic": " + Start nyt emne",
+    "Last Comment": "Sidste kommentar",
+    "Creation": "Oprettelse",
+    "Most Comments": "Flest kommentarer",
+    "Most Votes": "Flest stemmer",
+    "Tiny": "Lille",
+    "Brief": "Kort",
+    "Normal": "Normal",
+    "Full": "Fuld",
+    "Search": "Søg",
+	"Search topics...": "Søg emner..."
 }
