@@ -55,5 +55,15 @@
 	"Delete comment": "Удалить комментарий",
 	"Search results": "Результаты поиска",
 	"No results found.": "Результатов не найдено.",
-	" + Start new topic": " + Начать новую тему"
+	" + Start new topic": " + Начать новую тему",
+	"Last Comment": "Последний комментарий",
+	"Creation": "Создание",
+	"Most Comments": "Больше всего комментариев",
+	"Most Votes": "Больше всего голосов",
+	"Tiny": "Крошечный",
+	"Brief": "Краткий",
+	"Normal": "Обычный",
+	"Full": "Полный",
+	"Search": "Поиск",
+	"Search topics...": "Поиск тем..."
 }
