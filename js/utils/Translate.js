@@ -45,7 +45,20 @@ window.translateDOM = function() {
     ".sticky-title": "stickied",
     ".comments-more": "More comments",
     ".button-certselect": "Connect xID",
-    ".topic_type_label": "Topic"
+    ".topic_type_label": "Topic",
+    // Topic-list toolbar: sort order
+    'label[for="toolbar-topic_list_order_by-last_activity"]': "Last Comment",
+    'label[for="toolbar-topic_list_order_by-topic_creation"]': "Creation",
+    'label[for="toolbar-topic_list_order_by-comments_num"]': "Most Comments",
+    'label[for="toolbar-topic_list_order_by-votes_num"]': "Most Votes",
+    // Topic-list toolbar: display mode
+    'label[for="toolbar-topic_list_mode-tiny"]': "Tiny",
+    'label[for="toolbar-topic_list_mode-brief"]': "Brief",
+    'label[for="toolbar-topic_list_mode-normal"]': "Normal",
+    'label[for="toolbar-topic_list_mode-full"]': "Full",
+    // Search
+    ".topic-search": {"attr": "placeholder", "text": "Search topics..."},
+    ".topic-search-button": "Search"
   };
   for (var sel in selectors) {
     var val = selectors[sel];

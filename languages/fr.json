@@ -55,5 +55,15 @@
 	"Delete comment": "Supprimer le commentaire",
 	"Search results": "Résultats de recherche",
 	"No results found.": "Aucun résultat trouvé.",
-	" + Start new topic": " + Démarrer un nouveau sujet"
+	" + Start new topic": " + Démarrer un nouveau sujet",
+	"Last Comment": "Dernier commentaire",
+	"Creation": "Création",
+	"Most Comments": "Plus de commentaires",
+	"Most Votes": "Plus de votes",
+	"Tiny": "Minuscule",
+	"Brief": "Bref",
+	"Normal": "Normal",
+	"Full": "Complet",
+	"Search": "Rechercher",
+	"Search topics...": "Rechercher des sujets..."
 }

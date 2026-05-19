@@ -60,5 +60,15 @@
 	"Search results": "搜索结果",
 	"No results found.": "未找到结果。",
 	"More comments": "更多评论",
-	" + Start new topic": " + 发起新主题"
+	" + Start new topic": " + 发起新主题",
+	"Last Comment": "最新评论",
+	"Creation": "创建",
+	"Most Comments": "最多评论",
+	"Most Votes": "最多投票",
+	"Tiny": "极小",
+	"Brief": "简略",
+	"Normal": "标准",
+	"Full": "完整",
+	"Search": "搜索",
+	"Search topics...": "搜索主题..."
 }

@@ -55,5 +55,15 @@
 	"Delete comment": "Izbriši komentar",
 	"Search results": "Rezultati iskanja",
 	"No results found.": "Ni rezultatov.",
-	" + Start new topic": " + Začni novo temo"
+	" + Start new topic": " + Začni novo temo",
+	"Last Comment": "Zadnji komentar",
+	"Creation": "Ustvarjanje",
+	"Most Comments": "Največ komentarjev",
+	"Most Votes": "Največ glasov",
+	"Tiny": "Drobno",
+	"Brief": "Kratko",
+	"Normal": "Normalno",
+	"Full": "Polno",
+	"Search": "Iskanje",
+	"Search topics...": "Iskanje tem..."
 }

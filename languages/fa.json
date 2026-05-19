@@ -55,5 +55,15 @@
 	"Delete comment": "حذف نظر",
 	"Search results": "نتایج جستجو",
 	"No results found.": "نتیجه‌ای یافت نشد.",
-	" + Start new topic": " + شروع موضوع جدید"
+	" + Start new topic": " + شروع موضوع جدید",
+	"Last Comment": "آخرین نظر",
+	"Creation": "ایجاد",
+	"Most Comments": "بیشترین نظرات",
+	"Most Votes": "بیشترین رای",
+	"Tiny": "ریز",
+	"Brief": "مختصر",
+	"Normal": "عادی",
+	"Full": "کامل",
+	"Search": "جستجو",
+	"Search topics...": "جستجوی موضوعات..."
 }

@@ -55,5 +55,15 @@
 	"Delete comment": "Excluir comentário",
 	"Search results": "Resultados da pesquisa",
 	"No results found.": "Nenhum resultado encontrado.",
-	" + Start new topic": " + Iniciar novo tópico"
+	" + Start new topic": " + Iniciar novo tópico",
+	"Last Comment": "Último comentário",
+	"Creation": "Criação",
+	"Most Comments": "Mais comentários",
+	"Most Votes": "Mais votos",
+	"Tiny": "Minúsculo",
+	"Brief": "Breve",
+	"Normal": "Normal",
+	"Full": "Completo",
+	"Search": "Buscar",
+	"Search topics...": "Buscar tópicos..."
 }

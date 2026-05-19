@@ -55,5 +55,15 @@
 	"Delete comment": "Видалити коментар",
 	"Search results": "Результати пошуку",
 	"No results found.": "Результатів не знайдено.",
-	" + Start new topic": " + Почати нову тему"
+	" + Start new topic": " + Почати нову тему",
+	"Last Comment": "Останній коментар",
+	"Creation": "Створення",
+	"Most Comments": "Найбільше коментарів",
+	"Most Votes": "Найбільше голосів",
+	"Tiny": "Крихітний",
+	"Brief": "Короткий",
+	"Normal": "Звичайний",
+	"Full": "Повний",
+	"Search": "Пошук",
+	"Search topics...": "Пошук тем..."
 }

@@ -55,5 +55,15 @@
 	"Delete comment": "コメントを削除",
 	"Search results": "検索結果",
 	"No results found.": "結果が見つかりませんでした。",
-	" + Start new topic": " + 新しいトピックを開始"
+	" + Start new topic": " + 新しいトピックを開始",
+	"Last Comment": "最終コメント",
+	"Creation": "作成",
+	"Most Comments": "コメント数",
+	"Most Votes": "投票数",
+	"Tiny": "極小",
+	"Brief": "簡潔",
+	"Normal": "標準",
+	"Full": "完全",
+	"Search": "検索",
+	"Search topics...": "トピックを検索..."
 }

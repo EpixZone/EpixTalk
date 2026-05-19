@@ -55,5 +55,15 @@
 	"Delete comment": "Reactie verwijderen",
 	"Search results": "Zoekresultaten",
 	"No results found.": "Geen resultaten gevonden.",
-	" + Start new topic": " + Nieuw onderwerp starten"
+	" + Start new topic": " + Nieuw onderwerp starten",
+	"Last Comment": "Laatste reactie",
+	"Creation": "Creatie",
+	"Most Comments": "Meeste reacties",
+	"Most Votes": "Meeste stemmen",
+	"Tiny": "Klein",
+	"Brief": "Beknopt",
+	"Normal": "Normaal",
+	"Full": "Volledig",
+	"Search": "Zoeken",
+	"Search topics...": "Onderwerpen zoeken..."
 }
