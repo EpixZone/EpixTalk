@@ -2,9 +2,11 @@
 
 <html>
 <head>
- <title>EpixTalk</title>
+ <title>Epix Talk</title>
  <meta charset="utf-8">
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="icon" href="img/favicon.ico">
  <link rel="stylesheet" href="css/all.css" />
  <link rel="stylesheet" href="css/font-awesome.css" />
 <link rel="stylesheet" href="css/easymde.min.css" />
@@ -43,7 +45,7 @@
 
 <!-- Head -->
 <div class="head">
- <a class="logo nolink" href="?Home">Epix<br>Talk</a>
+ <a class="logo nolink" href="?Home"><img src="img/logo.svg" alt="">Epix Talk</a>
  <a class="admin-link nolink" href="?Admin" style="display: none">Admin<span class="report-badge" style="display: none">0</span></a>
 </div>
 <!-- EOF Head -->
@@ -53,6 +55,7 @@
 <!-- Loading Progress -->
 <div class="loading-overlay" id="loading-overlay">
  <div class="loading-box">
+  <img src="img/logo.svg" class="loading-logo" alt="">
   <div class="loading-title">Epix Talk</div>
   <div class="loading-bar-track">
    <div class="loading-bar-fill" id="loading-bar-fill"></div>
@@ -68,7 +71,7 @@
 
  <!-- Sort order + Display mode toolbars -->
  <div class="topic-toolbar">
-  <div class="radio-group">
+  <div class="radio-group-wrap"><div class="radio-group">
    <div class="radio-group-item">
     <input id="toolbar-topic_list_order_by-last_activity" name="toolbar-topic_list_order_by" type="radio" value="last_activity">
     <label for="toolbar-topic_list_order_by-last_activity">Last Comment</label>
@@ -85,8 +88,8 @@
     <input id="toolbar-topic_list_order_by-votes_num" name="toolbar-topic_list_order_by" type="radio" value="votes_num">
     <label for="toolbar-topic_list_order_by-votes_num">Most Votes</label>
    </div>
-  </div>
-  <div class="radio-group">
+  </div></div>
+  <div class="radio-group-wrap"><div class="radio-group">
    <div class="radio-group-item">
     <input id="toolbar-topic_list_mode-tiny" name="toolbar-topic_list_mode" type="radio" value="tiny">
     <label for="toolbar-topic_list_mode-tiny">Tiny</label>
@@ -103,7 +106,7 @@
     <input id="toolbar-topic_list_mode-full" name="toolbar-topic_list_mode" type="radio" value="full">
     <label for="toolbar-topic_list_mode-full">Full</label>
    </div>
-  </div>
+  </div></div>
  </div>
 
  <!-- Search + Create row -->

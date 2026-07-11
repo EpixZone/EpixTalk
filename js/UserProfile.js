@@ -5,6 +5,7 @@ class UserProfile {
     this.loadProfile();
     this.loadUserTopics();
     this.loadUserComments();
+    Page.onPageLoaded();
   }
 
   loadProfile() {

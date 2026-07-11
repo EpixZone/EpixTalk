@@ -11,6 +11,7 @@ class Admin {
     Page.cmd("wrapperSetTitle", "Admin - EpixTalk");
     this.loadRoles();
     this.loadReportedContent();
+    Page.onPageLoaded();
   }
 
   // Load and display current admins and mods

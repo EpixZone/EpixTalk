@@ -15,7 +15,6 @@ class EpixTalk extends EpixFrame {
     this.log("inited!");
     this.site_info = null;  // Last site info response
     this.server_info = null;  // Last server info response
-    this.local_storage = {};  // Visited topics
     this.site_address = null;  // Site address
 
     // Autoexpand
@@ -23,6 +22,27 @@ class EpixTalk extends EpixFrame {
     for (var i = 0; i < textareas.length; i++) {
       this.autoExpand($(textareas[i]));
     }
+
+    // Horizontal-scroll hint for the toolbar groups (phone widths)
+    $(".radio-group").on("scroll", () => this.updateScrollHints());
+    $(window).on("resize", () => this.updateScrollHints());
+    // Tapping an end cap advances the strip in that direction (clicks on
+    // the cap pseudo-elements target the wrap itself, never a chip
+    // underneath; the side is told apart by the tap position)
+    $(".radio-group-wrap").on("click", function(e) {
+      if (e.target !== this) return;
+      var group = $(".radio-group", this)[0];
+      var step = Math.round(group.clientWidth * 0.7);
+      var rect = this.getBoundingClientRect();
+      if ($(this).hasClass("has-prev") && e.clientX - rect.left < 40) {
+        group.scrollBy({ left: -step, behavior: "smooth" });
+        return false;
+      }
+      if ($(this).hasClass("has-more")) {
+        group.scrollBy({ left: step, behavior: "smooth" });
+        return false;
+      }
+    });
 
     // Markdown help (editbar)
     $(".editbar .icon-help").on("click", () => {
@@ -61,6 +81,18 @@ class EpixTalk extends EpixFrame {
     });
   }
 
+  // Show the "more options" end cap on toolbar groups whose segments extend
+  // past the right edge (phones); hide it once scrolled to the end. The cap
+  // lives on the wrap, outside the scroll container, so toggling it never
+  // reflows the strip mid-scroll.
+  updateScrollHints() {
+    $(".radio-group").each(function() {
+      var wrap = $(this).closest(".radio-group-wrap");
+      wrap.toggleClass("has-more", this.scrollWidth - this.clientWidth - this.scrollLeft > 2);
+      wrap.toggleClass("has-prev", this.scrollLeft > 2);
+    });
+  }
+
   setLoadingProgress(percent, label) {
     var bar = document.getElementById("loading-bar-fill");
     var step = document.getElementById("loading-step");
@@ -80,11 +112,7 @@ class EpixTalk extends EpixFrame {
 
   // Wrapper websocket connection ready
   onOpenWebsocket() {
-    this.cmd("wrapperSetViewport", "width=device-width, initial-scale=0.8");
-    this.cmd("wrapperGetLocalStorage", [], (res) => {
-      if (res == null) res = {};
-      this.local_storage = res;
-    });
+    this.cmd("wrapperSetViewport", "width=device-width, initial-scale=1");
 
     this.setLoadingProgress(10, "Fetching server info...");
     this.cmd("serverInfo", {}, (ret) => { // Get server info
@@ -335,10 +363,10 @@ class EpixTalk extends EpixFrame {
           // Refresh views to reflect dismiss/pin changes
           if ($("body").hasClass("page-topic")) {
             TopicShow.loadTopic();
-            TopicShow.loadComments();
+            TopicShow.loadComments("noanim");
           }
           if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) {
-            TopicList.loadTopics();
+            TopicList.loadTopics("noanim");
           }
         });
       }
@@ -351,13 +379,18 @@ class EpixTalk extends EpixFrame {
           }
         });
       }
-      RateLimit(500, () => {
+      // Background sync refresh: no per-row animations (each slide-down reads
+      // as flicker when many files arrive, and animations defeat the
+      // browser's scroll anchoring), and a slower cadence while the initial
+      // download is still fetching files.
+      var refresh_interval = site_info.bad_files > 0 ? 2000 : 500;
+      RateLimit(refresh_interval, () => {
         if ($("body").hasClass("page-topic")) {
           TopicShow.loadTopic();
-          TopicShow.loadComments();
+          TopicShow.loadComments("noanim");
         }
         if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) {
-          TopicList.loadTopics();
+          TopicList.loadTopics("noanim");
         }
       });
     }

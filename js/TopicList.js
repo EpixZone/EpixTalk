@@ -459,7 +459,12 @@ class TopicList {
         }
 
         if (i + 1 < this.limit) {
-          elem.insertAfter(last_elem);
+          // Move the row only when its position actually changed: detaching
+          // and re-inserting every row on every sync refresh breaks the
+          // browser's scroll anchoring and reads as a full-page flicker.
+          if (elem.prev()[0] !== last_elem[0]) {
+            elem.insertAfter(last_elem);
+          }
         } else {
           limited = true;
         }
@@ -492,6 +497,7 @@ class TopicList {
       }
 
       $(".topics").css("opacity", 1);
+      Page.updateScrollHints();
 
       // Load tip counts for visible topics
       Tipping.loadTipCounts($(".topics-list .topic:not(.template)"));
@@ -630,21 +636,28 @@ class TopicList {
     // Apply display mode
     var topic_list_mode = UserPrefs.get("topic_list_mode", "brief");
 
-    if (type === "show") {
-      $(".body", elem).html(Text.toMarked(body, {}));
-    } else {
-      // Remove any previous mode class
-      elem[0].className = elem[0].className.replace(/\b\w+-mode\b/g, "").trim();
-      elem.addClass(topic_list_mode + "-mode");
-
-      if (topic_list_mode === "tiny" || topic_list_mode === "brief") {
-        $(".body", elem).text("");
-      } else if (topic_list_mode === "full") {
+    // Skip the body re-render when nothing changed: re-setting identical html
+    // on every sync refresh makes embedded images re-fetch (visible flicker
+    // on Gecko) and breaks scroll anchoring.
+    var render_key = type + "|" + topic_list_mode + "|" + body;
+    if (elem.data("rendered_body_key") !== render_key) {
+      elem.data("rendered_body_key", render_key);
+      if (type === "show") {
         $(".body", elem).html(Text.toMarked(body, {}));
       } else {
-        // normal: single truncated line
-        var preview = body.replace(/[\n\r]+/g, " ").trim();
-        $(".body", elem).html(Text.toMarkedInline(preview, {"sanitize": true}));
+        // Remove any previous mode class
+        elem[0].className = elem[0].className.replace(/\b\w+-mode\b/g, "").trim();
+        elem.addClass(topic_list_mode + "-mode");
+
+        if (topic_list_mode === "tiny" || topic_list_mode === "brief") {
+          $(".body", elem).text("");
+        } else if (topic_list_mode === "full") {
+          $(".body", elem).html(Text.toMarked(body, {}));
+        } else {
+          // normal: single truncated line
+          var preview = body.replace(/[\n\r]+/g, " ").trim();
+          $(".body", elem).html(Text.toMarkedInline(preview, {"sanitize": true}));
+        }
       }
     }
 
@@ -694,7 +707,13 @@ class TopicList {
           $(".user_name", elem).text(name + "." + tld);
         }
         if (avatar) {
-          $(".user-avatar", elem).attr("src", avatar).on("error", function() { $(this).hide(); }).css("display", "");
+          // Only touch src when it changed: re-assigning the same src makes
+          // Gecko re-fetch the image (avatar flicker on every sync refresh)
+          var img = $(".user-avatar", elem);
+          if (img.attr("src") !== avatar) {
+            img.attr("src", avatar).off("error").on("error", function() { $(this).hide(); });
+          }
+          img.css("display", "");
         }
       });
     }
@@ -729,8 +748,9 @@ class TopicList {
       $(".modified", elem).css("display", "none");
     }
 
-    // Sub-topic
-    if (topic.row_topic_sub_title) {
+    // Latest sub-topic preview, group topics only (sub-topics are created
+    // inside groups; regular topics never show this row)
+    if (topic.type === "group" && topic.row_topic_sub_title) {
       var subtopic_title_hash = Text.toUrl(topic.row_topic_sub_title);
       var subtopic_uri = topic.row_topic_sub_uri;
       $(".subtopic", elem).css("display", "block");
@@ -743,6 +763,8 @@ class TopicList {
           .attr("href", "?Topic:" + subtopic_uri + "/" + subtopic_title_hash)
           .text(topic.row_topic_sub_title);
       }
+    } else {
+      $(".subtopic", elem).css("display", "none");
     }
 
     // Reported topic indicator
