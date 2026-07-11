@@ -1017,18 +1017,21 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 	.topics-title, .topic-title { font-size: 20px; min-height: auto; padding-top: 0 }
 	.feed-follow-list { margin-left: 8px; vertical-align: 2px }
 
-	/* Each group is its own scroll container (the shorter display-mode group
-	   fits a phone row whole; only the sort group scrolls). A thin visible
-	   scrollbar plus the cut-off segment make the scrollability obvious. */
-	.topic-toolbar { gap: 6px }
+	/* On phones the joined segments become wrapping chips: every option
+	   stays visible (no hidden overflow to discover), grouped as two
+	   stacked clusters (sort, then display mode). */
+	.topic-toolbar { flex-direction: column; align-items: flex-start; gap: 8px }
 	.radio-group {
-		max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
-		scrollbar-width: thin; scrollbar-color: var(--epix-border-strong) transparent
+		display: flex; flex-wrap: wrap; gap: 6px; max-width: 100%;
+		border: none; border-radius: 0; background: transparent; overflow: visible
 	}
-	.radio-group::-webkit-scrollbar { height: 4px }
-	.radio-group::-webkit-scrollbar-thumb { background: var(--epix-border-strong); border-radius: 2px }
-	.radio-group::-webkit-scrollbar-track { background: transparent }
-	.radio-group label { padding: 10px 11px }
+	.radio-group label, .radio-group .radio-group-item:last-child label {
+		border: 1px solid var(--epix-border-strong); border-radius: 999px;
+		padding: 9px 14px; background: var(--epix-surface)
+	}
+	.radio-group input[type=radio]:checked + label {
+		background: var(--epix-accent); border-color: var(--epix-accent); color: var(--epix-on-accent)
+	}
 
 	.topic-search { padding: 10px 12px }
 	.topic-search-button, .topic-new-link { padding: 10px 12px }
