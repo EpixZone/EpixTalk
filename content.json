@@ -56,8 +56,8 @@
    "size": 17869
   },
   "js/Admin.js": {
-   "sha512": "a9f093fa78dd0afec885a93513cfc1cdbd816a94f94aafc4c195f4ed7d5c761b",
-   "size": 27877
+   "sha512": "6926c4f61fde1c360b02334dad847fedcb96bc9f95327f5a0f00038767046881",
+   "size": 27902
   },
   "js/EpixTalk.js": {
    "sha512": "1c15703237c8e5d112eb0ebc02d0c73b6f7b7e66f991fd7d761791cb705069ac",
@@ -76,8 +76,8 @@
    "size": 9643
   },
   "js/UserProfile.js": {
-   "sha512": "fd4460708fc7d4a7422f8d3e182a44700b37f5b0b1c6a7e6de3720e28dd9edbe",
-   "size": 6284
+   "sha512": "65e13f6dbbd55a13bb3a423e01e315dd6ed382d3b6cf03f3c02ebfe3c4471863",
+   "size": 6309
   },
   "js/lib/00-jquery.min.js": {
    "sha512": "eda31b5c7d371d4b3acced51fa92f27a417515317cf437aae09a47c3acc8a36b",
