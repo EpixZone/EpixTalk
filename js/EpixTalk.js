@@ -23,6 +23,10 @@ class EpixTalk extends EpixFrame {
       this.autoExpand($(textareas[i]));
     }
 
+    // Horizontal-scroll hint for the toolbar groups (phone widths)
+    $(".radio-group").on("scroll", () => this.updateScrollHints());
+    $(window).on("resize", () => this.updateScrollHints());
+
     // Markdown help (editbar)
     $(".editbar .icon-help").on("click", () => {
       $(".editbar .markdown-help").css("display", "block");
@@ -57,6 +61,17 @@ class EpixTalk extends EpixFrame {
       $(".topic-new-help").removeClass("active");
       setTimeout(() => help.css("display", "none"), 300);
       return false;
+    });
+  }
+
+  // Show the "more options" end cap on toolbar groups whose segments extend
+  // past the right edge (phones); hide it once scrolled to the end. The cap
+  // lives on the wrap, outside the scroll container, so toggling it never
+  // reflows the strip mid-scroll.
+  updateScrollHints() {
+    $(".radio-group").each(function() {
+      var more = this.scrollWidth - this.clientWidth - this.scrollLeft > 2;
+      $(this).closest(".radio-group-wrap").toggleClass("has-more", more);
     });
   }
 

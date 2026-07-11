@@ -497,6 +497,7 @@ class TopicList {
       }
 
       $(".topics").css("opacity", 1);
+      Page.updateScrollHints();
 
       // Load tip counts for visible topics
       Tipping.loadTipCounts($(".topics-list .topic:not(.template)"));

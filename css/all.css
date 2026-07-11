@@ -385,6 +385,9 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 
 /* Sort + display-mode segmented controls */
 .topic-toolbar { margin: 6px 0 10px 0; display: flex; flex-wrap: wrap; gap: 8px }
+/* The wrap hosts the phone "more options" cap outside the scroll container,
+   so toggling the cap never mutates the strip's layout mid-scroll */
+.radio-group-wrap { display: inline-flex; max-width: 100%; position: relative }
 /* position: relative keeps the visually-hidden absolute inputs anchored
    inside the group; without it they anchor to the document and stretch the
    page sideways on phones */
@@ -455,7 +458,9 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 .topic .title a:hover { color: var(--epix-link) }
 .topic .title input { color: var(--epix-text); font-weight: 600; font-size: 1em }
 .topic .owner { font-size: 12px; color: var(--epix-text-low) }
-.topic .body { line-height: 1.5em; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--epix-text-mid) }
+/* overflow-wrap keeps long URLs and inline code from pushing the page
+   sideways when the full body renders (full mode and topic pages) */
+.topic .body { line-height: 1.5em; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--epix-text-mid); overflow-wrap: anywhere }
 .topic-new .body { overflow: visible; text-overflow: unset; white-space: normal; color: var(--epix-text) }
 .topic .body > :first-child { margin-top: 0px }
 .topic .body > :last-child { margin-bottom: 0px }
@@ -598,7 +603,7 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 .comment .action-edit { margin-left: 8px }
 .comment .info { font-size: 12px; color: var(--epix-text-low); margin-bottom: 7px }
 .comment .info .score { margin-left: 5px }
-.comment .body { line-height: 1.5em }
+.comment .body { line-height: 1.5em; overflow-wrap: anywhere }
 .comment .body p { margin-top: 0.5em; margin-bottom: 0.5em; word-wrap: break-word }
 .comment .body.editor { margin-top: 0.5em !important; margin-bottom: 0.5em !important }
 .comment .body h1, .comment .body h2, .comment .body h3 { font-size: 110% }
@@ -1017,21 +1022,25 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 	.topics-title, .topic-title { font-size: 20px; min-height: auto; padding-top: 0 }
 	.feed-follow-list { margin-left: 8px; vertical-align: 2px }
 
-	/* On phones the joined segments become wrapping chips: every option
-	   stays visible (no hidden overflow to discover), grouped as two
-	   stacked clusters (sort, then display mode). */
-	.topic-toolbar { flex-direction: column; align-items: flex-start; gap: 8px }
+	/* Toolbars stay compact segmented controls; each group scrolls on its
+	   own. A solid "\203A" end cap (JS toggles .has-more) covers the cut
+	   edge while options sit off-screen and disappears at the end. */
+	.topic-toolbar { gap: 6px }
 	.radio-group {
-		display: flex; flex-wrap: wrap; gap: 6px; max-width: 100%;
-		border: none; border-radius: 0; background: transparent; overflow: visible
+		max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+		flex-wrap: nowrap; scrollbar-width: none
 	}
-	.radio-group label, .radio-group .radio-group-item:last-child label {
-		border: 1px solid var(--epix-border-strong); border-radius: 999px;
-		padding: 9px 14px; background: var(--epix-surface)
+	.radio-group::-webkit-scrollbar { display: none }
+	.radio-group label { padding: 10px 12px }
+	.radio-group-wrap::after {
+		content: "\203A"; position: absolute; top: 0; right: 0; bottom: 0;
+		display: none; align-items: center; padding: 0 9px;
+		background: var(--epix-surface); border: 1px solid var(--epix-border-strong);
+		border-radius: 0 var(--epix-radius-md) var(--epix-radius-md) 0;
+		color: var(--epix-text-mid); font-size: 16px; font-weight: 600; line-height: 1;
+		pointer-events: none;
 	}
-	.radio-group input[type=radio]:checked + label {
-		background: var(--epix-accent); border-color: var(--epix-accent); color: var(--epix-on-accent)
-	}
+	.radio-group-wrap.has-more::after { display: flex }
 
 	.topic-search { padding: 10px 12px }
 	.topic-search-button, .topic-new-link { padding: 10px 12px }
