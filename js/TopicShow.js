@@ -233,6 +233,7 @@ class TopicShow {
       var focused = $(":focus");
       this.logEnd("Loading comments...");
       $(".comments .comment:not(.template)").attr("missing", "true");
+      var last_comment_dom = null;
       for (let comment of comments) {
         var comment_uri = comment.comment_id + "_" + comment.user_address;
         var elem = $(document.getElementById("comment_" + comment_uri));
@@ -245,7 +246,24 @@ class TopicShow {
           $(".score", elem).attr("id", "comment_score_" + comment_uri).on("click", (e) => this.submitCommentVote(e)); // Submit vote
         }
         this.applyCommentData(elem, comment);
-        elem.appendTo(".comments").removeAttr("missing");
+        // Move the row only when its position actually changed: detaching and
+        // re-appending every comment on every sync refresh breaks the
+        // browser's scroll anchoring and reads as a full-page flicker.
+        var in_place;
+        if (last_comment_dom) {
+          in_place = elem.prev()[0] === last_comment_dom;
+        } else {
+          in_place = elem.parent().length !== 0 && elem.prevAll(".comment:not(.template)").length === 0;
+        }
+        if (!in_place) {
+          if (last_comment_dom) {
+            elem.insertAfter(last_comment_dom);
+          } else {
+            elem.prependTo(".comments");
+          }
+        }
+        elem.removeAttr("missing");
+        last_comment_dom = elem[0];
       }
 
       Page.onPageLoaded();
@@ -340,7 +358,13 @@ class TopicShow {
   applyCommentData(elem, comment) {
     var user_name = comment.user_name;
     var display_name = Text.formatUsername(user_name);
-    $(".body", elem).html(Text.toMarked(comment.body, {}));
+    // Skip the body re-render when unchanged: re-setting identical html on
+    // every sync refresh makes embedded images re-fetch (visible flicker on
+    // Gecko) and breaks scroll anchoring.
+    if (elem.data("rendered_body") !== comment.body) {
+      elem.data("rendered_body", comment.body);
+      $(".body", elem).html(Text.toMarked(comment.body, {}));
+    }
     $(".user_name", elem).text(display_name).css({"color": Text.toColor(user_name || "anonymous")}).attr("title", comment.user_address);
     $(".user_name", elem).css("cursor", "pointer").on("click", function() {
       window.top.location = "?User:" + comment.user_address;
@@ -363,7 +387,13 @@ class TopicShow {
           $(".user_name", elem).text(name + "." + tld);
         }
         if (avatar) {
-          $(".user-avatar", elem).attr("src", avatar).on("error", function() { $(this).hide(); }).css("display", "");
+          // Only touch src when it changed: re-assigning the same src makes
+          // Gecko re-fetch the image (avatar flicker on every sync refresh)
+          var img = $(".user-avatar", elem);
+          if (img.attr("src") !== avatar) {
+            img.attr("src", avatar).off("error").on("error", function() { $(this).hide(); });
+          }
+          img.css("display", "");
         }
       });
     }

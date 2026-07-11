@@ -157,7 +157,7 @@ class User {
 
   showXidFab() {
     $(".xid-fab, .xid-tag").remove();
-    var fab = $('<a href="#" class="xid-fab nolink" style="background: linear-gradient(135deg, #e67e22, #f39c12); display: block; padding: 13px; margin-left: -10px; color: #fff; font-size: 20px; text-transform: uppercase; line-height: 1em; font-family: consolas, menlo, monospace; text-decoration: none; cursor: pointer; text-align: center; box-shadow: 0 2px 8px rgba(243,156,18,0.4);" title="Register xID">xID</a>');
+    var fab = $('<a href="#" class="xid-fab nolink" title="Register xID">xID</a>');
     fab.on("click", (e) => {
       e.preventDefault();
       this.triggerCertXid();
@@ -175,19 +175,18 @@ class User {
     }
     var hue = hash % 360;
     var bgColor = "hsl(" + hue + ", 50%, 25%)";
-    var bgColor2 = "hsl(" + hue + ", 40%, 18%)";
     var textColor = "hsl(" + hue + ", 80%, 80%)";
     var avatar = this.xid_avatar;
     var user_dir = Page.site_info.xid_directory || Page.site_info.auth_address;
     var tag;
     if (avatar) {
-      tag = $('<a href="?User:' + user_dir + '" class="xid-tag nolink" style="display: block; padding: 8px; margin-left: -10px; background: linear-gradient(135deg, ' + bgColor + ', ' + bgColor2 + '); box-shadow: 0 2px 8px rgba(0,0,0,0.3); text-align: center; cursor: pointer; text-decoration: none;">' +
-        '<img src="' + avatar + '" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid ' + textColor + '; display: block; margin: 0 auto 6px;" onerror="this.style.display=\'none\'">' +
-        '<span style="color: ' + textColor + '; font-size: 12px; line-height: 1em; font-family: consolas, menlo, monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">' + display + '</span>' +
+      tag = $('<a href="?User:' + user_dir + '" class="xid-tag nolink" style="background-color: ' + bgColor + ';">' +
+        '<img src="' + avatar + '" style="border: 2px solid ' + textColor + ';" onerror="this.style.display=\'none\'">' +
+        '<span style="color: ' + textColor + ';">' + display + '</span>' +
       '</a>');
     } else {
-      tag = $('<a href="?User:' + user_dir + '" class="xid-tag nolink" style="display: block; padding: 13px; margin-left: -10px; background: linear-gradient(135deg, ' + bgColor + ', ' + bgColor2 + '); box-shadow: 0 2px 8px rgba(0,0,0,0.3); text-align: center; cursor: pointer; text-decoration: none;">' +
-        '<span style="color: ' + textColor + '; font-size: 15px; line-height: 1em; font-family: consolas, menlo, monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">' + display + '</span>' +
+      tag = $('<a href="?User:' + user_dir + '" class="xid-tag nolink" style="background-color: ' + bgColor + ';">' +
+        '<span style="color: ' + textColor + ';">' + display + '</span>' +
       '</a>');
     }
     $(".head").append(tag);
