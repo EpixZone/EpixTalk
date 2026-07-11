@@ -385,7 +385,10 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 
 /* Sort + display-mode segmented controls */
 .topic-toolbar { margin: 6px 0 10px 0; display: flex; flex-wrap: wrap; gap: 8px }
-.radio-group { display: inline-flex; border: 1px solid var(--epix-border-strong); border-radius: var(--epix-radius-md); overflow: hidden; background: var(--epix-surface) }
+/* position: relative keeps the visually-hidden absolute inputs anchored
+   inside the group; without it they anchor to the document and stretch the
+   page sideways on phones */
+.radio-group { display: inline-flex; position: relative; border: 1px solid var(--epix-border-strong); border-radius: var(--epix-radius-md); overflow: hidden; background: var(--epix-surface) }
 .radio-group-item { display: inline-block }
 .radio-group input[type=radio] { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0 }
 .radio-group label {
@@ -1014,11 +1017,18 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 	.topics-title, .topic-title { font-size: 20px; min-height: auto; padding-top: 0 }
 	.feed-follow-list { margin-left: 8px; vertical-align: 2px }
 
-	/* Toolbars scroll instead of wrapping */
-	.topic-toolbar { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px }
-	.topic-toolbar::-webkit-scrollbar { display: none }
-	.radio-group { flex: none }
-	.radio-group label { padding: 10px 12px }
+	/* Each group is its own scroll container (the shorter display-mode group
+	   fits a phone row whole; only the sort group scrolls). A thin visible
+	   scrollbar plus the cut-off segment make the scrollability obvious. */
+	.topic-toolbar { gap: 6px }
+	.radio-group {
+		max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+		scrollbar-width: thin; scrollbar-color: var(--epix-border-strong) transparent
+	}
+	.radio-group::-webkit-scrollbar { height: 4px }
+	.radio-group::-webkit-scrollbar-thumb { background: var(--epix-border-strong); border-radius: 2px }
+	.radio-group::-webkit-scrollbar-track { background: transparent }
+	.radio-group label { padding: 10px 11px }
 
 	.topic-search { padding: 10px 12px }
 	.topic-search-button, .topic-new-link { padding: 10px 12px }
