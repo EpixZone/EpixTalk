@@ -20,8 +20,8 @@
    "size": 1645
   },
   "css/all.css": {
-   "sha512": "63fab49c9086573e66215047b69907b00b3ff79454a674e9815878f04a2da35e",
-   "size": 62018
+   "sha512": "ae44e15a35f8ac167ae350291802d9f9f0a4296af81bfee397138e8ff2033c26",
+   "size": 62416
   },
   "css/easymde.min.css": {
    "sha512": "b7832b1a74c5b096aed0555b3aa83890bbf214ba49a9c12e9575129f91653d7d",
@@ -60,8 +60,8 @@
    "size": 27877
   },
   "js/EpixTalk.js": {
-   "sha512": "43582e732ac8538465c8f930acf479a424576e5802c7c075dc71763a4b9d875f",
-   "size": 14722
+   "sha512": "1c15703237c8e5d112eb0ebc02d0c73b6f7b7e66f991fd7d761791cb705069ac",
+   "size": 15088
   },
   "js/TopicList.js": {
    "sha512": "84b4d0b9116b54602ad57c3dc232758a4c5614ec9b8c4a73de8e2566cb588373",

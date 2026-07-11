@@ -26,12 +26,20 @@ class EpixTalk extends EpixFrame {
     // Horizontal-scroll hint for the toolbar groups (phone widths)
     $(".radio-group").on("scroll", () => this.updateScrollHints());
     $(window).on("resize", () => this.updateScrollHints());
-    // Tapping the "more" end cap advances the strip (clicks on the cap
-    // pseudo-element target the wrap itself, never a chip underneath)
+    // Tapping an end cap advances the strip in that direction (clicks on
+    // the cap pseudo-elements target the wrap itself, never a chip
+    // underneath; the side is told apart by the tap position)
     $(".radio-group-wrap").on("click", function(e) {
-      if (e.target === this && $(this).hasClass("has-more")) {
-        var group = $(".radio-group", this)[0];
-        group.scrollBy({ left: Math.round(group.clientWidth * 0.7), behavior: "smooth" });
+      if (e.target !== this) return;
+      var group = $(".radio-group", this)[0];
+      var step = Math.round(group.clientWidth * 0.7);
+      var rect = this.getBoundingClientRect();
+      if ($(this).hasClass("has-prev") && e.clientX - rect.left < 40) {
+        group.scrollBy({ left: -step, behavior: "smooth" });
+        return false;
+      }
+      if ($(this).hasClass("has-more")) {
+        group.scrollBy({ left: step, behavior: "smooth" });
         return false;
       }
     });
@@ -79,8 +87,9 @@ class EpixTalk extends EpixFrame {
   // reflows the strip mid-scroll.
   updateScrollHints() {
     $(".radio-group").each(function() {
-      var more = this.scrollWidth - this.clientWidth - this.scrollLeft > 2;
-      $(this).closest(".radio-group-wrap").toggleClass("has-more", more);
+      var wrap = $(this).closest(".radio-group-wrap");
+      wrap.toggleClass("has-more", this.scrollWidth - this.clientWidth - this.scrollLeft > 2);
+      wrap.toggleClass("has-prev", this.scrollLeft > 2);
     });
   }
 

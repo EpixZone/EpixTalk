@@ -1032,15 +1032,25 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 	}
 	.radio-group::-webkit-scrollbar { display: none }
 	.radio-group label { padding: 10px 12px }
-	.radio-group-wrap::after {
-		content: "\203A"; position: absolute; top: 0; right: 0; bottom: 0;
+	/* z-index lifts the caps above the positioned .radio-group: without it
+	   ::before paints under the strip (tree order) and can't be tapped */
+	.radio-group-wrap::before, .radio-group-wrap::after {
+		position: absolute; top: 0; bottom: 0; z-index: 1;
 		display: none; align-items: center; padding: 0 9px;
 		background: var(--epix-surface); border: 1px solid var(--epix-border-strong);
-		border-radius: 0 var(--epix-radius-md) var(--epix-radius-md) 0;
 		color: var(--epix-text-mid); font-size: 16px; font-weight: 600; line-height: 1;
 		cursor: pointer;
 	}
+	.radio-group-wrap::after {
+		content: "\203A"; right: 0;
+		border-radius: 0 var(--epix-radius-md) var(--epix-radius-md) 0;
+	}
+	.radio-group-wrap::before {
+		content: "\2039"; left: 0;
+		border-radius: var(--epix-radius-md) 0 0 var(--epix-radius-md);
+	}
 	.radio-group-wrap.has-more::after { display: flex }
+	.radio-group-wrap.has-prev::before { display: flex }
 
 	.topic-search { padding: 10px 12px }
 	.topic-search-button, .topic-new-link { padding: 10px 12px }
