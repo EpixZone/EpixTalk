@@ -26,6 +26,15 @@ class EpixTalk extends EpixFrame {
     // Horizontal-scroll hint for the toolbar groups (phone widths)
     $(".radio-group").on("scroll", () => this.updateScrollHints());
     $(window).on("resize", () => this.updateScrollHints());
+    // Tapping the "more" end cap advances the strip (clicks on the cap
+    // pseudo-element target the wrap itself, never a chip underneath)
+    $(".radio-group-wrap").on("click", function(e) {
+      if (e.target === this && $(this).hasClass("has-more")) {
+        var group = $(".radio-group", this)[0];
+        group.scrollBy({ left: Math.round(group.clientWidth * 0.7), behavior: "smooth" });
+        return false;
+      }
+    });
 
     // Markdown help (editbar)
     $(".editbar .icon-help").on("click", () => {

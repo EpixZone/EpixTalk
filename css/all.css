@@ -1038,7 +1038,7 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 		background: var(--epix-surface); border: 1px solid var(--epix-border-strong);
 		border-radius: 0 var(--epix-radius-md) var(--epix-radius-md) 0;
 		color: var(--epix-text-mid); font-size: 16px; font-weight: 600; line-height: 1;
-		pointer-events: none;
+		cursor: pointer;
 	}
 	.radio-group-wrap.has-more::after { display: flex }
 
