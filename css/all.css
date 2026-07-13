@@ -368,19 +368,24 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 .feed-follow {
 	font-size: 13px; display: inline-block; padding: 7px 14px; font-weight: 600; display: none;
 	border-radius: var(--epix-radius-md); border: 1px solid var(--epix-border-strong); transition: border-color 0.2s;
-	vertical-align: middle; margin-left: 10px; color: var(--epix-text-mid)
+	vertical-align: middle; margin-left: 10px; color: var(--epix-text-mid); position: relative
 }
+/* Only the active label sits in flow, so the pill is only as wide as the label
+   it currently shows ("Following" vs the longer "Follow in Newsfeed"). The other
+   label is absolutely overlaid so it can still cross-fade without stretching the
+   pill (previously both were in flow, leaving the text stranded in a wide pill). */
 .feed-follow .text-follow, .feed-follow .text-following {
-	opacity: 0; overflow: hidden; display: inline-block; vertical-align: bottom;
-	transition: opacity 0.2s ease-in-out; white-space: nowrap; font-size: 13px; font-weight: 600; color: inherit
+	display: inline-block; vertical-align: bottom; white-space: nowrap;
+	font-size: 13px; font-weight: 600; color: inherit; transition: opacity 0.2s ease-in-out
 }
+.feed-follow .text-following { position: absolute; left: 14px; bottom: 7px; opacity: 0 }
 .feed-follow .text-follow { opacity: 1 }
-.feed-follow.following .text-following { opacity: 1 }
-.feed-follow.following .text-follow { opacity: 0 }
+.feed-follow.following .text-follow { position: absolute; left: 14px; bottom: 7px; opacity: 0 }
+.feed-follow.following .text-following { position: static; opacity: 1 }
 .feed-follow:hover { border-color: var(--epix-focus); color: var(--epix-link); transition: none }
 .feed-follow:active { border-color: var(--epix-focus) }
 .feed-follow.following { color: var(--epix-link) }
-.feed-follow-list { vertical-align: 6px }
+.feed-follow-list { vertical-align: 14px }
 .feed-follow-show { float: right; margin-top: -4px; margin-right: 5px }
 
 /* Sort + display-mode segmented controls */
@@ -428,6 +433,16 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 	background-color: var(--epix-surface); z-index: 1; position: relative; transition: background-color 0.15s
 }
 .topic-new-link:hover { background-color: var(--epix-surface-2); transition: none }
+/* These are buttons, not text links. They carry `nolink` only to opt out of the
+   underline-style border a:hover/a:active add - but the global
+   `a.nolink{border-bottom:none}` also strips their own bottom border, leaving
+   them open-bottomed. Reassert it in every state (the :hover/:active variants of
+   a.nolink out-specify a plain `a.<class>`, so this must match them). */
+a.topic-search-button.nolink, a.topic-new-link.nolink,
+a.topic-search-button.nolink:hover, a.topic-new-link.nolink:hover,
+a.topic-search-button.nolink:active, a.topic-new-link.nolink:active {
+	border-bottom: 1px solid var(--epix-border-strong)
+}
 
 /* Topic cards */
 .topic {
@@ -654,34 +669,48 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 /* ---- score and tip pills ---- */
 
 .score {
-	border: 1px solid var(--epix-border-strong); margin-right: 5px; padding: 2px 8px; border-radius: 999px;
+	border: 1px solid var(--epix-border-strong); margin-right: 5px; padding: 0 8px; border-radius: 999px;
 	color: var(--epix-text-mid); font-weight: 600; display: inline-block; overflow: hidden;
-	vertical-align: -0.5em; line-height: 7px; transition: background-color 0.2s, border-color 0.2s;
+	vertical-align: middle; line-height: 1; transition: background-color 0.2s, border-color 0.2s;
 	height: 20px; box-sizing: border-box
 }
-.score-active, .score-inactive { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-block; margin-top: 3px }
-.score-active { display: block; margin-top: 5px }
+/* Two stacked states, each filling the pill's 18px inner height and centering
+   its arrow + number, so the voted state lands in exactly the same spot as the
+   default one (no vertical drift when the flip reveals it). */
+.score-active, .score-inactive {
+	transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+	display: flex; align-items: center; justify-content: center; height: 18px; line-height: 1
+}
 .score.active { background-color: var(--epix-success); border-color: var(--epix-success); color: var(--epix-ink-strong) }
 .score.loading {
 	color: rgba(255,255,255,0); background: var(--epix-surface-2) url(../img/loading.gif) no-repeat center center;
 	pointer-events: none; border: 1px solid var(--epix-border)
 }
-.score.active .score-inactive, .score:hover .score-inactive { transform: translateY(-14px); opacity: 0.5 }
-.score.active .score-active, .score:hover .score-active { transform: translateY(-14px) }
+.score.active .score-inactive, .score:hover .score-inactive { transform: translateY(-18px); opacity: 0.5 }
+.score.active .score-active, .score:hover .score-active { transform: translateY(-18px) }
 .score:hover, .score.active { border-color: var(--epix-success) }
 .score:active { border-color: var(--epix-border-strong) !important; transform: translateY(1px) }
 
 .tip-btn {
 	border: 1px solid var(--epix-border-strong); margin-right: 5px; padding: 0 8px; border-radius: 999px;
-	color: var(--epix-text-mid); display: inline-block; height: 20px; overflow: hidden; vertical-align: -0.5em;
-	line-height: 19px; box-sizing: border-box; font-weight: 600; font-size: 12px; text-decoration: none;
+	color: var(--epix-text-mid); display: inline-flex; align-items: center; justify-content: center;
+	height: 20px; box-sizing: border-box; vertical-align: middle;
+	font-weight: 600; font-size: 12px; text-decoration: none;
 	cursor: pointer; transition: border-color 0.2s, color 0.2s, background-color 0.2s;
 }
 .tip-btn:hover { border-color: var(--epix-warning); color: var(--epix-text) }
 .tip-btn.has-tips { border-color: var(--epix-warning); background-color: var(--epix-warning-soft); color: var(--epix-ink-soft) }
 .tip-btn.has-tips:hover { background-color: var(--epix-warning); color: var(--epix-ink-strong); border-color: var(--epix-warning) }
-.tip-icon { font-size: 11px; margin-right: 2px; margin-left: -2px; position: relative; top: -3px }
-.tip-count { font-size: 11px; position: relative; top: -3px }
+/* Gift icon, drawn from currentColor like the rest of the icon set (replaces the
+   ☕ emoji, which sat off the text baseline and rendered differently per OS). The
+   emoji still in the markup is hidden by font-size:0 and painted over by the mask. */
+.tip-icon {
+	display: inline-block; width: 13px; height: 13px; margin-right: 4px; font-size: 0;
+	background-color: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 12 20 22 4 22 4 12'/%3E%3Crect x='2' y='7' width='20' height='5'/%3E%3Cline x1='12' y1='22' x2='12' y2='7'/%3E%3Cpath d='M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z'/%3E%3Cpath d='M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 12 20 22 4 22 4 12'/%3E%3Crect x='2' y='7' width='20' height='5'/%3E%3Cline x1='12' y1='22' x2='12' y2='7'/%3E%3Cpath d='M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z'/%3E%3Cpath d='M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.tip-count { font-size: 11px; line-height: 1 }
 
 
 /* ---- pages ---- */
@@ -1020,7 +1049,7 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 	.xid-tag span { max-width: 110px }
 
 	.topics-title, .topic-title { font-size: 20px; min-height: auto; padding-top: 0 }
-	.feed-follow-list { margin-left: 8px; vertical-align: 2px }
+	.feed-follow-list { margin-left: 8px; vertical-align: 9px }
 
 	/* Toolbars stay compact segmented controls; each group scrolls on its
 	   own. A solid "\203A" end cap (JS toggles .has-more) covers the cut
