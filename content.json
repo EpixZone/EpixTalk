@@ -1,15 +1,14 @@
 {
  "address": "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu",
  "address_index": 33769021,
- "background-color": "#F6F6F9",
- "background-color-dark": "#151517",
+ "background-color": "#F5F5F5",
+ "background-color-dark": "#2e2b32",
  "clone_root": "",
  "cloneable": true,
  "cloned_from": "",
  "description": "Decentralized forum with xID",
  "domain": "talk.epix",
- "epixnet_version": "0.2.4",
- "favicon": "img/favicon.ico",
+ "epixnet_version": "0.3.6",
  "files": {
   "LICENSE": {
    "sha512": "e67014a69caa38c58575f333619243c9ebb3c98d462f0b4823ff5ed3d2cfdba3",
@@ -20,8 +19,8 @@
    "size": 1645
   },
   "css/all.css": {
-   "sha512": "ae44e15a35f8ac167ae350291802d9f9f0a4296af81bfee397138e8ff2033c26",
-   "size": 62416
+   "sha512": "6ea9f6ad43fb1309fb5cc4595713e7b45c72b1cd41b9b546a8265e46ea0e62fa",
+   "size": 64999
   },
   "css/easymde.min.css": {
    "sha512": "b7832b1a74c5b096aed0555b3aa83890bbf214ba49a9c12e9575129f91653d7d",
@@ -40,8 +39,8 @@
    "size": 3659
   },
   "img/favicon.ico": {
-   "sha512": "5c94bdf982b49ca569b17d92ea97f75920d998153f35de0b6060212cc565b369",
-   "size": 15086
+   "sha512": "73990ed01b59ecf1b8ced4604189703f93daed80ba8fe45d920e504aadfae428",
+   "size": 32038
   },
   "img/loading.gif": {
    "sha512": "8a42b98962faea74618113166886be488c09dad10ca47fe97005edc5fb40cc00",
@@ -52,8 +51,8 @@
    "size": 1172
   },
   "index.html": {
-   "sha512": "0f0ba9b37d7e84f2cac99dbdfaa7cc52bec164694b2d08ec470f82e814c5106f",
-   "size": 17869
+   "sha512": "36d12a82730ecfedc7122b706f6e5eff98c427d5730f8bc0d359257af6d10db8",
+   "size": 17873
   },
   "js/Admin.js": {
    "sha512": "6926c4f61fde1c360b02334dad847fedcb96bc9f95327f5a0f00038767046881",
@@ -247,37 +246,25 @@
  "ignore": "(css/(?!all\\.css|easymde\\.min\\.css|font-awesome\\.css)|data/users/.*\\.db|data/users/.*/.*|data/admin/.*/.*|data/archived|\\.git|.*\\.py)",
  "includes": {
   "data/admin/content.json": {
-   "signers": [
-    "mud.epix"
-   ],
+   "signers": ["mud.epix"],
    "signers_required": 1
   },
   "data/users/content.json": {
-   "signers": [
-    "mud.epix"
-   ],
+   "signers": ["mud.epix"],
    "signers_required": 1
   }
  },
  "inner_path": "content.json",
- "modified": 1778006274,
+ "modified": 1783909233,
  "postmessage_nonce_security": true,
  "settings": {
-  "admins": [
-   "mud.epix"
-  ],
+  "admins": ["mud.epix"],
   "mods": []
  },
  "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
- "signs": {
-  "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HOlWzh1ue3vfPHLU/YpFJJ1qL4KyEluBvbpNEo/o5rikNPyLmoUledvVGVv2IZ6Zhavi82IsnecQuaCWnHRf/Vo="
- },
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HOLthBZsLNnkUBvv5e1thPqjbu1FbAKqIrmRN5g+8XD4X244aD1k3cH7u5lPZB8JSQwVqDS1r2j5m/nvTa16H84="},
  "signs_required": 1,
  "title": "Epix Talk",
- "translate": [
-  "index.html",
-  "js/TopicList.js",
-  "js/TopicShow.js"
- ],
- "viewport": "width=device-width, initial-scale=1"
+ "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],
+ "viewport": "width=device-width, initial-scale=0.8"
 }
