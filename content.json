@@ -8,7 +8,7 @@
  "cloned_from": "",
  "description": "Decentralized forum with xID",
  "domain": "talk.epix",
- "epixnet_version": "0.3.6",
+ "epixnet_version": "0.3.8",
  "files": {
   "LICENSE": {
    "sha512": "e67014a69caa38c58575f333619243c9ebb3c98d462f0b4823ff5ed3d2cfdba3",
@@ -19,8 +19,8 @@
    "size": 1645
   },
   "css/all.css": {
-   "sha512": "6ea9f6ad43fb1309fb5cc4595713e7b45c72b1cd41b9b546a8265e46ea0e62fa",
-   "size": 64999
+   "sha512": "06d61b1be2f40bfa42dccff3b3d411ba19fcaa09892ba285446fe9a0ab993901",
+   "size": 65254
   },
   "css/easymde.min.css": {
    "sha512": "b7832b1a74c5b096aed0555b3aa83890bbf214ba49a9c12e9575129f91653d7d",
@@ -51,8 +51,8 @@
    "size": 1172
   },
   "index.html": {
-   "sha512": "36d12a82730ecfedc7122b706f6e5eff98c427d5730f8bc0d359257af6d10db8",
-   "size": 17873
+   "sha512": "dab6f7223401e75f243766fe2d3b090c60e2e1203cc30afd6a715edff70c7a8a",
+   "size": 17832
   },
   "js/Admin.js": {
    "sha512": "6926c4f61fde1c360b02334dad847fedcb96bc9f95327f5a0f00038767046881",
@@ -71,8 +71,8 @@
    "size": 19413
   },
   "js/User.js": {
-   "sha512": "78d007e9da13a2574a8f9b4ac0d15318a974443e0df016955ac45d5c8273ce9b",
-   "size": 9643
+   "sha512": "6ec62a04240cffeff877ae187cba2407e72ac748d659627875cc7d80d5292377",
+   "size": 9799
   },
   "js/UserProfile.js": {
    "sha512": "65e13f6dbbd55a13bb3a423e01e315dd6ed382d3b6cf03f3c02ebfe3c4471863",
@@ -255,14 +255,14 @@
   }
  },
  "inner_path": "content.json",
- "modified": 1783909233,
+ "modified": 1784050574,
  "postmessage_nonce_security": true,
  "settings": {
   "admins": ["mud.epix"],
   "mods": []
  },
  "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HOLthBZsLNnkUBvv5e1thPqjbu1FbAKqIrmRN5g+8XD4X244aD1k3cH7u5lPZB8JSQwVqDS1r2j5m/nvTa16H84="},
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HHuPHZIFEEVLfjkPNJMLjWGV2XOtIIVqmx0nSUBrvUxDM+eD2jnYknzifsojLrJwg5Lk6fyfnhCrLXPQ1pcFzdo="},
  "signs_required": 1,
  "title": "Epix Talk",
  "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],
