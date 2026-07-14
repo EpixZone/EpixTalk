@@ -236,11 +236,14 @@ class User {
       // Overlay is a pure visual bar — keep it empty so copy/paste only picks
       // up the track's label once.
       $(".user-size.user-size-used").text("");
-      var percent = 100 * current_size / this.rules.max_size;
+      var percent = Math.min(100, 100 * current_size / this.rules.max_size);
       var $track = $(".user-size").not(".user-size-used").first();
       var trackWidth = $track.outerWidth() || 120;
-      var fillPx = Math.max(0, trackWidth * percent / 100);
-      $(".user-size-used").css("width", fillPx + "px");
+      var fillPx = current_size > 0 ? Math.max(3, trackWidth * percent / 100) : 0;
+      $(".user-size-used")
+        .css("width", fillPx + "px")
+        .toggleClass("is-high", percent >= 90)
+        .toggleClass("is-mid", percent >= 70 && percent < 90);
       if (percent > 80 && Page.site_info.content?.settings?.admin) {
         $(".user-size-warning")
           .css("display", "block")

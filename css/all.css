@@ -642,24 +642,29 @@ a.topic-search-button.nolink:active, a.topic-new-link.nolink:active {
 .button.button-certselect:hover { background-color: var(--epix-accent); color: var(--epix-on-accent); box-shadow: inset 0 0 0 999px rgba(2, 2, 2, 0.08) }
 .button.button-certselect:active { position: absolute; transform: translateX(-50%) translateY(1px); top: auto }
 
-/* Quota bar (flat fill; JS sets the used width inline on .user-size-used) */
+/* Quota bar: the wrap is the pill shell (background + rounding + clip); the
+   fill sits under an always-legible label. JS sets the fill width inline on
+   .user-size-used and grades its colour (accent -> warning -> danger). */
+.user-size-wrap {
+	position: relative; display: inline-block; width: 120px; height: 18px;
+	background: var(--epix-border); border-radius: 9px;
+	overflow: hidden; vertical-align: middle;
+}
 .comment-new .user-size,
 .topic-new .user-size {
-	position: relative; display: inline-block; min-width: 120px; height: 18px !important;
-	padding: 0 9px; margin-top: 6px; box-sizing: border-box;
-	font-size: 10px; font-weight: 600; line-height: 18px; text-transform: uppercase; letter-spacing: 0.3px;
-	color: var(--epix-text-mid); background: var(--epix-border); border-radius: 9px;
-	overflow: hidden; white-space: nowrap; vertical-align: middle;
+	position: relative; z-index: 2; display: block; height: 18px; padding: 0 9px;
+	box-sizing: border-box; background: transparent; white-space: nowrap; text-align: left;
+	font-size: 10px; font-weight: 600; line-height: 18px; letter-spacing: 0.3px;
+	text-transform: uppercase; color: var(--epix-text-mid);
 }
 .comment-new .user-size.user-size-used,
 .topic-new .user-size.user-size-used {
-	position: absolute !important; top: 0; left: 0; min-width: 0 !important; height: 18px !important;
-	padding: 0 !important; color: transparent !important;
-	background: var(--epix-accent) !important;
-	border-radius: 9px 0 0 9px !important; z-index: 1;
-	transition: width 0.25s ease-out; pointer-events: none; opacity: 0.55;
+	position: absolute; top: 0; left: 0; z-index: 1; width: 0; height: 18px;
+	padding: 0; color: transparent; background: var(--epix-accent); border-radius: 0;
+	transition: width 0.25s ease-out, background-color 0.25s ease; pointer-events: none;
 }
-.user-size-wrap { width: 120px }
+.user-size-used.is-mid  { background: var(--epix-warning); }
+.user-size-used.is-high { background: var(--epix-danger); }
 .user-size-warning {
 	position: absolute; right: 0px; font-size: 13px; line-height: 1.3; display: none;
 	color: var(--epix-text-mid); padding: 7px; white-space: nowrap; margin-top: -3px; margin-right: -8px;
