@@ -462,7 +462,7 @@ class TopicShow {
 
     $(".comment-new .button-submit").addClass("loading");
 
-    User.getData((data) => {
+    User.getDataForWrite((data) => {
       if (!data.comment[this.topic_uri]) data.comment[this.topic_uri] = [];
       data.comment[this.topic_uri].push({
         "comment_id": data.next_comment_id,
@@ -478,7 +478,7 @@ class TopicShow {
           $(".comment-new #comment_body").val("").delay(600).animate({"height": 72}, {"duration": 1000, "easing": "easeInOutCubic"});
         }
       });
-    });
+    }, {"allowCreate": true, "onAbort": function() { $(".comment-new .button-submit").removeClass("loading"); }});
   }
 
   submitCommentVote(e) {
@@ -488,7 +488,7 @@ class TopicShow {
 
     var elem = $(e.currentTarget);
     elem.toggleClass("active").addClass("loading");
-    User.getData((data) => {
+    User.getDataForWrite((data) => {
       if (!data.comment_vote) data.comment_vote = {};
       var comment_uri = elem.attr("id").match("_([0-9]+_[A-Za-z0-9.]+)$")[1];
 
@@ -501,7 +501,7 @@ class TopicShow {
       User.publishData(data, function(res) {
         elem.removeClass("loading");
       });
-    });
+    }, {"allowCreate": true, "onAbort": function() { elem.removeClass("loading"); elem.toggleClass("active"); }});
     return false;
   }
 }

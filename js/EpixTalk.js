@@ -222,7 +222,7 @@ class EpixTalk extends EpixFrame {
     var parts = object.data("object").split(":");
     var type = parts[0], id = parts[1];
 
-    User.getData((data) => {
+    User.getDataForWrite((data) => {
       if (type === "Topic") {
         var id_parts = id.split("_");
         var topic_id = parseInt(id_parts[0]);
@@ -287,7 +287,7 @@ class EpixTalk extends EpixFrame {
           if (cb) cb(false);
         }
       });
-    });
+    }, {"allowCreate": false, "onAbort": function() { if (cb) cb(false); }});
   }
 
   // Incoming request from EpixNet API

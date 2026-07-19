@@ -803,7 +803,7 @@ class TopicList {
     if (!title) return $(".topic-new #topic_title").focus();
 
     $(".topic-new .button-submit").addClass("loading");
-    User.getData((data) => {
+    User.getDataForWrite((data) => {
       var topic = {
         "topic_id": data.next_topic_id + Time.timestamp(),
         "title": title,
@@ -846,7 +846,7 @@ class TopicList {
         $(".topic-new #topic_body").val("");
         $(".topic-new #topic_title").val("");
       });
-    });
+    }, {"allowCreate": true, "onAbort": function() { $(".topic-new .button-submit").removeClass("loading"); }});
   }
 
   submitTopicVote(e) {
@@ -858,7 +858,7 @@ class TopicList {
     elem.toggleClass("active").addClass("loading");
     var user_dir = Page.site_info.xid_directory || Page.site_info.auth_address;
     var inner_path = "data/users/" + user_dir + "/data.json";
-    User.getData((data) => {
+    User.getDataForWrite((data) => {
       if (!data.topic_vote) data.topic_vote = {};
       var topic_uri = elem.parents(".topic").data("topic_uri");
 
@@ -870,7 +870,7 @@ class TopicList {
       User.publishData(data, function(res) {
         elem.removeClass("loading");
       });
-    });
+    }, {"allowCreate": true, "onAbort": function() { elem.removeClass("loading"); elem.toggleClass("active"); }});
     return false;
   }
 }

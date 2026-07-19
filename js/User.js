@@ -256,23 +256,93 @@ class User {
     }
   }
 
-  getData(cb) {
+  dataInnerPath() {
     var user_dir = Page.site_info.xid_directory || Page.site_info.auth_address;
-    var inner_path = "data/users/" + user_dir + "/data.json";
-    Page.cmd("fileGet", {"inner_path": inner_path, "required": false}, function(data) {
-      if (data) {
-        data = JSON.parse(data);
-      } else { // Default data
-        data = {"next_topic_id": 1, "topic": [], "topic_vote": {}, "next_comment_id": 1, "comment": {}, "comment_vote": {}, "next_report_id": 1, "report": []};
-      }
-      cb(data);
+    return "data/users/" + user_dir + "/data.json";
+  }
+
+  // Blank/default data.json used only when a user genuinely has no data yet.
+  getDefaultData() {
+    return {"next_topic_id": 1, "topic": [], "topic_vote": {}, "next_comment_id": 1, "comment": {}, "comment_vote": {}, "next_report_id": 1, "report": []};
+  }
+
+  getData(cb) {
+    Page.cmd("fileGet", {"inner_path": this.dataInnerPath(), "required": false}, (data) => {
+      cb(data ? JSON.parse(data) : this.getDefaultData());
     });
   }
 
+  // Guarded read for any action that mutates the user's data.json.
+  //
+  // data.json is a single last-writer-wins file read with required:false. On a
+  // device that has not synced it yet, the plain read misses; if the caller
+  // then falls back to a blank default and publishes, the fileWrite +
+  // sitePublish signs that blank over the network and wipes the user's real
+  // topics/comments/votes everywhere. So on a MISSED read we do not hand back a
+  // blank right away: we force a sync (siteUpdate) and re-read a few times.
+  //  - If the real file arrives, use it (no clobber).
+  //  - If it is still absent AND this is a first-time creation AND the site is
+  //    fully synced (no bad_files), there is genuinely nothing to overwrite, so
+  //    seed a default (a brand-new account's first post/comment/vote/report).
+  //  - Otherwise (a mutation of existing data, or the site is still syncing)
+  //    abort the write and ask the user to retry, rather than risk a clobber.
+  //
+  // options: { allowCreate: bool, onAbort: fn }
+  getDataForWrite(cb, options) {
+    options = options || {};
+    var allowCreate = !!options.allowCreate;
+    var onAbort = options.onAbort;
+    var inner_path = this.dataInnerPath();
+    var self = this;
+    Page.cmd("fileGet", {"inner_path": inner_path, "required": false}, function(data) {
+      if (data) { // Present on this device - normal path, no clobber risk
+        cb(JSON.parse(data));
+        return;
+      }
+      // Missed read: try to fetch the real file before deciding anything.
+      self.syncAndReread(inner_path, function(synced) {
+        if (synced) { // Real data arrived - use it, never clobber
+          cb(JSON.parse(synced));
+          return;
+        }
+        var fully_synced = !Page.site_info || !Page.site_info.bad_files;
+        if (allowCreate && fully_synced) {
+          cb(self.getDefaultData()); // Genuinely new account: safe to seed
+          return;
+        }
+        Page.cmd("wrapperNotification", ["info", "Your data is still syncing, please try again in a moment."]);
+        if (onAbort) onAbort();
+      });
+    });
+  }
+
+  // Force a re-sync of the site (siteUpdate runs in the background and returns
+  // immediately), then poll the file back a few times. cb(raw) once it arrives,
+  // or cb(null) if still missing after the attempts.
+  syncAndReread(inner_path, cb) {
+    var address = Page.site_address || (Page.site_info && Page.site_info.address);
+    if (address) {
+      Page.cmd("siteUpdate", {"address": address});
+    } else {
+      Page.cmd("siteUpdate", {});
+    }
+    var attempts = 0;
+    var max_attempts = 6;
+    var tryRead = function() {
+      setTimeout(function() {
+        Page.cmd("fileGet", {"inner_path": inner_path, "required": false}, function(data) {
+          if (data) { cb(data); return; }
+          attempts += 1;
+          if (attempts >= max_attempts) { cb(null); return; }
+          tryRead();
+        });
+      }, 700);
+    };
+    tryRead();
+  }
+
   publishData(data, cb) {
-    var user_dir = Page.site_info.xid_directory || Page.site_info.auth_address;
-    var inner_path = "data/users/" + user_dir + "/data.json";
-    Page.writePublish(inner_path, Text.jsonEncode(data), (res) => {
+    Page.writePublish(this.dataInnerPath(), Text.jsonEncode(data), (res) => {
       this.checkCert("updaterules"); // Update used space
       if (cb) cb(res);
     });

@@ -99,7 +99,7 @@ class Moderation {
 
   // Report a topic or comment (writes to current user's data.json)
   reportContent(type, target_uri, reason, cb) {
-    User.getData((data) => {
+    User.getDataForWrite((data) => {
       if (!data.report) data.report = [];
       if (!data.next_report_id) data.next_report_id = 1;
       data.report.push({
@@ -119,12 +119,12 @@ class Moderation {
         }
         if (cb) cb(res);
       });
-    });
+    }, {"allowCreate": true, "onAbort": function() { if (cb) cb(false); }});
   }
 
   // Remove own report for a topic or comment
   unreportContent(type, target_uri, cb) {
-    User.getData((data) => {
+    User.getDataForWrite((data) => {
       if (!data.report) data.report = [];
       data.report = data.report.filter(function(r) {
         return !(r.type === type && r.target_uri === target_uri);
@@ -135,7 +135,7 @@ class Moderation {
         }
         if (cb) cb(res);
       });
-    });
+    }, {"allowCreate": false, "onAbort": function() { if (cb) cb(false); }});
   }
 
   // Delete a topic or comment from the author's data.json (requires admin)
