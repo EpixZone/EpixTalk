@@ -222,72 +222,42 @@ class EpixTalk extends EpixFrame {
     var parts = object.data("object").split(":");
     var type = parts[0], id = parts[1];
 
-    User.getData((data) => {
-      if (type === "Topic") {
-        var id_parts = id.split("_");
-        var topic_id = parseInt(id_parts[0]);
-        var user_address = id_parts.slice(1).join("_");
-
-        var topic = null;
-        for (var i = 0; i < data.topic.length; i++) {
-          if (data.topic[i].topic_id === topic_id) {
-            topic = data.topic[i];
-            break;
-          }
-        }
-
+    // An edit is a new signed version of the same record; a delete is a signed
+    // tombstone. Both go through the merge file and can only ever touch this
+    // one item (never another user's, never another item of ours).
+    var onDone = (res) => {
+      if (res) {
         if (delete_object) { // Delete
-          data.topic.splice(data.topic.indexOf(topic), 1);
+          if (cb) cb(true);
+          elem.fancySlideUp();
         } else { // Update
-          topic[elem.data("editable")] = content;
-          topic.modified = Math.floor(Date.now() / 1000);
-        }
-      }
-
-      if (type === "Comment") {
-        var id_parts = id.split("@");
-        var comment_uri = id_parts[0], topic_uri = id_parts[1];
-        var comment_parts = comment_uri.split("_");
-        var comment_id = parseInt(comment_parts[0]);
-        var user_address = comment_parts.slice(1).join("_");
-
-        var comment = null;
-        if (data.comment[topic_uri]) {
-          for (var i = 0; i < data.comment[topic_uri].length; i++) {
-            if (data.comment[topic_uri][i].comment_id === comment_id) {
-              comment = data.comment[topic_uri][i];
-              break;
-            }
+          if (type === "Topic") {
+            if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) TopicList.loadTopics("list", function() { if (cb) cb(true); });
+            if ($("body").hasClass("page-topic")) TopicShow.loadTopic(function() { if (cb) cb(true); });
+          }
+          if (type === "Comment") {
+            TopicShow.loadComments("normal", function() { if (cb) cb(true); });
           }
         }
-
-        if (delete_object) { // Delete
-          data.comment[topic_uri].splice(data.comment[topic_uri].indexOf(comment), 1);
-        } else { // Update
-          comment[elem.data("editable")] = content;
-          comment.modified = Math.floor(Date.now() / 1000);
-        }
+      } else {
+        if (cb) cb(false);
       }
+    };
 
-      User.publishData(data, (res) => {
-        if (res) {
-          if (delete_object) { // Delete
-            if (cb) cb(true);
-            elem.fancySlideUp();
-          } else { // Update
-            if (type === "Topic") {
-              if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) TopicList.loadTopics("list", function() { if (cb) cb(true); });
-              if ($("body").hasClass("page-topic")) TopicShow.loadTopic(function() { if (cb) cb(true); });
-            }
-            if (type === "Comment") {
-              TopicShow.loadComments("normal", function() { if (cb) cb(true); });
-            }
-          }
-        } else {
-          if (cb) cb(false);
-        }
-      });
-    });
+    if (type === "Topic") {
+      var topic_id = parseInt(id.split("_")[0]);
+      var changes = {};
+      if (!delete_object) changes[elem.data("editable")] = content;
+      User.editRecordById("topics", "topic_id", topic_id, changes, delete_object, onDone);
+    } else if (type === "Comment") {
+      var comment_uri = id.split("@")[0];
+      var comment_id = parseInt(comment_uri.split("_")[0]);
+      var changes = {};
+      if (!delete_object) changes[elem.data("editable")] = content;
+      User.editRecordById("comments", "comment_id", comment_id, changes, delete_object, onDone);
+    } else {
+      if (cb) cb(false);
+    }
   }
 
   // Incoming request from EpixNet API

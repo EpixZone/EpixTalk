@@ -3,14 +3,32 @@
 	"db_file": "data/users/epix_talk.db",
 	"version": 2,
 	"maps": {
+		".+/topics.json": {
+			"to_table": [ {"node": "post", "table": "topic"} ],
+			"file_name": "data.json",
+			"fold_crdt": "post"
+		},
+		".+/comments.json": {
+			"to_table": [ {"node": "post", "table": "comment"} ],
+			"file_name": "data.json",
+			"fold_crdt": "post"
+		},
+		".+/topic_votes.json": {
+			"to_table": [ {"node": "post", "table": "topic_vote"} ],
+			"file_name": "data.json",
+			"fold_crdt": "post"
+		},
+		".+/comment_votes.json": {
+			"to_table": [ {"node": "post", "table": "comment_vote"} ],
+			"file_name": "data.json",
+			"fold_crdt": "post"
+		},
+		".+/reports.json": {
+			"to_table": [ {"node": "post", "table": "report"} ],
+			"file_name": "data.json",
+			"fold_crdt": "post"
+		},
 		".+/data.json": {
-			"to_table": [
-				{"node": "topic", "table": "topic"},
-				{"node": "topic_vote", "table": "topic_vote", "key_col": "topic_uri", "val_col": "added"},
-				{"node": "comment", "table": "comment", "key_col": "topic_uri"},
-				{"node": "comment_vote", "table": "comment_vote", "key_col": "comment_uri", "val_col": "added"},
-				{"node": "report", "table": "report"}
-			],
 			"to_keyvalue": ["next_comment_id", "next_topic_id", "next_report_id"]
 		},
 		".+/content.json": {
