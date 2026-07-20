@@ -8,7 +8,7 @@
  "cloned_from": "",
  "description": "Decentralized forum with xID",
  "domain": "talk.epix",
- "epixnet_version": "0.3.8",
+ "epixnet_version": "0.3.17",
  "files": {
   "LICENSE": {
    "sha512": "e67014a69caa38c58575f333619243c9ebb3c98d462f0b4823ff5ed3d2cfdba3",
@@ -19,8 +19,8 @@
    "size": 1645
   },
   "css/all.css": {
-   "sha512": "06d61b1be2f40bfa42dccff3b3d411ba19fcaa09892ba285446fe9a0ab993901",
-   "size": 65254
+   "sha512": "c28e8f84a28a4346f5dbf462c96800563dd54cf4558087283204db645420e397",
+   "size": 65469
   },
   "css/easymde.min.css": {
    "sha512": "b7832b1a74c5b096aed0555b3aa83890bbf214ba49a9c12e9575129f91653d7d",
@@ -31,12 +31,12 @@
    "size": 133512
   },
   "data-default/users/content-default.json": {
-   "sha512": "8cb251bbd5a19e295ccd9caa8e1846bea3b55c8dd20d7a5095d645366c6ba33f",
-   "size": 306
+   "sha512": "6712c2752cd8a0aa75d9f0c3b02f1a3044c7b9e17d651a9dae1e03992d2ceac5",
+   "size": 1228
   },
   "dbschema.json": {
-   "sha512": "eea19a8780e098bdb1a4a556dd119a20cbb4020530ad0fbd90461f9135a10927",
-   "size": 3659
+   "sha512": "60f9d0049e6e22937be3a42ec4568a028290d6310d12173330de4d1ee2678b1a",
+   "size": 3988
   },
   "img/favicon.ico": {
    "sha512": "73990ed01b59ecf1b8ced4604189703f93daed80ba8fe45d920e504aadfae428",
@@ -55,24 +55,24 @@
    "size": 17832
   },
   "js/Admin.js": {
-   "sha512": "6926c4f61fde1c360b02334dad847fedcb96bc9f95327f5a0f00038767046881",
-   "size": 27902
+   "sha512": "a008a06185023c1e011c84c347a9bc717167577d9082dc7c083af1c9a669f14e",
+   "size": 26746
   },
   "js/EpixTalk.js": {
-   "sha512": "1c15703237c8e5d112eb0ebc02d0c73b6f7b7e66f991fd7d761791cb705069ac",
-   "size": 15088
+   "sha512": "54909ed0b21635be1cbe7b8dabda38a9082d424802cb4e3561bc91c18df556e5",
+   "size": 14327
   },
   "js/TopicList.js": {
-   "sha512": "84b4d0b9116b54602ad57c3dc232758a4c5614ec9b8c4a73de8e2566cb588373",
-   "size": 36536
+   "sha512": "e16f2e55e9cd8c17a6f5310990c5857591ebc96e7e402e4257f9b34af452675e",
+   "size": 36704
   },
   "js/TopicShow.js": {
-   "sha512": "67bad501203a2d196dee1f22f9bb4e44497b678b735f9418d97e28d0e8379801",
-   "size": 19413
+   "sha512": "bc239c57c35aaa98d255a73efd6b6d592fe7b3836856abc55b96ff61a1fb50a0",
+   "size": 19718
   },
   "js/User.js": {
-   "sha512": "6ec62a04240cffeff877ae187cba2407e72ac748d659627875cc7d80d5292377",
-   "size": 9799
+   "sha512": "46312e953775a0c7eb4e91bcbb75fe2867faae6e753efd695675c2cb8463b5bf",
+   "size": 28232
   },
   "js/UserProfile.js": {
    "sha512": "65e13f6dbbd55a13bb3a423e01e315dd6ed382d3b6cf03f3c02ebfe3c4471863",
@@ -135,8 +135,8 @@
    "size": 1823
   },
   "js/utils/Moderation.js": {
-   "sha512": "1ef4b27a6a60002bb332ce37362ad60262a8a2f51db1e0257a4488fc76eb3537",
-   "size": 8610
+   "sha512": "0b9464a78a6d261552009d826181aa9b2391074a583df5a5eaa506a4e1b9d15b",
+   "size": 5931
   },
   "js/utils/RateLimit.js": {
    "sha512": "56239abb3ba9af3c80231c75bf09bfc6330feef601bbfda3735542cf9486c54f",
@@ -255,14 +255,14 @@
   }
  },
  "inner_path": "content.json",
- "modified": 1784050574,
+ "modified": 1784515772,
  "postmessage_nonce_security": true,
  "settings": {
   "admins": ["mud.epix"],
   "mods": []
  },
  "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HHuPHZIFEEVLfjkPNJMLjWGV2XOtIIVqmx0nSUBrvUxDM+eD2jnYknzifsojLrJwg5Lk6fyfnhCrLXPQ1pcFzdo="},
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "G9+eJBi5zig+kVXrG/+PoEzNXR4KhyKn58z+9DpAuGXQa/7qJVA442veyQI8qHStQwu778LQBQQ/RoCEETQCqXI="},
  "signs_required": 1,
  "title": "Epix Talk",
  "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],

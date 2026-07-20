@@ -214,7 +214,7 @@ a:focus-visible { outline: 2px solid var(--epix-focus); outline-offset: 2px; bor
 	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M3 9v6h4l5 5V4L7 9H3z'/%3E%3Cpath d='M16 8l6 8M22 8l-6 8' stroke='white' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
 }
 .icon-profile {
-	width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px;
+	width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px; display: inline-block;
 	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='7.5' r='4.5'/%3E%3Cpath d='M12 14c-5 0-8 2.5-8 6v1h16v-1c0-3.5-3-6-8-6z'/%3E%3C/svg%3E");
 	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='7.5' r='4.5'/%3E%3Cpath d='M12 14c-5 0-8 2.5-8 6v1h16v-1c0-3.5-3-6-8-6z'/%3E%3C/svg%3E");
 }
@@ -630,17 +630,21 @@ a.topic-search-button.nolink:active, a.topic-new-link.nolink:active {
 .comment .body td, .comment .body th { padding: 5px 10px; border: 1px solid var(--epix-border); border-collapse: collapse; text-align: left }
 
 .comment-new { margin-bottom: 8px }
+/* Positioning context for the "Connect xID" overlay button so it centers over
+   the editor box, not some distant ancestor. */
+.comment-new .body { position: relative }
 .comment-nocert textarea { opacity: 0.5; pointer-events: none }
 .comment-nocert .info { opacity: 0.15; pointer-events: none }
 .comment-nocert .button-submit-form { opacity: 0.15; pointer-events: none }
-.comment-nocert .button.button-certselect { display: inherit; opacity: 1 }
+.comment-nocert .button.button-certselect { display: inline-flex; opacity: 1 }
 .button.button-certselect {
-	position: absolute; left: 50%; white-space: nowrap; transform: translateX(-50%); z-index: 99;
-	margin-top: 13px; background-color: var(--epix-accent); color: var(--epix-on-accent);
+	position: absolute; left: 50%; top: 50%; white-space: nowrap;
+	transform: translate(-50%, -50%); z-index: 99; align-items: center; justify-content: center;
+	background-color: var(--epix-accent); color: var(--epix-on-accent);
 	border-color: var(--epix-accent); display: none
 }
 .button.button-certselect:hover { background-color: var(--epix-accent); color: var(--epix-on-accent); box-shadow: inset 0 0 0 999px rgba(2, 2, 2, 0.08) }
-.button.button-certselect:active { position: absolute; transform: translateX(-50%) translateY(1px); top: auto }
+.button.button-certselect:active { transform: translate(-50%, -50%) translateY(1px) }
 
 /* Quota bar: the wrap is the pill shell (background + rounding + clip); the
    fill sits under an always-legible label. JS sets the fill width inline on
