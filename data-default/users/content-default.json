@@ -10,9 +10,28 @@
     "permission_rules": {
       ".*": {
         "files_allowed": "data.json",
-        "max_size": 200000
+        "max_size": 200000,
+        "merge_files": {
+          "topics.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "comments.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "topic_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "comment_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "reports.json": {"class": "epix-orset-1", "max_size": 3000000}
+        }
       }
     },
-    "permissions": {}
+    "permissions": {
+      ".*": {
+        "files_allowed": "data.json",
+        "max_size": 200000,
+        "merge_files": {
+          "topics.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "comments.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "topic_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "comment_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
+          "reports.json": {"class": "epix-orset-1", "max_size": 3000000}
+        }
+      }
+    }
   }
 }

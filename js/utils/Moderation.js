@@ -97,48 +97,42 @@ class Moderation {
     }
   }
 
-  // Report a topic or comment (writes to current user's data.json)
+  // Report a topic or comment (a keyed record in the reporter's reports.json,
+  // key = type + "_" + target_uri, so re-reporting supersedes).
   reportContent(type, target_uri, reason, cb) {
-    User.getDataForWrite((data) => {
-      if (!data.report) data.report = [];
-      if (!data.next_report_id) data.next_report_id = 1;
-      data.report.push({
-        "report_id": data.next_report_id,
-        "type": type,
-        "target_uri": target_uri,
-        "reason": reason,
-        "added": Time.timestamp()
-      });
-      data.next_report_id += 1;
-      User.publishData(data, (res) => {
-        if (res === true) {
-          Page.cmd("wrapperNotification", ["done", "Content reported successfully."]);
-          this.loadReports();
-        } else {
-          Page.cmd("wrapperNotification", ["error", "Failed to submit report."]);
-        }
-        if (cb) cb(res);
-      });
-    }, {"allowCreate": true, "onAbort": function() { if (cb) cb(false); }});
+    User.editRecord("reports", type + "_" + target_uri, {
+      "report_id": Date.now(),
+      "type": type,
+      "target_uri": target_uri,
+      "reason": reason,
+      "added": Time.timestamp()
+    }, false, (res) => {
+      if (res) {
+        Page.cmd("wrapperNotification", ["done", "Content reported successfully."]);
+        this.loadReports();
+      } else {
+        Page.cmd("wrapperNotification", ["error", "Failed to submit report."]);
+      }
+      if (cb) cb(res);
+    });
   }
 
-  // Remove own report for a topic or comment
+  // Remove own report for a topic or comment (a signed tombstone for that key).
   unreportContent(type, target_uri, cb) {
-    User.getDataForWrite((data) => {
-      if (!data.report) data.report = [];
-      data.report = data.report.filter(function(r) {
-        return !(r.type === type && r.target_uri === target_uri);
-      });
-      User.publishData(data, (res) => {
-        if (res === true) {
-          this.loadReports();
-        }
-        if (cb) cb(res);
-      });
-    }, {"allowCreate": false, "onAbort": function() { if (cb) cb(false); }});
+    User.editRecord("reports", type + "_" + target_uri, {}, true, (res) => {
+      if (res) {
+        this.loadReports();
+      }
+      if (cb) cb(res);
+    });
   }
 
-  // Delete a topic or comment from the author's data.json (requires admin)
+  // Delete a topic or comment as a moderator (requires admin). Instead of
+  // rewriting the author's data.json, write a signed MODERATION TOMBSTONE into
+  // the author's merge file (same post_id as the item, deleted:true +
+  // moderated:true, signed by this admin) and publish the author's content.json.
+  // The node accepts a moderated tombstone from any authorized signer of the
+  // dir, so this hides the item without touching any other record.
   deleteContent(type, target_uri, cb) {
     if (!this.isAdmin()) {
       Page.cmd("wrapperNotification", ["error", "Only admins can delete content."]);
@@ -147,92 +141,25 @@ class Moderation {
     }
 
     var parts = target_uri.split("_");
-    var user_address, topic_id, comment_id;
+    var user_address = parts.slice(1).join("_");
+    var collection, id_field, id_value;
     if (type === "topic") {
-      topic_id = parseInt(parts[0]);
-      user_address = parts.slice(1).join("_");
+      collection = "topics"; id_field = "topic_id"; id_value = parseInt(parts[0]);
     } else if (type === "comment") {
-      comment_id = parseInt(parts[0]);
-      user_address = parts.slice(1).join("_");
+      collection = "comments"; id_field = "comment_id"; id_value = parseInt(parts[0]);
+    } else {
+      if (cb) cb(false);
+      return;
     }
 
-    var inner_path = "data/users/" + user_address + "/data.json";
-    Page.cmd("fileGet", {"inner_path": inner_path, "required": false}, (raw) => {
-      if (!raw) {
-        Page.cmd("wrapperNotification", ["error", "Could not load user data file."]);
-        if (cb) cb(false);
-        return;
+    User.moderateDelete(user_address, collection, id_field, id_value, (res) => {
+      if (res) {
+        Page.cmd("wrapperNotification", ["done", "Content deleted and published."]);
+        this.loadReports();
+      } else {
+        Page.cmd("wrapperNotification", ["error", "Could not delete content (item not found locally or still syncing)."]);
       }
-
-      var original_raw = raw; // Save original for rollback on sign failure
-      var data = JSON.parse(raw);
-      if (type === "topic") {
-        var original_len = data.topic.length;
-        data.topic = data.topic.filter(function(t) { return t.topic_id !== topic_id; });
-        if (data.topic.length === original_len) {
-          Page.cmd("wrapperNotification", ["error", "Topic not found in user data."]);
-          if (cb) cb(false);
-          return;
-        }
-        // Also remove all comments on this topic from this user's data
-        for (var topic_uri_key in data.comment) {
-          if (topic_uri_key === target_uri) {
-            delete data.comment[topic_uri_key];
-          }
-        }
-      } else if (type === "comment") {
-        var found = false;
-        for (var topic_uri_key in data.comment) {
-          var comments = data.comment[topic_uri_key];
-          if (Array.isArray(comments)) {
-            var original_len = comments.length;
-            data.comment[topic_uri_key] = comments.filter(function(c) { return c.comment_id !== comment_id; });
-            if (data.comment[topic_uri_key].length < original_len) {
-              found = true;
-              break;
-            }
-          }
-        }
-        if (!found) {
-          Page.cmd("wrapperNotification", ["error", "Comment not found in user data."]);
-          if (cb) cb(false);
-          return;
-        }
-      }
-
-      // Write back and publish
-      var json_raw = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, '\t'))));
-      Page.cmd("fileWrite", [inner_path, json_raw], (res) => {
-        if (res !== "ok") {
-          Page.cmd("wrapperNotification", ["error", "File write error: " + (res?.error || res)]);
-          if (cb) cb(false);
-          return;
-        }
-
-        // Sign the user's content.json (admin signs with own key as include signer)
-        var content_inner_path = "data/users/" + user_address + "/content.json";
-        Page.cmd("siteSign", {"inner_path": content_inner_path}, (sign_res) => {
-          if (sign_res !== "ok") {
-            // Restore original data.json to prevent corruption
-            var restore_raw = btoa(unescape(encodeURIComponent(original_raw)));
-            Page.cmd("fileWrite", [inner_path, restore_raw], function(restore_res) {
-              Page.cmd("wrapperNotification", ["error", "Signing error: " + (sign_res?.error || sign_res)]);
-              if (cb) cb(false);
-            });
-            return;
-          }
-
-          Page.cmd("sitePublish", {"inner_path": content_inner_path}, (pub_res) => {
-            if (pub_res === "ok") {
-              Page.cmd("wrapperNotification", ["done", "Content deleted and published."]);
-              this.loadReports();
-            } else {
-              Page.cmd("wrapperNotification", ["error", "Publish error: " + (pub_res?.error || pub_res)]);
-            }
-            if (cb) cb(pub_res === "ok");
-          });
-        });
-      });
+      if (cb) cb(res);
     });
   }
 }

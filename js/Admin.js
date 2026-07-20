@@ -409,41 +409,13 @@ class Admin {
       }
     };
 
+    // Dismissing a report writes a signed moderation tombstone into the
+    // reporter's reports.json (key = type + "_" + target_uri) and publishes the
+    // reporter's content.json - no data.json rewrite. The reporter keeps their
+    // own dir; we only tombstone the one report record cross-dir.
     for (let report of reports) {
-      let inner_path = "data/users/" + report.reporter + "/data.json";
-      Page.cmd("fileGet", {"inner_path": inner_path, "required": false}, (raw) => {
-        if (!raw) {
-          done();
-          return;
-        }
-        var original_raw = raw; // Save original for rollback on sign failure
-        var data = JSON.parse(raw);
-        if (!data.report) data.report = [];
-        data.report = data.report.filter(function(r) {
-          return !(r.type === type && r.target_uri === target_uri);
-        });
-        var json_raw = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, '\t'))));
-        Page.cmd("fileWrite", [inner_path, json_raw], function(res) {
-          if (res !== "ok") {
-            done();
-            return;
-          }
-          var content_inner_path = "data/users/" + report.reporter + "/content.json";
-          Page.cmd("siteSign", {"inner_path": content_inner_path}, function(sign_res) {
-            if (sign_res !== "ok") {
-              // Restore original data.json to prevent corruption
-              var restore_raw = btoa(unescape(encodeURIComponent(original_raw)));
-              Page.cmd("fileWrite", [inner_path, restore_raw], function(restore_res) {
-                Page.cmd("wrapperNotification", ["error", "Sign error for " + report.reporter + ": " + (sign_res?.error || sign_res)]);
-                done();
-              });
-              return;
-            }
-            Page.cmd("sitePublish", {"inner_path": content_inner_path}, function(pub_res) {
-              done();
-            });
-          });
-        });
+      User.moderateDelete(report.reporter, "reports", "key", type + "_" + target_uri, function(res) {
+        done();
       });
     }
   }

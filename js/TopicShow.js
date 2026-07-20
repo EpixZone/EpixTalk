@@ -462,23 +462,22 @@ class TopicShow {
 
     $(".comment-new .button-submit").addClass("loading");
 
-    User.getDataForWrite((data) => {
-      if (!data.comment[this.topic_uri]) data.comment[this.topic_uri] = [];
-      data.comment[this.topic_uri].push({
-        "comment_id": data.next_comment_id,
-        "body": body,
-        "added": Time.timestamp()
-      });
-      data.next_comment_id += 1;
-      User.publishData(data, (res) => {
-        $(".comment-new .button-submit").removeClass("loading");
-        if (res === true) {
-          this.log("File written");
-          this.loadComments();
-          $(".comment-new #comment_body").val("").delay(600).animate({"height": 72}, {"duration": 1000, "easing": "easeInOutCubic"});
-        }
-      });
-    }, {"allowCreate": true, "onAbort": function() { $(".comment-new .button-submit").removeClass("loading"); }});
+    // A new comment is a fresh signed record in comments.json. comment_id stays
+    // the stable app id used in the comment_uri (votes/reports/permalinks); the
+    // node derives a separate immutable CRDT post_id from the record's nonce.
+    User.createRecord("comments", {
+      "comment_id": Date.now(),
+      "topic_uri": this.topic_uri,
+      "body": body,
+      "added": Time.timestamp()
+    }, (res) => {
+      $(".comment-new .button-submit").removeClass("loading");
+      if (res) {
+        this.log("File written");
+        this.loadComments();
+        $(".comment-new #comment_body").val("").delay(600).animate({"height": 72}, {"duration": 1000, "easing": "easeInOutCubic"});
+      }
+    });
   }
 
   submitCommentVote(e) {
@@ -488,20 +487,19 @@ class TopicShow {
 
     var elem = $(e.currentTarget);
     elem.toggleClass("active").addClass("loading");
-    User.getDataForWrite((data) => {
-      if (!data.comment_vote) data.comment_vote = {};
-      var comment_uri = elem.attr("id").match("_([0-9]+_[A-Za-z0-9.]+)$")[1];
-
-      if (elem.hasClass("active")) {
-        data.comment_vote[comment_uri] = Math.floor(Date.now() / 1000);
+    var comment_uri = elem.attr("id").match("_([0-9]+_[A-Za-z0-9.]+)$")[1];
+    // A vote is a keyed record in comment_votes.json (key = comment_uri): voting
+    // is a live record, un-voting a signed tombstone for the same key.
+    var voting = elem.hasClass("active");
+    User.editRecord("comment_votes", comment_uri, {"comment_uri": comment_uri, "added": Math.floor(Date.now() / 1000)}, !voting, function(res) {
+      elem.removeClass("loading");
+      if (res) {
+        if (voting) User.my_comment_votes[comment_uri] = true;
+        else delete User.my_comment_votes[comment_uri];
       } else {
-        delete data.comment_vote[comment_uri];
+        elem.toggleClass("active"); // revert optimistic toggle on failure
       }
-
-      User.publishData(data, function(res) {
-        elem.removeClass("loading");
-      });
-    }, {"allowCreate": true, "onAbort": function() { elem.removeClass("loading"); elem.toggleClass("active"); }});
+    });
     return false;
   }
 }

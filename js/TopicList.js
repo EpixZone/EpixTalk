@@ -803,50 +803,50 @@ class TopicList {
     if (!title) return $(".topic-new #topic_title").focus();
 
     $(".topic-new .button-submit").addClass("loading");
-    User.getDataForWrite((data) => {
-      var topic = {
-        "topic_id": data.next_topic_id + Time.timestamp(),
-        "title": title,
-        "body": body,
-        "added": Time.timestamp()
-      };
-      // Check Chinese characters
-      if (Page.site_info.address === "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT" && (title + body).match(/[\u3400-\u9FBF]/)) {
-        topic.parent_topic_uri = "10_1J3rJ8ecnwH2EPYa6MrgZttBNc61ACFiCj";
-      }
+    // A new topic is a fresh signed record in topics.json. topic_id stays the
+    // stable app id used in every topic_uri (URLs, votes, comments); the node
+    // derives a separate immutable CRDT post_id from the record's nonce.
+    var topic = {
+      "topic_id": Date.now(),
+      "title": title,
+      "body": body,
+      "added": Time.timestamp()
+    };
+    // Check Chinese characters
+    if (Page.site_info.address === "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT" && (title + body).match(/[\u3400-\u9FBF]/)) {
+      topic.parent_topic_uri = "10_1J3rJ8ecnwH2EPYa6MrgZttBNc61ACFiCj";
+    }
 
-      if (this.parent_topic_uri) topic.parent_topic_uri = this.parent_topic_uri;
-      if (this.topictype === "group") topic.type = "group";
-      data.topic.push(topic);
-      data.next_topic_id += 1;
-      User.publishData(data, (res) => {
-        $(".topic-new .button-submit").removeClass("loading");
-        $(".topic-new").slideUp();
-        $(".topic-new-link").slideDown();
-        var user_dir = Page.site_info.xid_directory || Page.site_info.auth_address;
-        setTimeout(() => {
-          if (this.topictype === "group") {
-            window.top.location = "?Topics:" + topic.topic_id.toString() + "_" + user_dir;
-            return;
-          } else if (topic.parent_topic_uri && this.parent_topic_uri !== topic.parent_topic_uri) {
-            window.top.location = "?Topics:" + topic.parent_topic_uri;
-          } else {
-            this.loadTopics();
+    if (this.parent_topic_uri) topic.parent_topic_uri = this.parent_topic_uri;
+    if (this.topictype === "group") topic.type = "group";
+    User.createRecord("topics", topic, (res) => {
+      $(".topic-new .button-submit").removeClass("loading");
+      if (!res) return;
+      $(".topic-new").slideUp();
+      $(".topic-new-link").slideDown();
+      var user_dir = Page.site_info.xid_directory || Page.site_info.auth_address;
+      setTimeout(() => {
+        if (this.topictype === "group") {
+          window.top.location = "?Topics:" + topic.topic_id.toString() + "_" + user_dir;
+          return;
+        } else if (topic.parent_topic_uri && this.parent_topic_uri !== topic.parent_topic_uri) {
+          window.top.location = "?Topics:" + topic.parent_topic_uri;
+        } else {
+          this.loadTopics();
+        }
+        // Follow topic comments
+        window.TopicShow.topic_uri = topic.topic_id + "_" + user_dir;
+        window.TopicShow.initFollowButton(function() {
+          for (var title in window.TopicShow.follow.feeds) {
+            var feed = window.TopicShow.follow.feeds[title];
+            feed[1].addClass("selected");
           }
-          // Follow topic comments
-          window.TopicShow.topic_uri = topic.topic_id + "_" + user_dir;
-          window.TopicShow.initFollowButton(function() {
-            for (var title in window.TopicShow.follow.feeds) {
-              var feed = window.TopicShow.follow.feeds[title];
-              feed[1].addClass("selected");
-            }
-            window.TopicShow.follow.saveFeeds();
-          });
-        }, 600);
-        $(".topic-new #topic_body").val("");
-        $(".topic-new #topic_title").val("");
-      });
-    }, {"allowCreate": true, "onAbort": function() { $(".topic-new .button-submit").removeClass("loading"); }});
+          window.TopicShow.follow.saveFeeds();
+        });
+      }, 600);
+      $(".topic-new #topic_body").val("");
+      $(".topic-new #topic_title").val("");
+    });
   }
 
   submitTopicVote(e) {
@@ -856,21 +856,19 @@ class TopicList {
 
     var elem = $(e.currentTarget);
     elem.toggleClass("active").addClass("loading");
-    var user_dir = Page.site_info.xid_directory || Page.site_info.auth_address;
-    var inner_path = "data/users/" + user_dir + "/data.json";
-    User.getDataForWrite((data) => {
-      if (!data.topic_vote) data.topic_vote = {};
-      var topic_uri = elem.parents(".topic").data("topic_uri");
-
-      if (elem.hasClass("active")) {
-        data.topic_vote[topic_uri] = Math.floor(Date.now() / 1000);
+    var topic_uri = elem.parents(".topic").data("topic_uri");
+    // A vote is a keyed record in topic_votes.json (key = topic_uri): voting is
+    // a live record, un-voting a signed tombstone for the same key.
+    var voting = elem.hasClass("active");
+    User.editRecord("topic_votes", topic_uri, {"topic_uri": topic_uri, "added": Math.floor(Date.now() / 1000)}, !voting, function(res) {
+      elem.removeClass("loading");
+      if (res) {
+        if (voting) User.my_topic_votes[topic_uri] = true;
+        else delete User.my_topic_votes[topic_uri];
       } else {
-        delete data.topic_vote[topic_uri];
+        elem.toggleClass("active"); // revert optimistic toggle on failure
       }
-      User.publishData(data, function(res) {
-        elem.removeClass("loading");
-      });
-    }, {"allowCreate": true, "onAbort": function() { elem.removeClass("loading"); elem.toggleClass("active"); }});
+    });
     return false;
   }
 }
