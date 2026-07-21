@@ -51,8 +51,8 @@
    "size": 1172
   },
   "index.html": {
-   "sha512": "dab6f7223401e75f243766fe2d3b090c60e2e1203cc30afd6a715edff70c7a8a",
-   "size": 17832
+   "sha512": "32c3a029c586a624a69162ce30d1647dd67b0286a53123dae9cfae99a3adc2e9",
+   "size": 17740
   },
   "js/Admin.js": {
    "sha512": "a008a06185023c1e011c84c347a9bc717167577d9082dc7c083af1c9a669f14e",
@@ -89,6 +89,14 @@
   "js/lib/epixframe.js": {
    "sha512": "8cb66604615c662afc621127a3ab534d23323ad4bbfe068d9dae7a62fba73ae9",
    "size": 18957
+  },
+  "js/lib/epixkit.js": {
+   "sha512": "7e38acc8e40bfc939d67a0f62f40d90af9d5c42f02e1c2a3d4f7022315724b23",
+   "size": 12932
+  },
+  "js/lib/ethers.umd.min.js": {
+   "sha512": "577c511ac40c43c086e25da054de384c20e6358e5c765c5b4af7a3ae0996c5c2",
+   "size": 505826
   },
   "js/lib/highlight.pack.js": {
    "sha512": "e4541d715d54ceeef43c42811a1f8c157498d23439b1cd0f77d27d0b85fea123",
@@ -255,14 +263,14 @@
   }
  },
  "inner_path": "content.json",
- "modified": 1784515772,
+ "modified": 1784669083,
  "postmessage_nonce_security": true,
  "settings": {
   "admins": ["mud.epix"],
   "mods": []
  },
  "signers_sign": "HGSZQa6jbMg5Eox/zn+GTqjfrW3+6xMGBhwjnIV7JtqEVfzgnovnoomPtHp9ClrRTdBI6NuIojbW3FAJ+4bMvlI=",
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "G9+eJBi5zig+kVXrG/+PoEzNXR4KhyKn58z+9DpAuGXQa/7qJVA442veyQI8qHStQwu778LQBQQ/RoCEETQCqXI="},
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HGaR6fMngazQkvGHysv3+rPJjrCxEG3f5gdLorRN3VwLXU8rzKLJo7JvA/qZ6z2qOzE2NDNLEhpez93V1awz5mo="},
  "signs_required": 1,
  "title": "Epix Talk",
  "translate": ["index.html","js/TopicList.js","js/TopicShow.js"],

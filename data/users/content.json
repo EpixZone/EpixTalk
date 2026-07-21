@@ -1,41 +1,43 @@
 {
  "address": "epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu",
  "files": {},
- "ignore": ".*",
+ "ignore": ".",
  "inner_path": "data/users/content.json",
- "modified": 1779202793,
- "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HDTboPXaSoRI2askMCBdREXLwCtC4Q49uxb3yQFiHVdeXxe1brhbck//45/VTL4im8Vx/KIzLNbrpD4LPtrkZRo="},
+ "modified": 1784523995,
+ "signs": {"epix1talk58lw26c0cyrtuu8axptne2p6zf33s7xxwu": "HPdVF3OGvm6TtaSE8w7uSceNYwO53aj40UO/Ufbh5WC2BT5DUZ/FP2eS8WhHkCECNcnSbc2NglGRWT4TPQV8Bwo="},
  "user_contents": {
   "cert_signers": {
    "xid.epix": ["chain"]
   },
   "permission_rules": {
-   ".*": {
+   ".": {
     "files_allowed": "data.json",
     "max_size": 200000,
-    "signers": ["mud.epix"],
     "merge_files": {
-     "topics.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "comments.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "topic_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "comment_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "reports.json": {"class": "epix-orset-1", "max_size": 3000000}
-    }
+     "comment_votes.json": {
+      "class": "epix-orset-1",
+      "max_size": 3000000
+     },
+     "comments.json": {
+      "class": "epix-orset-1",
+      "max_size": 3000000
+     },
+     "reports.json": {
+      "class": "epix-orset-1",
+      "max_size": 3000000
+     },
+     "topic_votes.json": {
+      "class": "epix-orset-1",
+      "max_size": 3000000
+     },
+     "topics.json": {
+      "class": "epix-orset-1",
+      "max_size": 3000000
+     }
+    },
+    "signers": ["mud.epix"]
    }
   },
-  "permissions": {
-   ".*": {
-    "files_allowed": "data.json",
-    "max_size": 200000,
-    "signers": ["mud.epix"],
-    "merge_files": {
-     "topics.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "comments.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "topic_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "comment_votes.json": {"class": "epix-orset-1", "max_size": 3000000},
-     "reports.json": {"class": "epix-orset-1", "max_size": 3000000}
-    }
-   }
-  }
+  "permissions": {}
  }
 }
