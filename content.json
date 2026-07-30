@@ -28,11 +28,11 @@
   },
   "paths": {
    "data/admin/": {
-    "retention": "partial",
+    "retention": "complete",
     "unit": "feed"
    },
    "data/users/": {
-    "retention": "partial",
+    "retention": "complete",
     "unit": "feed"
    }
   }
