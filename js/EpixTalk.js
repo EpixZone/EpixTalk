@@ -26,8 +26,20 @@ class EpixTalk extends EpixFrame {
     // How long after the last file the empty-forum message keeps saying
     // "syncing" - longer than the banner, to ride out the gaps between passes.
     this.SYNC_MESSAGE_GRACE = 60000;
+    // The page opens the moment the site's own files are down, before any
+    // user content has arrived, so an empty list is assumed to be mid-sync
+    // until proven otherwise: either a sync runs and goes quiet, or nothing
+    // shows up within this window and the forum really is empty.
+    this.SYNC_INITIAL_GRACE = 90000;
+    this.sync_settled = false;
     this.sync = null;
     this.sync_timer = null;
+    setTimeout(() => {
+      this.sync_settled = true;
+      if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) {
+        TopicList.loadTopics("noanim");
+      }
+    }, this.SYNC_INITIAL_GRACE);
 
     // Autoexpand
     var textareas = $("textarea");
@@ -407,6 +419,7 @@ class EpixTalk extends EpixFrame {
     if (this.sync_timer) clearTimeout(this.sync_timer);
     this.sync_timer = setTimeout(() => {
       this.sync_timer = null;
+      this.sync_settled = true;
       this.renderSync();
       // The empty-forum message was chosen while the sync was still running;
       // re-run the list so it settles on the right one.
@@ -427,6 +440,7 @@ class EpixTalk extends EpixFrame {
   // passes with quiet gaps between them, and flipping the message to "no
   // topics" in each gap reads as the forum being empty when it is not.
   syncedRecently() {
+    if (!this.sync_settled) return true;
     return !!(this.sync && Date.now() - this.sync.at < this.SYNC_MESSAGE_GRACE);
   }
 
