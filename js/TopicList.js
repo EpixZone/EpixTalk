@@ -512,11 +512,18 @@ class TopicList {
       if (topics.length === 0) {
         if (search_query.nonempty) {
           $(".message-big").text(_("No results found."));
-        } else if (Page.site_info.bad_files && !Page.site_info.settings?.own) {
-          $(".message-big").text("Initial sync in progress...");
-        } else {
+        } else if (Page.site_info.settings?.own) {
           $(".message-big").text("Welcome to your own forum! :)");
           $(".topic-new-link").trigger("click");
+        } else if (Page.site_info.bad_files || Page.syncedRecently()) {
+          // Still downloading. `bad_files` only covers the site's own files;
+          // the topics arrive afterwards in per-user dirs, which is what
+          // isSyncing() tracks. Without it a visitor was told "Welcome to your
+          // own forum!" - on someone else's forum, with the new-topic composer
+          // popped open - for the whole user-content download.
+          $(".message-big").text("Initial sync in progress...");
+        } else {
+          $(".message-big").text(_("No topics yet."));
         }
         $(".message-big").css("display", "block").cssLater("opacity", 1);
       } else {

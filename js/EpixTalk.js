@@ -16,6 +16,18 @@ class EpixTalk extends EpixFrame {
     this.site_info = null;  // Last site info response
     this.server_info = null;  // Last server info response
     this.site_address = null;  // Site address
+    // Initial sync of the forum's user content: see noteSync. There is no
+    // "sync finished" event, so going quiet for this long is the signal.
+    this.SYNC_IDLE = 15000;
+    // An initial sync arrives as dozens of files; a single new post from
+    // someone else is one or two. Below this the banner stays down, so normal
+    // browsing does not flash a "downloading" card every time a post lands.
+    this.SYNC_MIN_FILES = 3;
+    // How long after the last file the empty-forum message keeps saying
+    // "syncing" - longer than the banner, to ride out the gaps between passes.
+    this.SYNC_MESSAGE_GRACE = 60000;
+    this.sync = null;
+    this.sync_timer = null;
 
     // Autoexpand
     var textareas = $("textarea");
@@ -319,6 +331,7 @@ class EpixTalk extends EpixFrame {
     this.setSiteinfo(site_info);
     User.updateRole();
     this.updateAdminLink();
+    this.noteSync(site_info);
     if (site_info.event && site_info.event[0] === "file_done") {
       var changed_file = site_info.event[1];
       // Reload admin settings when admin data changes
@@ -371,6 +384,65 @@ class EpixTalk extends EpixFrame {
         }
       });
     }
+  }
+
+  // The forum's user content still coming down. The wrapper's loading screen
+  // only covers the site's own files; the topics live in per-user dirs that
+  // arrive afterwards, so without this the page opens on an empty list with
+  // nothing to say it is still filling.
+  //
+  // `bad_files` is not the signal: it is already 0 by the time the user
+  // content starts, which is exactly the window that looked broken.
+  noteSync(site_info) {
+    if (!site_info || !site_info.event || site_info.event[0] !== "file_done") return;
+    if (!/^data\/(users|admin)\//.test(site_info.event[1])) return;
+    if (!this.sync) this.sync = { files: 0 };
+    this.sync.files += 1;
+    this.sync.last = site_info.event[1];
+    this.sync.peers = site_info.peers_serving || site_info.peers || 0;
+    this.sync.at = Date.now();
+    this.renderSync();
+    // One pending timer, re-armed on every file: when they stop arriving the
+    // banner has to take itself down.
+    if (this.sync_timer) clearTimeout(this.sync_timer);
+    this.sync_timer = setTimeout(() => {
+      this.sync_timer = null;
+      this.renderSync();
+      // The empty-forum message was chosen while the sync was still running;
+      // re-run the list so it settles on the right one.
+      if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) {
+        TopicList.loadTopics("noanim");
+      }
+    }, this.SYNC_IDLE);
+  }
+
+  // Whether user content is arriving right now - drives the banner, so it
+  // comes down promptly when the transfer ends.
+  isSyncing() {
+    return !!(this.sync && Date.now() - this.sync.at < this.SYNC_IDLE);
+  }
+
+  // Whether a sync is still plausibly running - drives the empty-forum
+  // message, which needs a longer grace than the banner: the pull comes in
+  // passes with quiet gaps between them, and flipping the message to "no
+  // topics" in each gap reads as the forum being empty when it is not.
+  syncedRecently() {
+    return !!(this.sync && Date.now() - this.sync.at < this.SYNC_MESSAGE_GRACE);
+  }
+
+  renderSync() {
+    var banner = $(".sync-banner");
+    if (!this.isSyncing() || this.sync.files < this.SYNC_MIN_FILES) {
+      banner.css("display", "none");
+      return;
+    }
+    var count = this.sync.files + " " + (this.sync.files === 1 ? "file" : "files");
+    if (this.sync.peers) {
+      count += " · " + this.sync.peers + " " + (this.sync.peers === 1 ? "peer" : "peers");
+    }
+    $(".sync-banner-count", banner).text(count);
+    $(".sync-banner-file", banner).text(this.sync.last || "");
+    banner.css("display", "block");
   }
 
   setSiteinfo(site_info) {
