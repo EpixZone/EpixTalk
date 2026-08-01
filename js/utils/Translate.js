@@ -58,7 +58,11 @@ window.translateDOM = function() {
     'label[for="toolbar-topic_list_mode-full"]': "Full",
     // Search
     ".topic-search": {"attr": "placeholder", "text": "Search topics..."},
-    ".topic-search-button": "Search"
+    ".topic-search-button": "Search",
+    // Xite link warning
+    ".xite-link-title": "This link opens on EpixNet",
+    ".xite-link-text": "Xite addresses are not part of the regular internet, so an ordinary browser cannot open them. To follow this link you need the Epix Browser installed.",
+    ".xite-link-get": "Get the Epix Browser"
   };
   for (var sel in selectors) {
     var val = selectors[sel];

@@ -604,6 +604,13 @@ a.topic-search-button.nolink:active, a.topic-new-link.nolink:active {
 	background-color: var(--epix-surface); border: 1px solid var(--epix-border); border-radius: var(--epix-radius-md);
 	padding: 14px 20px; margin: 0 0 8px 0
 }
+/* Where a permalink landed: a brief ring, then back to normal so the
+   highlight never reads as permanent state. */
+.comment.focused {
+	border-color: var(--epix-accent);
+	box-shadow: 0 0 0 3px rgba(49, 189, 198, 0.28);
+}
+.comment { transition: box-shadow 0.6s ease-out, border-color 0.6s ease-out }
 .comment .user_name { font-size: 14px }
 .comment .added { color: var(--epix-text-low) }
 .comment .menu_3dot { float: right; padding: 0px 5px }
@@ -976,6 +983,45 @@ a.topic-search-button.nolink:active, a.topic-new-link.nolink:active {
 .tip-stat-time { color: var(--epix-text-low); font-size: 11px; margin-left: 10px; white-space: nowrap }
 .tip-stat-link { color: var(--epix-text-low); text-decoration: none; margin-left: 6px; font-size: 12px; line-height: 1; opacity: 0.8; transition: opacity 0.15s }
 .tip-stat-link:hover { color: var(--epix-link); opacity: 1 }
+
+
+/* ---- xite link warning ---- */
+
+.xite-link-overlay {
+	position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999;
+	background: rgba(2, 2, 2, 0.55); justify-content: center; align-items: center;
+	opacity: 0; transition: opacity 0.25s;
+}
+.xite-link-overlay.visible { opacity: 1 }
+
+.xite-link-modal {
+	background: var(--epix-surface); color: var(--epix-text); border: 1px solid var(--epix-border);
+	border-radius: var(--epix-radius-lg); padding: 24px 28px 22px; width: 420px; max-width: 90vw;
+	max-height: 85vh; overflow: auto; box-sizing: border-box;
+	position: relative; box-shadow: var(--epix-shadow);
+	transform: translateY(16px); transition: transform 0.25s;
+}
+.xite-link-overlay.visible .xite-link-modal { transform: translateY(0) }
+.xite-link-header { display: flex; align-items: center; margin: 0 0 14px 0 }
+.xite-link-title { margin: 0; font-size: 17px; font-weight: 600; color: var(--epix-text); flex: 1 }
+.xite-link-close {
+	font-size: 20px; color: var(--epix-text-low); text-decoration: none; line-height: 1;
+	margin-left: 12px; flex-shrink: 0; padding: 0 2px;
+}
+.xite-link-close:hover { color: var(--epix-text) }
+.xite-link-text { font-size: 13.5px; line-height: 1.55; color: var(--epix-text-mid) }
+
+/* The blocked target, verbatim: the reader decides with the address in front
+   of them, and it may be long enough to need its own scroll. */
+.xite-link-url {
+	margin: 14px 0 18px; padding: 9px 12px;
+	background: var(--epix-surface-2); border: 1px solid var(--epix-border);
+	border-radius: var(--epix-radius-md);
+	font-family: var(--epix-font-mono); font-size: 12px; color: var(--epix-text-mid);
+	overflow-wrap: anywhere;
+}
+
+.xite-link-actions { display: flex; align-items: center; gap: 16px }
 
 
 /* ---- mentions ---- */

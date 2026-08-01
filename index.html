@@ -363,6 +363,22 @@
 </div>
 <!-- EOF Tip Modal -->
 
+<!-- Xite link warning: shown when a link needs a browser that resolves xite hosts -->
+<div class="xite-link-overlay" style="display: none">
+ <div class="xite-link-modal">
+  <div class="xite-link-header">
+   <h3 class="xite-link-title">This link opens on EpixNet</h3>
+   <a href="#" class="xite-link-close">&times;</a>
+  </div>
+  <div class="xite-link-text">Xite addresses are not part of the regular internet, so an ordinary browser cannot open them. To follow this link you need the Epix Browser installed.</div>
+  <div class="xite-link-url"></div>
+  <div class="xite-link-actions">
+   <a class="button button-submit xite-link-get" href="https://epixnet.io" target="_blank" rel="noopener">Get the Epix Browser</a>
+  </div>
+ </div>
+</div>
+<!-- EOF Xite link warning -->
+
 <!-- User mention popup -->
 <div class="mention-popup" style="display: none">
  <div class="mention-popup-avatar"></div>
@@ -399,6 +415,7 @@
 <script src="js/utils/Moderation.js"></script>
 <script src="js/utils/Tipping.js"></script>
 <script src="js/utils/MentionPopup.js"></script>
+<script src="js/utils/XiteLinkGuard.js"></script>
 
 <!-- App -->
 <script src="js/TopicList.js"></script>
