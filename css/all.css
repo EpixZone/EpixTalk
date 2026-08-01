@@ -511,6 +511,40 @@ a.topic-search-button.nolink:active, a.topic-new-link.nolink:active {
 }
 .topics-loading img { opacity: 0.6; margin-right: 8px; vertical-align: -3px }
 
+
+/* ---- initial sync banner ---- */
+
+.sync-banner {
+	background-color: var(--epix-surface); border: 1px solid var(--epix-border);
+	border-radius: var(--epix-radius-lg); padding: 12px 16px; margin: 0 0 12px 0
+}
+.sync-banner-head { display: flex; align-items: center; gap: 10px; font-size: 13px }
+.sync-banner-spinner {
+	flex: none; display: inline-block; width: 16px; height: 16px; box-sizing: border-box;
+	border: 2px solid var(--epix-border-strong); border-top-color: var(--epix-accent);
+	border-radius: 50%; animation: epix-sync-spin 0.7s linear infinite
+}
+@keyframes epix-sync-spin { to { transform: rotate(360deg) } }
+.sync-banner-title { color: var(--epix-text); font-weight: 600 }
+.sync-banner-count { color: var(--epix-text-mid); margin-left: auto; white-space: nowrap }
+.sync-banner-bar {
+	margin-top: 10px; height: 4px; border-radius: 2px; overflow: hidden;
+	background-color: var(--epix-border)
+}
+/* The topics arrive from per-user dirs with no known total, so the bar sweeps
+   rather than inventing a percentage. */
+.sync-banner-bar-fill {
+	height: 100%; width: 35%; border-radius: 2px; background-color: var(--epix-accent);
+	animation: epix-sync-sweep 1.4s ease-in-out infinite
+}
+@keyframes epix-sync-sweep {
+	0% { margin-left: -35% } 100% { margin-left: 100% }
+}
+.sync-banner-file {
+	margin-top: 8px; font-size: 12px; color: var(--epix-text-low);
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: rtl; text-align: left
+}
+
 .topic-full { border-left: 2px solid var(--epix-accent); display: inline-block; width: 100%; box-sizing: border-box; margin-bottom: 10px; opacity: 0; transition: opacity 0.3s }
 .topic-full .body { white-space: normal; color: var(--epix-text) }
 .topic-full > .menu_3dot { float: right; padding: 4px 10px; color: var(--epix-text-low); text-decoration: none; border-bottom: none; font-size: 16px; transition: color 0.2s }
