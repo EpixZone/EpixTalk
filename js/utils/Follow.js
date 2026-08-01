@@ -44,6 +44,7 @@ class Follow {
       }
 
       // Check selected queries
+      var query_changed = false;
       for (var title in this.feeds) {
         var feed = this.feeds[title];
         var query = feed[0], menu_item = feed[1], is_default_feed = feed[2], param = feed[3];
@@ -52,6 +53,17 @@ class Follow {
         } else {
           menu_item.removeClass("selected");
         }
+        // A follow stores a snapshot of the SQL, so a query that gains a
+        // column (eg. the comment permalink) would only reach the newsfeed
+        // after an unfollow/refollow. Refresh it in place instead.
+        if (this.follows[title] && this.follows[title][0] !== query) {
+          this.log("Updating stored query for", title);
+          this.follows[title][0] = query;
+          query_changed = true;
+        }
+      }
+      if (query_changed) {
+        Page.cmd("feedFollow", [this.follows]);
       }
       this.updateListitems();
       this.elem.css("display", "inline-block");

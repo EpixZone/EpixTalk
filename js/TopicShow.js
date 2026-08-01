@@ -1,10 +1,15 @@
 (function() {
 class TopicShow {
-  actionShow(topic_id, topic_user_address) {
+  actionShow(topic_id, topic_user_address, focus_comment) {
     this.topic_id = topic_id;
     this.topic_user_address = topic_user_address;
     this.topic_uri = this.topic_id + "_" + this.topic_user_address;
     this.topic = null;
+    // Comment to scroll to once the list renders (a permalink from the
+    // newsfeed or an in-page quote anchor), cleared after one jump so a
+    // background refresh never yanks the reader back.
+    this.focus_comment = focus_comment || null;
+    this.focus_comment_expanded = false;
 
     this.list_all = false;
     $(".topic-title").css("display", "none");
@@ -51,9 +56,12 @@ class TopicShow {
        comment.added AS date_added,
        topic.title,
        comment.body AS body,
+       commenter_json.directory AS author,
        topic_creator_json.directory AS topic_creator_address,
        topic.topic_id || '_' || topic_creator_json.directory AS row_topic_uri,
-       '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory AS url
+       '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory AS url,
+       '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory ||
+        '&comment=' || comment.comment_id || '_' || commenter_json.directory AS permalink
       FROM topic
        LEFT JOIN json AS topic_creator_json ON (topic_creator_json.json_id = topic.json_id)
        LEFT JOIN comment ON (comment.topic_uri = row_topic_uri)
@@ -285,8 +293,43 @@ class TopicShow {
       UserPrefs.set("topic." + this.topic_id + "_" + this.topic_user_address + ".visited", visited_ts);
       focused.focus();
 
+      this.focusComment(comments.length);
+
       if (cb) cb();
     });
+  }
+
+  // Jump to the comment a permalink asked for. Comments render after the page
+  // does, so the browser's own anchor handling has already given up by now.
+  focusComment(rendered_num) {
+    if (!this.focus_comment) {
+      return false;
+    }
+    var elem = document.getElementById("comment_" + this.focus_comment);
+    if (!elem) {
+      // Out of the newest-60 window: widen the query once, then try again.
+      if (!this.list_all && !this.focus_comment_expanded && rendered_num >= 60) {
+        this.log("Comment not in view, loading all comments:", this.focus_comment);
+        this.focus_comment_expanded = true;
+        this.list_all = true;
+        this.loadComments("noanim");
+      } else {
+        this.log("Comment not found:", this.focus_comment);
+        this.focus_comment = null;
+      }
+      return false;
+    }
+    var target = this.focus_comment;
+    this.focus_comment = null;
+    setTimeout(function() {
+      elem.scrollIntoView({ behavior: "smooth", block: "center" });
+      var $elem = $(elem).addClass("focused");
+      setTimeout(function() {
+        $elem.removeClass("focused");
+      }, 2600);
+    }, 100);
+    this.log("Focused comment", target);
+    return true;
   }
 
   applyCommentListeners(elem, comment) {

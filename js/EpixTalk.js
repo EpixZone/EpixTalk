@@ -165,7 +165,14 @@ class EpixTalk extends EpixFrame {
     var match;
     if (match = url.match(/Topic:([0-9]+)_([0-9a-zA-Z.]+)/)) { // Topic
       $("body").addClass("page-topic");
-      TopicShow.actionShow(parseInt(match[1]), Text.toEpixAddress(match[2]));
+      // A deep link to one comment: `?Topic:<uri>&comment=<id>_<user>`. The
+      // wrapper forwards the query string but never the fragment, so an
+      // off-site link (the newsfeed) cannot use a `#comment_...` anchor.
+      var focus_match = url.match(/[?&]comment=([0-9]+_[0-9a-zA-Z.]+)/);
+      if (!focus_match) {
+        focus_match = window.location.hash.match(/^#comment_([0-9]+_[0-9a-zA-Z.]+)/);
+      }
+      TopicShow.actionShow(parseInt(match[1]), Text.toEpixAddress(match[2]), focus_match ? focus_match[1] : null);
     } else if (match = url.match(/Topics:([0-9]+)_([0-9a-zA-Z.]+)/)) { // Sub-topics
       $("body").addClass("page-topics");
       TopicList.actionList(parseInt(match[1]), Text.toEpixAddress(match[2]));

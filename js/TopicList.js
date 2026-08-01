@@ -208,9 +208,12 @@ class TopicList {
            comment.added AS date_added,
            topic.title,
            comment.body AS body,
+           commenter_json.directory AS author,
            topic_creator_json.directory AS topic_creator_address,
            topic.topic_id || '_' || topic_creator_json.directory AS row_topic_uri,
-           '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory AS url
+           '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory AS url,
+           '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory ||
+            '&comment=' || comment.comment_id || '_' || commenter_json.directory AS permalink
           FROM topic
            LEFT JOIN json AS topic_creator_json ON (topic_creator_json.json_id = topic.json_id)
            LEFT JOIN comment ON (comment.topic_uri = row_topic_uri)
@@ -225,9 +228,12 @@ class TopicList {
          comment.added AS date_added,
          topic.title,
          comment.body AS body,
+         commenter_json.directory AS author,
          topic_creator_json.directory AS topic_creator_address,
          topic.topic_id || '_' || topic_creator_json.directory AS row_topic_uri,
-         '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory AS url
+         '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory AS url,
+         '?Topic:' || topic.topic_id || '_' || topic_creator_json.directory ||
+          '&comment=' || comment.comment_id || '_' || commenter_json.directory AS permalink
         FROM topic
          LEFT JOIN json AS topic_creator_json ON (topic_creator_json.json_id = topic.json_id)
          LEFT JOIN comment ON (comment.topic_uri = row_topic_uri)
