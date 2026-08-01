@@ -19,6 +19,12 @@ class EpixTalk extends EpixFrame {
     // Initial sync of the forum's user content: see noteSync. There is no
     // "sync finished" event, so going quiet for this long is the signal.
     this.SYNC_IDLE = 15000;
+    // The longer window used while a fetch pass has been announced
+    // (file_added) but its files have not started landing: the node dials
+    // the peers first, which over Tor is routinely 30-60s of dead air. With
+    // only the short idle the banner sat down through exactly the stretch
+    // that looked broken.
+    this.SYNC_WAIT = 120000;
     // An initial sync arrives as dozens of files; a single new post from
     // someone else is one or two. Below this the banner stays down, so normal
     // browsing does not flash a "downloading" card every time a post lands.
@@ -406,11 +412,21 @@ class EpixTalk extends EpixFrame {
   // `bad_files` is not the signal: it is already 0 by the time the user
   // content starts, which is exactly the window that looked broken.
   noteSync(site_info) {
-    if (!site_info || !site_info.event || site_info.event[0] !== "file_done") return;
-    if (!/^data\/(users|admin)\//.test(site_info.event[1])) return;
+    if (!site_info || !site_info.event) return;
+    var kind = site_info.event[0];
+    if (kind !== "file_done" && kind !== "file_added") return;
+    var path = site_info.event[1];
+    if (typeof path !== "string" || !/^data\/(users|admin)\//.test(path)) return;
     if (!this.sync) this.sync = { files: 0 };
-    this.sync.files += 1;
-    this.sync.last = site_info.event[1];
+    if (kind === "file_done") {
+      this.sync.files += 1;
+      this.sync.last = path;
+      this.sync.waiting = false;
+    } else {
+      // A fetch pass just started (the node announces it before dialing the
+      // peers): more files are coming, hold the banner through the dial.
+      this.sync.waiting = true;
+    }
     this.sync.peers = site_info.peers_serving || site_info.peers || 0;
     this.sync.at = Date.now();
     this.renderSync();
@@ -426,13 +442,19 @@ class EpixTalk extends EpixFrame {
       if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) {
         TopicList.loadTopics("noanim");
       }
-    }, this.SYNC_IDLE);
+    }, this.syncWindow());
+  }
+
+  // How long after the last event the sync still counts as live: the short
+  // idle normally, the long wait while a just-announced pass is dialing.
+  syncWindow() {
+    return this.sync && this.sync.waiting ? this.SYNC_WAIT : this.SYNC_IDLE;
   }
 
   // Whether user content is arriving right now - drives the banner, so it
   // comes down promptly when the transfer ends.
   isSyncing() {
-    return !!(this.sync && Date.now() - this.sync.at < this.SYNC_IDLE);
+    return !!(this.sync && Date.now() - this.sync.at < this.syncWindow());
   }
 
   // Whether a sync is still plausibly running - drives the empty-forum
@@ -446,16 +468,27 @@ class EpixTalk extends EpixFrame {
 
   renderSync() {
     var banner = $(".sync-banner");
-    if (!this.isSyncing() || this.sync.files < this.SYNC_MIN_FILES) {
+    // During the initial sync (not yet settled) any activity shows the
+    // banner, including the dialing stretch before the first file. Once
+    // settled, the small-pass threshold keeps a routine one-file update
+    // from flashing a "downloading" card.
+    var enough = !this.sync_settled || (this.sync && this.sync.files >= this.SYNC_MIN_FILES);
+    if (!this.isSyncing() || !enough) {
       banner.css("display", "none");
       return;
     }
-    var count = this.sync.files + " " + (this.sync.files === 1 ? "file" : "files");
-    if (this.sync.peers) {
-      count += " · " + this.sync.peers + " " + (this.sync.peers === 1 ? "peer" : "peers");
+    var count = "";
+    var file = this.sync.last || "";
+    if (this.sync.files > 0) {
+      count = this.sync.files + " " + (this.sync.files === 1 ? "file" : "files");
+      if (this.sync.peers) {
+        count += " · " + this.sync.peers + " " + (this.sync.peers === 1 ? "peer" : "peers");
+      }
+    } else {
+      file = "Connecting to peers...";
     }
     $(".sync-banner-count", banner).text(count);
-    $(".sync-banner-file", banner).text(this.sync.last || "");
+    $(".sync-banner-file", banner).text(file);
     banner.css("display", "block");
   }
 
