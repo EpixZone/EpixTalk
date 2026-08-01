@@ -52,6 +52,20 @@
 
 <div class="message-big">Initial sync in progress...</div>
 
+<!-- Initial sync of the forum's user content (see EpixTalk.noteSync). Fixed to
+     the bottom and outside the page sections: the topic list is display:none
+     on a topic page, and a banner in the flow would push the list down every
+     time a batch of topics lands. -->
+<div class="sync-banner" style="display: none">
+ <div class="sync-banner-bar"><div class="sync-banner-bar-fill"></div></div>
+ <div class="sync-banner-body">
+  <span class="sync-banner-spinner"></span>
+  <span class="sync-banner-title">Downloading topics</span>
+  <span class="sync-banner-file"></span>
+  <span class="sync-banner-count"></span>
+ </div>
+</div>
+
 <!-- Loading Progress -->
 <div class="loading-overlay" id="loading-overlay">
  <div class="loading-box">
@@ -67,17 +81,6 @@
 <!-- Page: Main -->
 <div class="center topics-list">
  <h1 class="topics-title">Newest topics</h1>
-
- <!-- Initial sync of the forum's user content (see EpixTalk.noteSync) -->
- <div class="sync-banner" style="display: none">
-  <div class="sync-banner-head">
-   <span class="sync-banner-spinner"></span>
-   <span class="sync-banner-title">Downloading topics</span>
-   <span class="sync-banner-count"></span>
-  </div>
-  <div class="sync-banner-bar"><div class="sync-banner-bar-fill"></div></div>
-  <div class="sync-banner-file"></div>
- </div>
  <a href="#Follow" class="feed-follow feed-follow-list"><span class='text-follow'>Follow in Newsfeed</span><span class='text-following'>Following</span><div class="icon-feed"></div></a>
 
  <!-- Sort order + Display mode toolbars -->
