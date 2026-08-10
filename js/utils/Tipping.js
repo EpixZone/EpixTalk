@@ -23,6 +23,10 @@ var currentTipTarget = null; // { contentHash, xidName, xidTld, topicUri }
 // --- Initialization ---
 
 function initTipping() {
+  if (typeof ethers === "undefined") {
+    console.log("[Tipping] ethers.js not loaded - tipping disabled");
+    return;
+  }
   Page.chainEvmRpcUrl().then(function(evmRpc) {
     Page.chainBlockExplorerUrl().then(function(explorer) {
       // Read-only provider for loading tip counts
@@ -59,6 +63,7 @@ function initTipping() {
 // --- Content Hash ---
 
 function computeContentHash(authorDirectory, topicId) {
+  if (typeof ethers === "undefined") return null;
   var coder = ethers.AbiCoder.defaultAbiCoder();
   return ethers.keccak256(
     coder.encode(
@@ -102,6 +107,7 @@ function loadTipCounts(elems) {
 // --- Tip Button Click ---
 
 function openTipModal(contentHash, xidName, xidTld, topicUri) {
+  if (!contentHash) return;
   currentTipTarget = { contentHash: contentHash, xidName: xidName, xidTld: xidTld, topicUri: topicUri };
 
   // Reset modal state
