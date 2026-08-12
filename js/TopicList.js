@@ -647,7 +647,7 @@ class TopicList {
     }
 
     // Apply display mode
-    var topic_list_mode = UserPrefs.get("topic_list_mode", "brief");
+    var topic_list_mode = UserPrefs.get("topic_list_mode", "normal");
 
     // Skip the body re-render when nothing changed: re-setting identical html
     // on every sync refresh makes embedded images re-fetch (visible flicker
