@@ -34,6 +34,14 @@ class User {
       SELECT 'comment_vote' AS type, comment_uri AS uri FROM json LEFT JOIN comment_vote USING (json_id) WHERE directory = "${user_dir}" AND file_name = 'data.json'
     `;
     Page.cmd("dbQuery", [query], (votes) => {
+      // {error} while the db is still being built from the incoming user
+      // content (or has nothing yet): treat as no votes. Iterating the error
+      // object threw here and never called back, which froze the loading
+      // overlay at "Resolving xID identity...".
+      if (!Array.isArray(votes)) {
+        console.log("[User] my votes query failed:", votes && votes.error);
+        votes = [];
+      }
       for (let vote of votes) {
         if (vote.type === "topic_vote") {
           this.my_topic_votes[vote.uri] = true;
@@ -99,11 +107,12 @@ class User {
         $(".comment-new").addClass("comment-nocert");
         $(".topic-new-link").css({"display": "none"});
         $(".topic-new").css({"display": "none"});
+        // No automatic picker on load: a first-time reader got a modal (after
+        // an on-chain identity lookup) before the topic list had even routed,
+        // and with the chain unreachable it hung on "Checking...". The fab and
+        // the composer name open it on a tap instead; reading needs nothing.
         this.showXidFab();
-        if (!this.xid_prompt_shown) {
-          this.xid_prompt_shown = true;
-          this.triggerCertXid();
-        }
+        this.showXidHint(true);
       } else {
         // Cert present: migrate legacy data.json into the merge files (once).
         this.maybeMigrate();
@@ -114,16 +123,14 @@ class User {
             $(".comment-new").removeClass("comment-nocert");
             $(".topic-new-link").css({"display": ""});
             this.showXidTag(display);
+            this.showXidHint(false);
           } else {
             $(".user_name-my").text("Connect xID").css({"color": "#f39c12"});
             $(".comment-new").addClass("comment-nocert");
             $(".topic-new-link").css({"display": "none"});
             $(".topic-new").css({"display": "none"});
             this.showXidFab();
-            if (!this.xid_prompt_shown) {
-              this.xid_prompt_shown = true;
-              this.triggerCertXid();
-            }
+            this.showXidHint(true);
           }
         });
       }
@@ -151,10 +158,26 @@ class User {
             $(".topic-new-link").css({"display": ""});
             Page.cmd("wrapperNotification", ["done", "Connected as " + display]);
             this.showXidTag(display);
+            this.showXidHint(false);
           }
         });
       }
     });
+  }
+
+  // The one line that tells a first-time reader why there is no composer:
+  // reading needs no account, posting needs an xID name. Its link opens the
+  // same picker as the header button.
+  showXidHint(on) {
+    var hint = $(".xid-hint");
+    hint.css({"display": on ? "block" : "none"});
+    if (on) {
+      $(".xid-hint-connect", hint).off("click").on("click", (e) => {
+        e.preventDefault();
+        this.triggerCertXid();
+        return false;
+      });
+    }
   }
 
   showXidFab() {

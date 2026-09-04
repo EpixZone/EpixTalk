@@ -40,8 +40,14 @@ class EpixTalk extends EpixFrame {
     this.sync_settled = false;
     this.sync = null;
     this.sync_timer = null;
+    // Whether the main listing came back empty (TopicList.loadTopics). The
+    // banner's pre-file form only makes sense over an empty list.
+    this.list_empty = false;
     setTimeout(() => {
       this.sync_settled = true;
+      // The banner shows from the first render on the grace alone; if no
+      // file ever came it has to come down here.
+      this.renderSync();
       if ($("body").hasClass("page-main") || $("body").hasClass("page-topics")) {
         TopicList.loadTopics("noanim");
       }
@@ -128,9 +134,38 @@ class EpixTalk extends EpixFrame {
     var step = document.getElementById("loading-step");
     if (bar) bar.style.width = percent + "%";
     if (step) step.textContent = label;
+    this.armBootWatchdog(label, percent);
+  }
+
+  // A boot step that has not advanced in 20s: say so and offer a retry,
+  // instead of leaving "Connecting..." on screen for good when the node's
+  // socket never answered (a cold mobile start, a dropped connection).
+  armBootWatchdog(label, percent) {
+    if (this.boot_watchdog) clearTimeout(this.boot_watchdog);
+    this.boot_watchdog = null;
+    if (percent >= 100) return;
+    this.boot_watchdog = setTimeout(() => {
+      var step = document.getElementById("loading-step");
+      if (!step) return;
+      step.textContent = "";
+      var text = document.createElement("span");
+      text.textContent = _("Still waiting for EpixNet to answer.") + " ";
+      var retry = document.createElement("a");
+      retry.href = "#retry";
+      retry.textContent = _("Retry");
+      retry.addEventListener("click", (e) => {
+        e.preventDefault();
+        this.setLoadingProgress(5, "Connecting");
+        this.onOpenWebsocket();
+      });
+      step.appendChild(text);
+      step.appendChild(retry);
+    }, 20000);
   }
 
   hideLoading() {
+    if (this.boot_watchdog) clearTimeout(this.boot_watchdog);
+    this.boot_watchdog = null;
     var overlay = document.getElementById("loading-overlay");
     if (overlay) {
       overlay.classList.add("fade-out");
@@ -144,26 +179,26 @@ class EpixTalk extends EpixFrame {
   onOpenWebsocket() {
     this.cmd("wrapperSetViewport", "width=device-width, initial-scale=1");
 
-    this.setLoadingProgress(10, "Fetching server info...");
+    this.setLoadingProgress(10, "Connecting");
     this.cmd("serverInfo", {}, (ret) => { // Get server info
       this.server_info = ret;
       this.checkVersion(ret.version);
-      this.setLoadingProgress(25, "Loading language...");
+      this.setLoadingProgress(25, "Loading");
       var afterLang = () => {
         translateDOM();
-        this.setLoadingProgress(40, "Loading site info...");
+        this.setLoadingProgress(40, "Loading");
         this.cmd("siteInfo", {}, (site) => {
           this.site_address = site.address;
           this.setSiteinfo(site);
           Tipping.init();
-          this.setLoadingProgress(55, "Resolving xID identity...");
+          this.setLoadingProgress(55, "Loading");
           User.updateMyInfo(() => {
-            this.setLoadingProgress(70, "Loading admin settings...");
+            this.setLoadingProgress(70, "Loading");
             // Load admin settings then moderation data then route
             Moderation.loadAdminSettings(() => {
-              this.setLoadingProgress(85, "Loading moderation data...");
+              this.setLoadingProgress(85, "Loading");
               Moderation.loadReports(() => {
-                this.setLoadingProgress(100, "Ready!");
+                this.setLoadingProgress(100, "Almost ready");
                 this.updateAdminLink();
                 UserPrefs.load(() => {
                   this.routeUrl(window.location.search.substring(1));
@@ -301,6 +336,10 @@ class EpixTalk extends EpixFrame {
   onRequest(cmd, message) {
     if (cmd === "setSiteInfo") { // Site updated
       this.actionSetSiteInfo(message);
+    } else if (cmd === "setServerInfo") {
+      // Node state changed (trust anchored, Tor up, language): keep the copy
+      // the empty-list message and the link guard read.
+      this.server_info = message.params;
     } else if (cmd === "setAnnouncerInfo") {
       // Ignore announcer updates silently
     } else {
@@ -466,6 +505,22 @@ class EpixTalk extends EpixFrame {
     return !!(this.sync && Date.now() - this.sync.at < this.SYNC_MESSAGE_GRACE);
   }
 
+  // Whether the node is still establishing trust in the Epix name registry
+  // (first start, before the light client has a validator pin). Name-signed
+  // user content is withheld until then, so an empty list means "not yet",
+  // not "nothing".
+  trustEstablishing() {
+    var trust = this.server_info && this.server_info.xid_trust;
+    return !!(trust && trust.required && !trust.anchored);
+  }
+
+  // Whether no peer has delivered anything yet: the node reports peers >= 1
+  // (itself), and this.sync is only set once a user-content file arrives.
+  noPeersYet() {
+    var peers = (this.site_info && this.site_info.peers) || 0;
+    return peers <= 1 && !this.sync;
+  }
+
   renderSync() {
     var banner = $(".sync-banner");
     // During the initial sync (not yet settled) any activity shows the
@@ -473,13 +528,19 @@ class EpixTalk extends EpixFrame {
     // settled, the small-pass threshold keeps a routine one-file update
     // from flashing a "downloading" card.
     var enough = !this.sync_settled || (this.sync && this.sync.files >= this.SYNC_MIN_FILES);
-    if (!this.isSyncing() || !enough) {
+    // Before the first file event there is no sync record at all, but the
+    // page is up and the topics are still to come: over an empty list the
+    // banner shows from the first render, in its "Connecting to peers..."
+    // form, instead of nothing to say the page is waiting. A returning
+    // reader with topics on disk gets no banner until files actually move.
+    var live = this.isSyncing() || (!this.sync_settled && !this.sync && this.list_empty);
+    if (!live || !enough) {
       banner.css("display", "none");
       return;
     }
     var count = "";
-    var file = this.sync.last || "";
-    if (this.sync.files > 0) {
+    var file = (this.sync && this.sync.last) || "";
+    if (this.sync && this.sync.files > 0) {
       count = this.sync.files + " " + (this.sync.files === 1 ? "file" : "files");
       if (this.sync.peers) {
         count += " · " + this.sync.peers + " " + (this.sync.peers === 1 ? "peer" : "peers");
@@ -495,6 +556,8 @@ class EpixTalk extends EpixFrame {
   setSiteinfo(site_info) {
     this.site_info = site_info;
     User.checkCert();
+    // Keeps the banner in step on every siteInfo, not only on file events.
+    this.renderSync();
   }
 
   checkVersion(version) {

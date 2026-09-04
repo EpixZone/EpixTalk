@@ -335,6 +335,13 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 	transform: translateX(-50%); margin-left: 0; font-size: 26px; color: var(--epix-text-low);
 	display: none; opacity: 0; transition: opacity 0.5s
 }
+/* Under the "none have arrived yet" message (TopicList.retryConnect) */
+.message-big-retry {
+	display: inline-block; margin-top: 16px; padding: 8px 18px; font-size: 15px; font-weight: 600;
+	color: var(--epix-link); border: 1px solid var(--epix-border-strong); border-radius: var(--epix-radius-md);
+	background-color: var(--epix-surface); text-decoration: none
+}
+.message-big-retry:hover { background-color: var(--epix-surface-2) }
 
 
 /* ---- loading overlay ---- */
@@ -412,6 +419,10 @@ input.text:focus, textarea:focus { border-color: var(--epix-focus); outline: non
 
 /* Search + new topic row */
 .topic-search-bar { display: flex; align-items: center; gap: 8px; margin: 6px 0 14px 0 }
+/* One line for a first-time reader, in the space the hidden new-topic link
+   left (User.showXidHint) */
+.xid-hint { margin: -6px 0 14px 0; font-size: 13px; color: var(--epix-text-low) }
+.xid-hint a { color: var(--epix-link); font-weight: 600 }
 .topic-search {
 	flex: 1; padding: 7px 12px; border: 1px solid var(--epix-border-strong); border-radius: var(--epix-radius-md);
 	font-size: 14px; font-family: var(--epix-font-sans); background: var(--epix-surface); color: var(--epix-text); outline: none; min-width: 0

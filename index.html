@@ -74,7 +74,7 @@
   <div class="loading-bar-track">
    <div class="loading-bar-fill" id="loading-bar-fill"></div>
   </div>
-  <div class="loading-step" id="loading-step">Connecting...</div>
+  <div class="loading-step" id="loading-step">Connecting</div>
  </div>
 </div>
 
@@ -130,6 +130,9 @@
   <a href="#Clear" class="topic-search-clear nolink" style="display:none">&times;</a>
   <a href="#New+topic" class="topic-new-link nolink"> + Start new topic</a>
  </div>
+ <!-- Shown by User.checkCert while no xID cert is connected: the composer is
+      hidden then, and nothing else said that reading needs no account. -->
+ <div class="xid-hint" style="display: none">Anyone can read. To post or vote, <a href="#Connect+xID" class="xid-hint-connect nolink">connect an xID name</a>.</div>
  <div class="topic topic-new" style="display: none">
   <a href="#" class="image nolink"><div class="icon icon-topic-chat"></div></a>
   <h2 class="title"><input type="text" id="topic_title" class="text" placeholder="Topic title"></h2>

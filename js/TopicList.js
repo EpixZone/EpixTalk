@@ -81,6 +81,13 @@ class TopicList {
 
     this.loadTopics("noanim");
 
+    // Retry under the "none have arrived yet" message: ask the node for the
+    // xite again, then re-read the list once the fetch had a chance.
+    $(".message-big").off("click", ".message-big-retry").on("click", ".message-big-retry", () => {
+      this.retryConnect();
+      return false;
+    });
+
     // Show create new topic form
     $(".topic-new-link").on("click", () => {
       if (Page.site_info.address === "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT") {
@@ -288,6 +295,14 @@ class TopicList {
         return this.types.indexOf(type) >= 0 || this.types.indexOf(type + "s") >= 0;
       }
     };
+  }
+
+  retryConnect() {
+    $(".message-big-retry").text(_("Retrying..."));
+    Page.cmd("siteUpdate", {address: Page.site_info.address});
+    setTimeout(() => {
+      this.loadTopics("noanim");
+    }, 3000);
   }
 
   loadTopics(type, cb) {
@@ -508,6 +523,10 @@ class TopicList {
       // Load tip counts for visible topics
       Tipping.loadTipCounts($(".topics-list .topic:not(.template)"));
 
+      // The sync banner's pre-file form rides on this (EpixTalk.renderSync).
+      Page.list_empty = topics.length === 0 && !search_query.nonempty;
+      Page.renderSync();
+
       // Show loading / empty forum bigmessage
       if (topics.length === 0) {
         if (search_query.nonempty) {
@@ -515,6 +534,19 @@ class TopicList {
         } else if (Page.site_info.settings?.own) {
           $(".message-big").text("Welcome to your own forum! :)");
           $(".topic-new-link").trigger("click");
+        } else if (Page.trustEstablishing()) {
+          // The node withholds the per-user files until it has verified the
+          // Epix name registry (they are signed by names). First start only.
+          $(".message-big").text(_("Verifying the Epix name registry. Topics will appear in a moment."));
+        } else if (Page.noPeersYet()) {
+          // Nothing ever arrived and no peer was reached: the network, not
+          // the forum, is empty. Ahead of the sync grace below, which held
+          // "Initial sync in progress..." for 90s on a phone with no
+          // connection and then flipped to a false "No topics yet.".
+          $(".message-big").empty().append(
+            $("<span>").text(_("Looking for other people's posts... none have arrived yet. Check your connection.")),
+            $("<a>", {href: "#Retry", "class": "message-big-retry nolink"}).text(_("Retry"))
+          );
         } else if (Page.site_info.bad_files || Page.syncedRecently()) {
           // Still downloading. `bad_files` only covers the site's own files;
           // the topics arrive afterwards in per-user dirs, which is what
