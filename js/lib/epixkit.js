@@ -7,7 +7,13 @@
  "use strict"
 
  var config = null
- var defaultExclude = ["phantom", "app.phantom"]
+ // Solana-only Phantom, and Leap (no longer a wallet). Matched as substrings of
+ // a wallet's EIP-6963 name or rdns, and of its fallback name.
+ var defaultExclude = ["phantom", "app.phantom", "leap", "io.leapwallet"]
+ // The Epix Wallet's EIP-6963 identity (the EpixNet browser injects it).
+ var EPIX_WALLET_RDNS = "zone.epix.wallet"
+ // Extensions can announce a little after the request; wait this long.
+ var DISCOVERY_SETTLE_MS = 150
  var state = { provider: null, address: null, walletName: null, walletIcon: null }
  var discoveredWallets = {}
  var styleInjected = false
@@ -46,15 +52,37 @@
  })
  window.dispatchEvent(new Event("eip6963:requestProvider"))
 
+ // Name a provider that only injects window.ethereum (no EIP-6963
+ // announcement). Specific flags come BEFORE isMetaMask: Rabby, Brave,
+ // Coinbase, Trust and the Epix Wallet all set isMetaMask for compatibility.
  function detectFallbackName(p) {
+  if (p.isEpixWallet) return "Epix Wallet"
   if (p.isRabby) return "Rabby"
-  if (p.isMetaMask) return "MetaMask"
+  if (p.isBraveWallet) return "Brave Wallet"
   if (p.isCoinbaseWallet) return "Coinbase Wallet"
   if (p.isTrust || p.isTrustWallet) return "Trust Wallet"
-  if (p.isBraveWallet) return "Brave Wallet"
+  if (p.isOkxWallet || p.isOKExWallet) return "OKX Wallet"
+  if (p.isZerion) return "Zerion"
+  if (p.isExodus) return "Exodus"
+  if (p.isTally || p.isTaho) return "Taho"
+  if (p.isTokenPocket) return "TokenPocket"
+  if (p.isBitKeep) return "Bitget Wallet"
+  if (p.isFrame) return "Frame"
   if (p.isKeplr) return "Keplr"
-  if (p.isLeap) return "Leap"
+  if (p.isMetaMask) return "MetaMask"
   return "Browser Wallet"
+ }
+
+ // Sort: the Epix Wallet first, then by name.
+ function walletOrder(a, b) {
+  var ea = a.info.rdns === EPIX_WALLET_RDNS ? 0 : 1
+  var eb = b.info.rdns === EPIX_WALLET_RDNS ? 0 : 1
+  if (ea !== eb) return ea - eb
+  return (a.info.name || "").localeCompare(b.info.name || "")
+ }
+
+ function settle() {
+  return new Promise(function(r) { setTimeout(r, DISCOVERY_SETTLE_MS) })
  }
 
  function isExcluded(info) {
@@ -68,22 +96,32 @@
   return false
  }
 
+ // Every installed wallet, and only installed wallets: the EIP-6963
+ // announcements, plus any provider that only injected window.ethereum (the
+ // same provider object is never listed twice). Nothing here is a download
+ // link or a "popular" placeholder.
  function getWalletListInternal() {
   var list = []
+  var seen = []
   for (var uuid in discoveredWallets) {
-   if (!isExcluded(discoveredWallets[uuid].info)) list.push(discoveredWallets[uuid])
+   var w = discoveredWallets[uuid]
+   if (isExcluded(w.info) || seen.indexOf(w.provider) !== -1) continue
+   seen.push(w.provider)
+   list.push(w)
   }
-  if (list.length === 0 && window.ethereum) {
-   if (window.ethereum.providers && window.ethereum.providers.length > 0) {
-    window.ethereum.providers.forEach(function(p, i) {
-     var info = { uuid: "_fallback_" + i, name: detectFallbackName(p), icon: null, rdns: null }
-     if (!isExcluded(info) && !p.isPhantom) list.push({ info: info, provider: p })
-    })
-   } else if (!window.ethereum.isPhantom) {
-    var info = { uuid: "_fallback", name: detectFallbackName(window.ethereum), icon: null, rdns: null }
-    if (!isExcluded(info)) list.push({ info: info, provider: window.ethereum })
-   }
+  if (window.ethereum) {
+   var legacy = window.ethereum.providers && window.ethereum.providers.length > 0
+    ? window.ethereum.providers
+    : [window.ethereum]
+   legacy.forEach(function(p, i) {
+    if (!p || p.isPhantom || p.isLeap || seen.indexOf(p) !== -1) return
+    var info = { uuid: "_fallback_" + i, name: detectFallbackName(p), icon: null, rdns: null }
+    if (isExcluded(info)) return
+    seen.push(p)
+    list.push({ info: info, provider: p })
+   })
   }
+  list.sort(walletOrder)
   return list
  }
 
@@ -148,12 +186,7 @@
    '  <button class="epixkit-close">&times;</button>',
    '  <h3>Connect Wallet</h3>',
    '  <div id="epixkit-list"></div>',
-   '  <div id="epixkit-empty" class="epixkit-empty" style="display:none;color:#8b949e;font-size:0.85em;text-align:center;padding:20px 0;">',
-   '   No wallets detected.<br>Install ',
-   '   <a href="https://metamask.io/download/" target="_blank">MetaMask</a>, ',
-   '   <a href="https://rabby.io/" target="_blank">Rabby</a>, ',
-   '   <a href="https://www.keplr.app/get" target="_blank">Keplr</a>, or another EVM wallet.',
-   '  </div>',
+   '  <div id="epixkit-empty" class="epixkit-empty" style="display:none;color:#8b949e;font-size:0.85em;text-align:center;padding:20px 0;"></div>',
    ' </div>',
    '</div>'
   ].join("")
@@ -181,6 +214,7 @@
   list.innerHTML = ""
 
   if (wallets.length === 0) {
+   empty.innerHTML = emptyStateHtml()
    empty.style.display = "block"
    document.getElementById("epixkit-modal").style.display = "block"
    return new Promise(function(resolve) { modalResolve = resolve })
@@ -214,6 +248,23 @@
 
   document.getElementById("epixkit-modal").style.display = "block"
   return new Promise(function(resolve) { modalResolve = resolve })
+ }
+
+ // What to say when no wallet is installed. The EpixNet browser ships the Epix
+ // Wallet, so that is the first suggestion; `init({installUrl, installLabel})`
+ // names a download of your choice; MetaMask and Rabby remain as examples. On
+ // iOS no extension can inject a wallet into a page yet.
+ function emptyStateHtml() {
+  var parts = ["No wallets detected.<br>"]
+  if (config && config.installUrl) {
+   parts.push('Install <a href="' + escHtml(config.installUrl) + '" target="_blank" rel="noopener">' +
+    escHtml(config.installLabel || "a wallet") + '</a>, or ')
+  } else {
+   parts.push("Use the EpixNet browser, which includes the Epix Wallet, or install ")
+  }
+  parts.push('<a href="https://metamask.io/download/" target="_blank" rel="noopener">MetaMask</a>, ')
+  parts.push('<a href="https://rabby.io/" target="_blank" rel="noopener">Rabby</a>, or another EVM wallet.')
+  return parts.join("")
  }
 
  function showConnecting(name) {
@@ -274,8 +325,8 @@
    // Re-request providers in case wallets loaded after page init
    window.dispatchEvent(new Event("eip6963:requestProvider"))
 
-   // Small delay to let late wallets announce
-   await new Promise(function(r) { setTimeout(r, 50) })
+   // Let late wallets announce
+   await settle()
 
    var wallets = getWalletListInternal()
 
@@ -286,16 +337,15 @@
     return Promise.reject(new Error("No wallet detected"))
    }
 
-   // Try to reconnect to previously used wallet
+   // The wallet used last time connects again without asking.
    selected = findSavedWallet(wallets)
 
+   // Otherwise the picker always shows, even for a single installed wallet:
+   // the user sees which wallet (the Epix Wallet inside the EpixNet browser)
+   // is about to be connected.
    if (!selected) {
-    if (wallets.length === 1) {
-     selected = wallets[0]
-    } else {
-     selected = await showModal(wallets)
-     if (!selected) return Promise.reject(new Error("User cancelled"))
-    }
+    selected = await showModal(wallets)
+    if (!selected) return Promise.reject(new Error("User cancelled"))
    }
 
    showConnecting(selected.info.name)
@@ -345,7 +395,7 @@
    if (!pref) return null
 
    window.dispatchEvent(new Event("eip6963:requestProvider"))
-   await new Promise(function(r) { setTimeout(r, 50) })
+   await settle()
 
    var wallets = getWalletListInternal()
    var saved = findSavedWallet(wallets)
@@ -399,9 +449,17 @@
    return state.walletName
   },
 
-  getWallets: function() {
+  // Every installed wallet as [{uuid, name, rdns, icon, provider}], the Epix
+  // Wallet first. Async: it re-requests announcements and waits for them.
+  getWallets: async function() {
    window.dispatchEvent(new Event("eip6963:requestProvider"))
-   return getWalletListInternal()
-  }
+   await settle()
+   return getWalletListInternal().map(function(w) {
+    return { uuid: w.info.uuid, name: w.info.name, rdns: w.info.rdns || null, icon: w.info.icon || null, provider: w.provider }
+   })
+  },
+
+  // The Epix Wallet's EIP-6963 rdns, for callers that want to special-case it.
+  EPIX_WALLET_RDNS: EPIX_WALLET_RDNS
  }
 })()
